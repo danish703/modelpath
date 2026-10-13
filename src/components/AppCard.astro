@@ -1,6 +1,9 @@
 ---
 import StatusBadge from './StatusBadge.astro';
 import PlatformBadge from './PlatformBadge.astro';
+import AppIcon from './AppIcon.astro';
+import AppCover from './AppCover.astro';
+import type { ImageAsset } from '../lib/appMedia';
 
 interface Props {
   app: {
@@ -11,6 +14,8 @@ interface Props {
     status: 'published' | 'coming-soon' | 'in-development' | 'unconfirmed' | string;
     availablePlatforms?: string[];
     plannedPlatforms?: string[];
+    icon?: ImageAsset | null;
+    cover?: ImageAsset | null;
   };
   highlightMl?: boolean;
 }
@@ -19,77 +24,50 @@ const { app, highlightMl = false } = Astro.props;
 const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'unconfirmed';
 ---
 
-<article class={`app-card ${isMl ? 'highlight-ml' : ''}`} data-app-card data-category={app.category.toLowerCase()}>
-  <div class="card-top">
-    <div class="icon-capsule">
-      {app.slug === 'signmint' && (
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 20h9" />
-          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-        </svg>
-      )}
-      {app.slug === 'ehub' && (
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-        </svg>
-      )}
-      {app.slug === 'pylab' && (
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <polyline points="4 17 10 11 4 5" />
-          <line x1="12" y1="19" x2="20" y2="19" />
-        </svg>
-      )}
-      {app.slug === 'modelpath-ml' && (
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="3" />
-          <circle cx="19" cy="6" r="2" />
-          <circle cx="5" cy="6" r="2" />
-          <circle cx="19" cy="18" r="2" />
-          <circle cx="5" cy="18" r="2" />
-          <line x1="7" y1="7" x2="10" y2="10" />
-          <line x1="17" y1="7" x2="14" y2="10" />
-          <line x1="7" y1="17" x2="10" y2="14" />
-          <line x1="17" y1="17" x2="14" y2="14" />
-        </svg>
-      )}
-      {!['signmint', 'ehub', 'pylab', 'modelpath-ml'].includes(app.slug) && (
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-          <line x1="8" y1="21" x2="16" y2="21" />
-          <line x1="12" y1="17" x2="12" y2="21" />
-        </svg>
-      )}
-    </div>
-    <StatusBadge status={app.status} />
-  </div>
+<article
+  class={`app-card ${isMl ? 'highlight-ml' : ''}`}
+  data-app-card
+  data-category={app.category.toLowerCase()}
+  data-reveal
+>
+  <!-- Thumbnail (duplicate link removed from tab order; title link is the primary target) -->
+  <a href={`/apps/${app.slug}/`} class="card-cover-link" tabindex="-1" aria-hidden="true">
+    <AppCover slug={app.slug} name={app.name} cover={app.cover ?? null} variant="card" />
+  </a>
 
-  <div class="card-meta">
-    <span class="app-category">{app.category}</span>
-    <h3 class="app-name">
-      <a href={`/apps/${app.slug}/`}>{app.name}</a>
-    </h3>
-  </div>
-
-  <p class="app-description">{app.description}</p>
-
-  <div class="card-bottom">
-    <div class="platform-row">
-      <PlatformBadge
-        availablePlatforms={app.availablePlatforms}
-        plannedPlatforms={app.plannedPlatforms}
-      />
+  <div class="card-body">
+    <div class="card-top">
+      <AppIcon slug={app.slug} name={app.name} icon={app.icon ?? null} size="md" class="card-icon" />
+      <StatusBadge status={app.status} />
     </div>
 
-    <div class="actions-row">
-      <div class="sublinks-group">
-        <a href={`/apps/${app.slug}/privacy/`} class="card-sublink">Privacy</a>
-        <a href={`/apps/${app.slug}/support/`} class="card-sublink">Support</a>
+    <div class="card-meta">
+      <span class="app-category">{app.category}</span>
+      <h3 class="app-name">
+        <a href={`/apps/${app.slug}/`}>{app.name}</a>
+      </h3>
+    </div>
+
+    <p class="app-description">{app.description}</p>
+
+    <div class="card-bottom">
+      <div class="platform-row">
+        <PlatformBadge
+          availablePlatforms={app.availablePlatforms}
+          plannedPlatforms={app.plannedPlatforms}
+        />
       </div>
-      <a href={`/apps/${app.slug}/`} class="btn-explore-app">
-        <span>Explore App</span>
-        <span aria-hidden="true">&rarr;</span>
-      </a>
+
+      <div class="actions-row">
+        <div class="sublinks-group">
+          <a href={`/apps/${app.slug}/privacy/`} class="card-sublink">Privacy</a>
+          <a href={`/apps/${app.slug}/support/`} class="card-sublink">Support</a>
+        </div>
+        <a href={`/apps/${app.slug}/`} class="btn-explore-app" aria-label={`Explore ${app.name}`}>
+          <span>Explore App</span>
+          <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
     </div>
   </div>
 </article>
@@ -99,12 +77,18 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
     background: var(--bg-surface);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-card);
-    padding: 32px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
     border: 1px solid rgba(255, 255, 255, 0.85);
     position: relative;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    transition:
+      transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .app-card[hidden] {
+    display: none;
   }
 
   .app-card.highlight-ml {
@@ -112,34 +96,47 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
   }
 
   .app-card:hover {
-    transform: translateY(-2px);
-    box-shadow: -10px -10px 24px #FFFFFF, 10px 10px 24px rgba(169, 180, 196, 0.32);
+    transform: translateY(-4px);
+    box-shadow: -10px -10px 26px #FFFFFF, 12px 14px 30px rgba(169, 180, 196, 0.34);
+  }
+
+  .app-card:focus-within {
+    box-shadow: var(--shadow-card), 0 0 0 2px rgba(69, 103, 232, 0.55);
+  }
+
+  .card-cover-link {
+    display: block;
+    border-radius: var(--radius-md);
+  }
+
+  .app-card:hover :global(.app-cover img) {
+    transform: scale(1.03);
+  }
+
+  .app-card:hover :global(.cover-mark) {
+    transform: translateY(-3px);
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0 18px 18px;
   }
 
   .card-top {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: flex-end;
     gap: 12px;
-    margin-bottom: 20px;
+    margin-top: -28px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
   }
 
-  .icon-capsule {
-    width: 56px;
-    height: 56px;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-inset-box);
-    background: var(--bg-raised);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .icon-capsule svg {
-    width: 26px;
-    height: 26px;
-    stroke: var(--accent-blue);
+  .app-card:hover :global(.card-icon) {
+    transform: translateY(-2px);
   }
 
   .card-meta {
@@ -168,6 +165,7 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
   .app-name a {
     color: inherit;
     text-decoration: none;
+    border-radius: 4px;
   }
 
   .app-name a:hover {
@@ -178,12 +176,12 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
     font-size: 0.975rem;
     color: var(--text-body);
     line-height: 1.6;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
     flex: 1;
   }
 
   .card-bottom {
-    padding-top: 20px;
+    padding-top: 18px;
     border-top: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
@@ -233,7 +231,7 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
     align-items: center;
     gap: 6px;
     border: 1px solid rgba(255, 255, 255, 0.85);
-    transition: all var(--transition-fast);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
     white-space: nowrap;
     text-decoration: none;
   }
@@ -243,22 +241,33 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
     box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(169, 180, 196, 0.32);
   }
 
+  .btn-explore-app:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: var(--shadow-inset-box);
+  }
+
+  .btn-arrow {
+    transition: transform var(--transition-normal);
+  }
+
+  .btn-explore-app:hover .btn-arrow {
+    transform: translateX(2px);
+  }
+
   @media (max-width: 600px) {
     .app-card {
-      padding: 20px 16px;
+      padding: 10px;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-card-mobile);
     }
 
-    .icon-capsule {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
+    .card-body {
+      padding: 0 10px 12px;
     }
 
-    .icon-capsule svg {
-      width: 22px;
-      height: 22px;
+    .card-top {
+      margin-top: -24px;
+      margin-bottom: 12px;
     }
 
     .app-name {
@@ -278,6 +287,24 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
     .btn-explore-app {
       font-size: 0.85rem;
       padding: 8px 14px;
+    }
+  }
+
+  @media (hover: none) {
+    .app-card:hover {
+      transform: none;
+      box-shadow: var(--shadow-card-mobile);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .app-card:hover,
+    .app-card:hover :global(.app-cover img),
+    .app-card:hover :global(.cover-mark),
+    .app-card:hover :global(.card-icon),
+    .btn-explore-app:hover,
+    .btn-explore-app:hover .btn-arrow {
+      transform: none;
     }
   }
 </style>

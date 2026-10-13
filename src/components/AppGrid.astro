@@ -1,5 +1,6 @@
 ---
 import AppCard from './AppCard.astro';
+import type { ImageAsset } from '../lib/appMedia';
 
 interface AppItem {
   slug: string;
@@ -9,6 +10,8 @@ interface AppItem {
   status: 'published' | 'coming-soon' | 'in-development' | 'unconfirmed' | string;
   availablePlatforms?: string[];
   plannedPlatforms?: string[];
+  icon?: ImageAsset | null;
+  cover?: ImageAsset | null;
 }
 
 interface Props {

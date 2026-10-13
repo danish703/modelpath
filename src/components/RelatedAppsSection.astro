@@ -1,5 +1,7 @@
 ---
 import StatusBadge from './StatusBadge.astro';
+import AppIcon from './AppIcon.astro';
+import { formatPlatforms, type ImageAsset } from '../lib/appMedia';
 
 interface AppItem {
   slug: string;
@@ -10,6 +12,7 @@ interface AppItem {
   status: string;
   availablePlatforms?: string[];
   plannedPlatforms?: string[];
+  icon?: ImageAsset | null;
 }
 
 interface Props {
@@ -30,42 +33,9 @@ const relatedApps = apps.filter((app) => app.slug !== currentSlug).slice(0, 3);
 
     <div class="related-grid">
       {relatedApps.map((app) => (
-        <a href={`/apps/${app.slug}/`} class="related-card">
+        <a href={`/apps/${app.slug}/`} class="related-card" data-reveal>
           <div class="related-card-top">
-            <div class="related-icon-well">
-              {app.slug === 'signmint' && (
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M12 20h9" />
-                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                </svg>
-              )}
-              {app.slug === 'ehub' && (
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-                </svg>
-              )}
-              {app.slug === 'pylab' && (
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <polyline points="4 17 10 11 4 5" />
-                  <line x1="12" y1="19" x2="20" y2="19" />
-                </svg>
-              )}
-              {app.slug === 'modelpath-ml' && (
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <circle cx="12" cy="12" r="3" />
-                  <circle cx="19" cy="6" r="2" />
-                  <circle cx="5" cy="6" r="2" />
-                  <circle cx="19" cy="18" r="2" />
-                  <circle cx="5" cy="18" r="2" />
-                </svg>
-              )}
-              {!['signmint', 'ehub', 'pylab', 'modelpath-ml'].includes(app.slug) && (
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                </svg>
-              )}
-            </div>
+            <AppIcon slug={app.slug} name={app.name} icon={app.icon ?? null} size="sm" class="related-icon" />
             <StatusBadge status={app.status} size="sm" />
           </div>
 
@@ -76,12 +46,12 @@ const relatedApps = apps.filter((app) => app.slug !== currentSlug).slice(0, 3);
           <div class="related-footer">
             <span class="platform-hint">
               {app.availablePlatforms && app.availablePlatforms.length > 0
-                ? `Available on ${app.availablePlatforms.join(', ')}`
+                ? `Available on ${formatPlatforms(app.availablePlatforms)}`
                 : app.plannedPlatforms && app.plannedPlatforms.length > 0
-                ? `Target: ${app.plannedPlatforms.join(' & ')}`
+                ? `Target: ${formatPlatforms(app.plannedPlatforms)}`
                 : 'Platforms: TBD'}
             </span>
-            <span class="explore-hint">Explore &rarr;</span>
+            <span class="explore-hint">Explore <span class="explore-arrow" aria-hidden="true">&rarr;</span></span>
           </div>
         </a>
       ))}
@@ -134,12 +104,31 @@ const relatedApps = apps.filter((app) => app.slug !== currentSlug).slice(0, 3);
     flex-direction: column;
     gap: 10px;
     text-decoration: none;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    transition:
+      transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .related-card:hover {
+    transform: translateY(-3px);
+    box-shadow: -8px -8px 22px #FFFFFF, 10px 12px 26px rgba(169, 180, 196, 0.34);
+  }
+
+  .related-card:active {
+    transform: translateY(-1px) scale(0.995);
+  }
+
+  .related-card:hover :global(.related-icon) {
     transform: translateY(-2px);
-    box-shadow: -8px -8px 20px #FFFFFF, 8px 8px 20px rgba(169, 180, 196, 0.32);
+  }
+
+  .explore-arrow {
+    display: inline-block;
+    transition: transform var(--transition-normal);
+  }
+
+  .related-card:hover .explore-arrow {
+    transform: translateX(2px);
   }
 
   .related-card-top {
@@ -147,24 +136,6 @@ const relatedApps = apps.filter((app) => app.slug !== currentSlug).slice(0, 3);
     justify-content: space-between;
     align-items: center;
     margin-bottom: 4px;
-  }
-
-  .related-icon-well {
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-inset-box);
-    background: var(--bg-raised);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .related-icon-well svg {
-    width: 22px;
-    height: 22px;
-    stroke: var(--accent-blue);
   }
 
   .related-category {
@@ -217,6 +188,15 @@ const relatedApps = apps.filter((app) => app.slug !== currentSlug).slice(0, 3);
       padding: 18px 16px;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-card-mobile);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .related-card:hover,
+    .related-card:active,
+    .related-card:hover :global(.related-icon),
+    .related-card:hover .explore-arrow {
+      transform: none;
     }
   }
 </style>

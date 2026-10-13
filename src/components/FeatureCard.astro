@@ -9,7 +9,7 @@ interface Props {
 const { title, description, iconType = 'document', status } = Astro.props;
 ---
 
-<div class="feature-card">
+<div class="feature-card" data-reveal>
   <div class="feature-header">
     <div class="feature-icon-well">
       {iconType === 'pen' && (

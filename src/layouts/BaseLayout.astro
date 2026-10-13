@@ -118,6 +118,11 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
     {allSchemas.map((schema) => (
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     ))}
+
+    <!-- JS detection for no-JS progressive enhancement -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
   </head>
   <body>
     <div class="site-container">
@@ -127,6 +132,36 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
       </main>
       <SiteFooter />
     </div>
+
+    <!-- Supporting Motion: Scroll-triggered entry reveals -->
+    <script>
+      function setupScrollReveals() {
+        if (!('IntersectionObserver' in window)) return;
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const reveals = document.querySelectorAll<HTMLElement>('[data-reveal]:not(.is-revealed)');
+        if (motionQuery.matches) {
+          reveals.forEach((el) => el.classList.add('is-revealed'));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-revealed');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -40px 0px', threshold: 0.1 }
+        );
+
+        reveals.forEach((el) => observer.observe(el));
+      }
+
+      setupScrollReveals();
+      document.addEventListener('astro:after-swap', setupScrollReveals);
+    </script>
   </body>
 </html>
 

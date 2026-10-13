@@ -1,0 +1,139 @@
+---
+/**
+ * AppCover — genuine cover/thumbnail artwork, or an honest, clearly labelled
+ * placeholder panel. Never substitutes fabricated product imagery.
+ */
+import AppGlyph from './AppGlyph.astro';
+import type { ImageAsset } from '../lib/appMedia';
+
+interface Props {
+  slug: string;
+  name: string;
+  cover: ImageAsset | null;
+  variant?: 'card' | 'hero';
+  eager?: boolean;
+  class?: string;
+}
+
+const { slug, name, cover, variant = 'card', eager = false, class: className = '' } = Astro.props;
+---
+
+<figure
+  class={`app-cover variant-${variant} ${cover ? 'is-genuine' : 'is-placeholder'} ${className}`}
+  data-media-kind={cover ? 'genuine' : 'placeholder'}
+>
+  {cover ? (
+    <img
+      src={cover.src}
+      alt={cover.alt}
+      width={cover.width ?? 1280}
+      height={cover.height ?? 800}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+    />
+  ) : (
+    <Fragment>
+      <div class="cover-pattern" aria-hidden="true"></div>
+      <div class="cover-mark" aria-hidden="true">
+        <AppGlyph slug={slug} />
+      </div>
+      <figcaption class="cover-tag">
+        <span class="sr-only">{name}: </span>Cover artwork pending
+      </figcaption>
+    </Fragment>
+  )}
+</figure>
+
+<style>
+  .app-cover {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--bg-inset);
+    box-shadow: var(--shadow-inset-well);
+    isolation: isolate;
+  }
+
+  .variant-card { aspect-ratio: 16 / 9; }
+  .variant-hero { aspect-ratio: 4 / 3; border-radius: var(--radius-lg); }
+
+  .app-cover img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Placeholder treatment */
+  .is-placeholder {
+    background:
+      radial-gradient(120% 90% at 85% 10%, rgba(69, 103, 232, 0.08), transparent 60%),
+      linear-gradient(160deg, #EFF2F6 0%, #E7EBF1 100%);
+  }
+
+  .cover-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: radial-gradient(rgba(100, 116, 139, 0.22) 1px, transparent 1.2px);
+    background-size: 18px 18px;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 20%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 20%, transparent 85%);
+  }
+
+  .cover-mark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 72px;
+    height: 72px;
+    margin: -36px 0 0 -36px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-surface);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: var(--shadow-card);
+    color: var(--accent-blue);
+    transition: transform var(--transition-normal);
+  }
+
+  .cover-mark :global(.app-glyph) { width: 32px; height: 32px; }
+
+  .variant-hero .cover-mark {
+    width: 96px;
+    height: 96px;
+    margin: -48px 0 0 -48px;
+    border-radius: 26px;
+  }
+
+  .variant-hero .cover-mark :global(.app-glyph) { width: 44px; height: 44px; }
+
+  .cover-tag {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(247, 249, 251, 0.85);
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-inset-box);
+  }
+
+  @media (max-width: 600px) {
+    .cover-mark { width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 16px; }
+    .cover-mark :global(.app-glyph) { width: 26px; height: 26px; }
+    .variant-hero { aspect-ratio: 16 / 10; border-radius: var(--radius-md); }
+    .variant-hero .cover-mark { width: 72px; height: 72px; margin: -36px 0 0 -36px; border-radius: 20px; }
+    .variant-hero .cover-mark :global(.app-glyph) { width: 32px; height: 32px; }
+  }
+</style>

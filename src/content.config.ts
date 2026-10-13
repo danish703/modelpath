@@ -2,6 +2,54 @@ import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
+/* --------------------------------------------------------------------------
+   Gate 11 — Media asset & store link schema
+   Rules:
+   - Only reference genuine, studio-supplied media files placed in /public.
+   - Never fabricate screenshots, ratings, download counts, or store URLs.
+   - Leave a field null/empty when authentic media is not yet available; the
+     UI renders a clearly labelled placeholder instead.
+   -------------------------------------------------------------------------- */
+
+/** Locally hosted image (path relative to /public, e.g. /images/apps/x/icon.png) */
+const imageAsset = z.object({
+  src: z.string().startsWith('/'),
+  alt: z.string().min(1),
+  width: z.number().int().positive().optional(),
+  height: z.number().int().positive().optional(),
+});
+
+/** Optional locally hosted demonstration video. Rendered only when verified. */
+const videoAsset = z.object({
+  src: z.string().startsWith('/'),
+  type: z.enum(['video/mp4', 'video/webm']).default('video/mp4'),
+  poster: z.string().startsWith('/').optional(),
+  title: z.string().min(1),
+  description: z.string().min(1),
+  verified: z.boolean().default(false),
+});
+
+/** Per-platform publication status. Derived automatically when omitted. */
+const platformPublicationStatus = z.enum([
+  'published',
+  'coming-soon',
+  'in-development',
+  'not-planned',
+  'unconfirmed',
+]);
+
+const playStoreUrl = z
+  .url()
+  .refine((u) => /^https:\/\/play\.google\.com\/store\/apps\/details\?id=[\w.]+/.test(u), {
+    message: 'playStoreUrl must be a genuine https://play.google.com/store/apps/details?id=… URL',
+  });
+
+const appStoreUrl = z
+  .url()
+  .refine((u) => /^https:\/\/apps\.apple\.com\/[a-z-]*\/?app\/[^/]+\/id\d+/.test(u), {
+    message: 'appStoreUrl must be a genuine https://apps.apple.com/…/app/…/id… URL',
+  });
+
 const apps = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/apps' }),
   schema: z.object({
@@ -13,7 +61,25 @@ const apps = defineCollection({
     availablePlatforms: z.array(z.enum(['android', 'ios'])).default([]),
     plannedPlatforms: z.array(z.enum(['android', 'ios'])).default([]),
     status: z.enum(['published', 'coming-soon', 'in-development', 'unconfirmed']),
-    icon: z.string(),
+    /** @deprecated Legacy Gate 1 icon path. Use `media.icon` for genuine icons. */
+    icon: z.string().optional(),
+    media: z
+      .object({
+        /** Genuine application icon (square, ≥ 512px recommended). */
+        icon: imageAsset.nullable().default(null),
+        /** Genuine cover/thumbnail artwork (≈ 16:10 landscape recommended). */
+        cover: imageAsset.nullable().default(null),
+        /** Optional locally hosted demonstration video. */
+        video: videoAsset.nullable().default(null),
+      })
+      .default({ icon: null, cover: null, video: null }),
+    /** Optional explicit per-platform status overrides. */
+    platformStatus: z
+      .object({
+        android: platformPublicationStatus.optional(),
+        ios: platformPublicationStatus.optional(),
+      })
+      .default({}),
     screenshots: z.array(
       z.union([
         z.string(),
@@ -21,6 +87,8 @@ const apps = defineCollection({
           src: z.string(),
           alt: z.string(),
           caption: z.string().optional(),
+          width: z.number().int().positive().optional(),
+          height: z.number().int().positive().optional(),
         }),
       ])
     ).default([]),
@@ -35,8 +103,10 @@ const apps = defineCollection({
         }),
       ])
     ).default([]),
-    playStoreUrl: z.url().nullable().optional(),
-    appStoreUrl: z.url().nullable().optional(),
+    /** Genuine, verified Google Play listing URL. null until publicly released. */
+    playStoreUrl: playStoreUrl.nullable().optional(),
+    /** Genuine, verified Apple App Store listing URL. null until publicly released. */
+    appStoreUrl: appStoreUrl.nullable().optional(),
     privacyPolicyStatus: z.enum(['verified', 'draft', 'pending-review']),
     privacyPolicyEffectiveDate: z.string().optional(),
     privacyPolicyLastUpdated: z.string().optional(),

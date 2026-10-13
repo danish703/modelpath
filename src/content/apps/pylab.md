@@ -8,7 +8,11 @@ availablePlatforms: []
 plannedPlatforms:
   - "android"
 status: "in-development"
-icon: "/images/apps/pylab/icon.svg"
+# Gate 11 media: genuine assets not yet supplied — UI shows labelled placeholders.
+media:
+  icon: null
+  cover: null
+  video: null
 screenshots: []
 features:
   - title: "Interactive Syntax Lessons"
