@@ -182,7 +182,7 @@ const supportEmail = studioContactConfig.emails.support || app.data.supportEmail
           <span>&larr; {app.data.name} Details</span>
         </a>
         <a href={`/apps/${app.data.slug}/privacy/`} class="nav-chip-btn">
-          <span>Privacy Notice &rarr;</span>
+          <span>{app.data.privacyPolicyStatus === 'verified' ? 'Privacy Policy \u2192' : 'Privacy Disclosures (Draft) \u2192'}</span>
         </a>
         <a href="/contact/" class="general-contact-link">
           <span>General Studio Contact</span>

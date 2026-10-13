@@ -135,7 +135,7 @@ const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.
                 <span aria-hidden="true">&rarr;</span>
               </a>
               <a href={`/apps/${app.data.slug}/privacy/`} class="link-app-privacy">
-                <span>Privacy Notice</span>
+                <span>{app.data.privacyPolicyStatus === 'verified' ? 'Privacy Policy' : 'Privacy (Draft Disclosures)'}</span>
               </a>
             </div>
           </div>

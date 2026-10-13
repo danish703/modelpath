@@ -181,29 +181,39 @@ const fallbackPlaceholders = placeholderSets[app.data.slug] || defaultPlaceholde
 
 const hasStoreLinks = Boolean(app.data.playStoreUrl || app.data.appStoreUrl);
 
-const softwareAppSchema: Record<string, unknown> = {
-  '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  name: app.data.name,
-  description: app.data.description,
-  applicationCategory: app.data.category,
-  operatingSystem:
-    app.data.availablePlatforms.length > 0
-      ? app.data.availablePlatforms.join(', ')
-      : app.data.plannedPlatforms.length > 0
-        ? `Planned: ${app.data.plannedPlatforms.join(', ')}`
-        : 'Mobile',
-  url: `https://modelpath.app/apps/${app.data.slug}/`,
-  author: {
-    '@id': 'https://modelpath.app/#organization',
-  },
-};
+const isEligiblePublished =
+  app.data.status === 'published' &&
+  app.data.availablePlatforms.length > 0;
+
+const pageSchema: Record<string, unknown> = isEligiblePublished
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: app.data.name,
+      description: app.data.description,
+      applicationCategory: app.data.category,
+      operatingSystem: app.data.availablePlatforms.join(', '),
+      url: `https://modelpath.app/apps/${app.data.slug}/`,
+      author: {
+        '@id': 'https://modelpath.app/#organization',
+      },
+    }
+  : {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: `${app.data.name} — ${app.data.tagline}`,
+      description: `${app.data.name} by ModelPath Studio: ${app.data.description}`,
+      url: `https://modelpath.app/apps/${app.data.slug}/`,
+      isPartOf: {
+        '@id': 'https://modelpath.app/#website',
+      },
+    };
 ---
 
 <BaseLayout
   title={`${app.data.name} — ${app.data.tagline}`}
   description={`${app.data.name} by ModelPath Studio: ${app.data.description}`}
-  jsonLd={softwareAppSchema}
+  jsonLd={pageSchema}
 >
   <article class="detail-container">
     <!-- Product Hero -->
@@ -264,7 +274,9 @@ const softwareAppSchema: Record<string, unknown> = {
           />
           <a href="#features" class="action-link-btn">Features</a>
           <a href="#screenshots" class="action-link-btn">Screenshots</a>
-          <a href={`/apps/${app.data.slug}/privacy/`} class="action-link-btn">Privacy Policy</a>
+          <a href={`/apps/${app.data.slug}/privacy/`} class="action-link-btn">
+            {app.data.privacyPolicyStatus === 'verified' ? 'Privacy Policy' : 'Privacy (Draft)'}
+          </a>
           <a href={`/apps/${app.data.slug}/support/`} class="action-link-btn">Support</a>
         </div>
       </div>
@@ -386,13 +398,17 @@ const softwareAppSchema: Record<string, unknown> = {
       <div class="resources-grid">
         <div class="resource-card">
           <div class="resource-content">
-            <h3 class="resource-title">Privacy Policy</h3>
+            <h3 class="resource-title">
+              {app.data.privacyPolicyStatus === 'verified' ? 'Privacy Policy' : 'Privacy Disclosures (Draft)'}
+            </h3>
             <p class="resource-desc">
-              Review how {app.data.name} handles document security, storage, and telemetry. (Draft for upcoming release).
+              {app.data.privacyPolicyStatus === 'verified'
+                ? `Review data practices, security disclosures, and user rights for ${app.data.name}.`
+                : `Review pre-release privacy disclosures and data handling specifications for ${app.data.name} (compliance review pending).`}
             </p>
           </div>
           <a href={`/apps/${app.data.slug}/privacy/`} class="action-link-btn">
-            View Policy &rarr;
+            {app.data.privacyPolicyStatus === 'verified' ? 'View Policy \u2192' : 'View Draft Disclosures \u2192'}
           </a>
         </div>
 
