@@ -211,13 +211,13 @@
       border: 1px solid rgba(255, 255, 255, 0.8);
     }
 
-    /* Hero Abstract Tactile Composition */
+    /* Subordinate Hero Miniature Showcase */
     .hero-visual-card {
-      background: var(--bg-surface);
+      background: rgba(247, 249, 251, 0.7);
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-card);
-      padding: 32px;
-      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: -4px -4px 12px #FFFFFF, 4px 4px 12px rgba(169, 180, 196, 0.16);
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
       position: relative;
     }
 
@@ -225,61 +225,63 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
       border-bottom: 1px solid var(--border-subtle);
     }
 
     .composition-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--text-heading);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     .composition-badge {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 600;
-      color: var(--accent-blue);
-      background: rgba(69, 103, 232, 0.1);
-      padding: 4px 10px;
+      color: var(--text-muted);
+      background: var(--bg-inset);
+      padding: 3px 8px;
       border-radius: var(--radius-pill);
     }
 
     .composition-tiles {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      gap: 12px;
     }
 
     .comp-tile {
       background: var(--bg-raised);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-sm);
       box-shadow: var(--shadow-inset-box);
-      padding: 18px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .comp-tile-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
       background: var(--bg-surface);
-      box-shadow: -2px -2px 6px #FFF, 2px 2px 6px rgba(169, 180, 196, 0.25);
+      box-shadow: -1px -1px 3px #FFF, 1px 1px 4px rgba(169, 180, 196, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .comp-tile-name {
-      font-size: 0.9rem;
-      font-weight: 700;
+      font-size: 0.8125rem;
+      font-weight: 600;
       color: var(--text-heading);
     }
 
     .comp-tile-meta {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
     }
 
@@ -517,37 +519,37 @@
       </div>
     </div>
 
-    <!-- Hero Abstract Studio Showcase Visual -->
+    <!-- Visually Subordinate Miniature Showcase -->
     <div class="hero-visual-card">
       <div class="composition-header">
-        <span class="composition-title">Studio Showcase</span>
-        <span class="composition-badge">4 In-House Products</span>
+        <span class="composition-title">Studio Ecosystem Preview</span>
+        <span class="composition-badge">4 In-House Apps</span>
       </div>
       <div class="composition-tiles">
         <div class="comp-tile">
           <div class="comp-tile-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4567E8" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4567E8" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
           </div>
           <span class="comp-tile-name">SignMint</span>
           <span class="comp-tile-meta">Productivity</span>
         </div>
         <div class="comp-tile">
           <div class="comp-tile-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4567E8" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4567E8" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
           </div>
           <span class="comp-tile-name">Ehub</span>
           <span class="comp-tile-meta">Reading</span>
         </div>
         <div class="comp-tile">
           <div class="comp-tile-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4567E8" stroke-width="2" stroke-linecap="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4567E8" stroke-width="2" stroke-linecap="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
           </div>
           <span class="comp-tile-name">PyLab</span>
           <span class="comp-tile-meta">Education</span>
         </div>
         <div class="comp-tile">
           <div class="comp-tile-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4567E8" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><circle cx="5" cy="18" r="2"/><line x1="7" y1="7" x2="10" y2="10"/><line x1="17" y1="7" x2="14" y2="10"/><line x1="7" y1="17" x2="10" y2="14"/><line x1="17" y1="17" x2="14" y2="14"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4567E8" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><circle cx="5" cy="18" r="2"/><line x1="7" y1="7" x2="10" y2="10"/><line x1="17" y1="7" x2="14" y2="10"/><line x1="7" y1="17" x2="10" y2="14"/><line x1="17" y1="17" x2="14" y2="14"/></svg>
           </div>
           <span class="comp-tile-name">ModelPath ML</span>
           <span class="comp-tile-meta">Machine Learning</span>
@@ -640,13 +642,13 @@
               <line x1="17" y1="17" x2="14" y2="14"/>
             </svg>
           </div>
-          <span class="availability-chip">In Development</span>
+          <span class="availability-chip">Unconfirmed</span>
         </div>
         <div class="app-category">Machine Learning</div>
         <h3 class="app-title">ModelPath ML</h3>
         <p class="app-description">Machine learning application by ModelPath Studio</p>
         <div class="app-card-bottom">
-          <span style="font-size: 0.8125rem; color: var(--text-muted);">Studio ML Product</span>
+          <span style="font-size: 0.8125rem; color: var(--text-muted);">Platforms: To be confirmed</span>
           <a href="/apps/modelpath-ml/" class="btn-explore-app">Explore App &rarr;</a>
         </div>
       </article>
