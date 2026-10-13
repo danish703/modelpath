@@ -35,7 +35,7 @@ interface FeatureItem {
   title: string;
   description: string;
   icon?: string;
-  status?: 'available' | 'planned';
+  status?: 'available' | 'planned' | 'verification-pending';
 }
 
 const featuresList: FeatureItem[] = (app.data.features || []).map((f) => {

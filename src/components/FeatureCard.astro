@@ -3,7 +3,7 @@ interface Props {
   title: string;
   description: string;
   iconType?: 'pen' | 'document' | 'privacy' | 'performance' | string;
-  status?: 'available' | 'planned';
+  status?: 'available' | 'planned' | 'verification-pending';
 }
 
 const { title, description, iconType = 'document', status } = Astro.props;
@@ -46,7 +46,8 @@ const { title, description, iconType = 'document', status } = Astro.props;
     </div>
     <h3 class="feature-title">
       <span>{title}</span>
-      {status === 'planned' && <span class="feature-status-chip">Planned</span>}
+      {status === 'planned' && <span class="feature-status-chip chip-planned">Planned</span>}
+      {status === 'verification-pending' && <span class="feature-status-chip chip-pending">Verification Pending</span>}
     </h3>
   </div>
   <p class="feature-desc">{description}</p>
@@ -97,7 +98,7 @@ const { title, description, iconType = 'document', status } = Astro.props;
     display: inline-flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
   }
 
   .feature-status-chip {
@@ -110,6 +111,17 @@ const { title, description, iconType = 'document', status } = Astro.props;
     background: var(--bg-inset);
     color: var(--text-muted);
     box-shadow: var(--shadow-inset-box);
+    border: 1px solid rgba(169, 180, 196, 0.35);
+  }
+
+  .feature-status-chip.chip-planned {
+    color: var(--text-muted);
+  }
+
+  .feature-status-chip.chip-pending {
+    color: #92400e;
+    background: rgba(245, 158, 11, 0.08);
+    border-color: rgba(217, 119, 6, 0.28);
   }
 
   .feature-desc {

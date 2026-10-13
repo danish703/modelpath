@@ -31,7 +31,7 @@ const apps = defineCollection({
           title: z.string(),
           description: z.string(),
           icon: z.string().optional(),
-          status: z.enum(['available', 'planned']).optional(),
+          status: z.enum(['available', 'planned', 'verification-pending']).optional(),
         }),
       ])
     ).default([]),

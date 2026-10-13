@@ -17,7 +17,7 @@ features:
   - title: "Release Status Unconfirmed"
     description: "Application specifications, target platforms, and feature capabilities to be confirmed by the studio."
     icon: "document"
-    status: "planned"
+    status: "verification-pending"
 playStoreUrl: null
 appStoreUrl: null
 privacyPolicyStatus: "pending-review"

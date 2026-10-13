@@ -24,9 +24,9 @@ features:
     icon: "performance"
     status: "available"
   - title: "Code Execution Sandbox"
-    description: "Planned on-device code execution and experiment sandbox currently under development."
+    description: "Experimental on-device code execution sandbox; production runtime performance and environment stability remain under verification."
     icon: "performance"
-    status: "planned"
+    status: "verification-pending"
 playStoreUrl: null
 appStoreUrl: null
 privacyPolicyStatus: "pending-review"
