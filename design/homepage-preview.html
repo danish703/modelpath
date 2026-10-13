@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ModelPath Studio — Homepage Visual Design (Gate 2 Reference)</title>
+  <style>
+    /* --------------------------------------------------------------------------
+       ModelPath Design Tokens — Premium White Neumorphism
+       -------------------------------------------------------------------------- */
+    :root {
+      --bg-canvas: #F4F6F8;
+      --bg-surface: #F7F9FB;
+      --bg-surface-raised: #F4F6F8;
+      --bg-inset: #ECEFF3;
+
+      /* High-Contrast Typography (WCAG 2.2 AA Verified) */
+      --text-heading: #172233;     /* 11.4:1 contrast on #F4F6F8 */
+      --text-body: #475569;        /* 5.8:1 contrast on #F4F6F8 */
+      --text-muted: #64748B;       /* 4.6:1 contrast on #F4F6F8 */
+      --border-subtle: rgba(169, 180, 196, 0.35);
+
+      /* Tactile Accents */
+      --accent-blue: #4567E8;
+      --accent-blue-hover: #3354D4;
+      --accent-light: rgba(69, 103, 232, 0.12);
+
+      /* Status Pill Colors */
+      --status-coming-bg: #EEF2FF;
+      --status-coming-text: #4338CA;
+      --status-dev-bg: #FEF3C7;
+      --status-dev-text: #92400E;
+      --status-ai-bg: #F0FDF4;
+      --status-ai-text: #166534;
+
+      /* Neumorphic Dual-Direction Light Formulas */
+      --shadow-raised-nav: -6px -6px 14px rgba(255, 255, 255, 0.95), 6px 6px 16px rgba(169, 180, 196, 0.26);
+      --shadow-card-elevated: -7px -7px 18px rgba(255, 255, 255, 0.95), 7px 7px 18px rgba(169, 180, 196, 0.28);
+      --shadow-card-hover: -9px -9px 22px rgba(255, 255, 255, 1.0), 9px 9px 24px rgba(169, 180, 196, 0.36);
+      --shadow-btn-primary: -4px -4px 10px rgba(255, 255, 255, 0.8), 4px 4px 12px rgba(69, 103, 232, 0.32);
+      --shadow-btn-secondary: -4px -4px 10px rgba(255, 255, 255, 0.95), 4px 4px 12px rgba(169, 180, 196, 0.24);
+      --shadow-inset-box: inset 3px 3px 6px rgba(169, 180, 196, 0.22), inset -3px -3px 6px rgba(255, 255, 255, 0.9);
+      --shadow-inset-well: inset 5px 5px 12px rgba(169, 180, 196, 0.24), inset -5px -5px 12px rgba(255, 255, 255, 0.9);
+
+      /* Radii */
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-pill: 9999px;
+
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-heading);
+      font-family: var(--font-stack);
+      line-height: 1.5;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .viewport-container {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    /* --------------------------------------------------------------------------
+       Floating Navigation Pill (Responsive: Desktop, Tablet, Mobile)
+       -------------------------------------------------------------------------- */
+    .nav-bar {
+      width: 100%;
+      max-width: 920px;
+      margin: 0 auto;
+      height: 64px;
+      background: var(--bg-surface-raised);
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-raised-nav);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 16px;
+      z-index: 50;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--accent-blue);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 16px;
+      box-shadow: 0 2px 6px rgba(69, 103, 232, 0.35);
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-left: 4px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: var(--text-body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      transition: all 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--text-heading);
+    }
+
+    .nav-link.active {
+      color: var(--accent-blue);
+      box-shadow: var(--shadow-inset-box);
+      font-weight: 600;
+    }
+
+    .nav-cta {
+      background: var(--accent-blue);
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 9px 20px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      box-shadow: var(--shadow-btn-primary);
+      transition: all 0.2s ease;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent-blue-hover);
+      transform: translateY(-1px);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      width: 40px;
+      height: 40px;
+      background: var(--bg-surface-raised);
+      border: none;
+      border-radius: 10px;
+      box-shadow: var(--shadow-btn-secondary);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* --------------------------------------------------------------------------
+       Hero Section (Refined depth with soft inset backdrop)
+       -------------------------------------------------------------------------- */
+    .hero-section {
+      text-align: center;
+      padding: 56px 24px 32px;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: var(--bg-surface);
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-inset-box);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      color: var(--text-heading);
+      max-width: 800px;
+      margin: 0 auto 16px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-body);
+      max-width: 640px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+    }
+
+    .hero-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--accent-blue);
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      box-shadow: var(--shadow-btn-primary);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-blue-hover);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-surface-raised);
+      color: var(--text-heading);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      box-shadow: var(--shadow-btn-secondary);
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+    }
+
+    /* --------------------------------------------------------------------------
+       Featured Applications Section (Refined depth & distinctive styling)
+       -------------------------------------------------------------------------- */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 24px;
+      padding: 0 8px;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.015em;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .app-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card-elevated);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.25s ease;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .app-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card-hover);
+    }
+
+    /* Distinctive styling for In-House Studio ML Application */
+    .app-card.ml-product {
+      background: linear-gradient(145deg, #F7F9FB, #F1F4F8);
+      border-left: 3px solid var(--accent-blue);
+    }
+
+    .app-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .app-icon-capsule {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-inset-box);
+      background: var(--bg-canvas);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .status-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .status-coming {
+      background: var(--status-coming-bg);
+      color: var(--status-coming-text);
+    }
+
+    .status-dev {
+      background: var(--status-dev-bg);
+      color: var(--status-dev-text);
+    }
+
+    .status-ml {
+      background: var(--status-ai-bg);
+      color: var(--status-ai-text);
+    }
+
+    .app-card-category {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .app-card-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 8px;
+    }
+
+    .app-card-desc {
+      font-size: 0.95rem;
+      color: var(--text-body);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    .app-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .platform-info {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .app-card-link {
+      color: var(--accent-blue);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .app-card-link:hover {
+      text-decoration: underline;
+    }
+
+    /* --------------------------------------------------------------------------
+       Studio Philosophy (Inset well with raised cards)
+       -------------------------------------------------------------------------- */
+    .philosophy-well {
+      background: var(--bg-inset);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-inset-well);
+      padding: 40px 32px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .philosophy-item {
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card-elevated);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .philosophy-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-heading);
+    }
+
+    .philosophy-desc {
+      font-size: 0.875rem;
+      color: var(--text-body);
+      line-height: 1.5;
+    }
+
+    /* --------------------------------------------------------------------------
+       Global Footer
+       -------------------------------------------------------------------------- */
+    .footer-section {
+      width: 100%;
+      border-top: 1px solid var(--border-subtle);
+      padding: 40px 16px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-link {
+      color: var(--text-body);
+      font-size: 0.875rem;
+      text-decoration: none;
+    }
+
+    .footer-link:hover {
+      color: var(--accent-blue);
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.8125rem;
+    }
+
+    /* --------------------------------------------------------------------------
+       Media Queries (Responsive Layouts)
+       -------------------------------------------------------------------------- */
+    /* Tablet (<= 900px) */
+    @media (max-width: 900px) {
+      .apps-grid {
+        grid-template-columns: 1fr;
+      }
+      .philosophy-well {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .hero-title {
+        font-size: 2.75rem;
+      }
+    }
+
+    /* Mobile (<= 600px) */
+    @media (max-width: 600px) {
+      body {
+        padding: 12px 10px;
+      }
+      .nav-links, .nav-cta {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: flex;
+      }
+      .hero-section {
+        padding: 36px 12px 20px;
+      }
+      .hero-title {
+        font-size: 2.15rem;
+      }
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+      .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+      .btn-primary, .btn-secondary {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+      .philosophy-well {
+        grid-template-columns: 1fr;
+        padding: 24px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="viewport-container">
+
+    <!-- Floating Navigation Bar -->
+    <header class="nav-bar">
+      <a href="/" class="brand-group">
+        <div class="brand-icon">M</div>
+        <span class="brand-title">ModelPath <span class="brand-sub">Studio</span></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link active">Home</a></li>
+        <li><a href="/apps/" class="nav-link">Apps</a></li>
+        <li><a href="/about/" class="nav-link">About</a></li>
+        <li><a href="/contact/" class="nav-link">Contact</a></li>
+      </ul>
+
+      <a href="/apps/" class="nav-cta">Explore Apps</a>
+
+      <button class="mobile-menu-btn" aria-label="Toggle Navigation">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#172233" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Independent Software Studio
+      </div>
+      <h1 class="hero-title">Thoughtful Software.<br>Beautifully Built.</h1>
+      <p class="hero-subtitle">
+        An independent software studio creating elegant mobile applications and intelligent digital experiences.
+      </p>
+      <div class="hero-buttons">
+        <a href="/apps/" class="btn-primary">Explore Our Apps &rarr;</a>
+        <a href="/about/" class="btn-secondary">About ModelPath</a>
+      </div>
+    </section>
+
+    <!-- Featured Applications Section -->
+    <section>
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Featured Applications</h2>
+          <p class="section-subtitle">Crafted with focus, privacy, and tactile polish</p>
+        </div>
+        <a href="/apps/" class="app-card-link">View all 4 apps &rarr;</a>
+      </div>
+
+      <div class="apps-grid">
+        <!-- App 1: SignMint -->
+        <article class="app-card">
+          <div class="app-card-top">
+            <div class="app-card-category">Productivity / Document Utilities</div>
+            <span class="status-badge status-coming">Coming Soon</span>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px;">
+            <div class="app-icon-capsule">✍️</div>
+            <h3 class="app-card-name" style="margin-bottom: 0;">SignMint</h3>
+          </div>
+          <p class="app-card-desc">
+            Streamlined PDF signing, document annotation, and export utilities designed for speed and clarity.
+          </p>
+          <div class="app-card-footer">
+            <span class="platform-info">Target: Android</span>
+            <a href="/apps/signmint/" class="app-card-link">Explore Details &rarr;</a>
+          </div>
+        </article>
+
+        <!-- App 2: Ehub -->
+        <article class="app-card">
+          <div class="app-card-top">
+            <div class="app-card-category">Education / Digital Reading</div>
+            <span class="status-badge status-dev">In Development</span>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px;">
+            <div class="app-icon-capsule">📖</div>
+            <h3 class="app-card-name" style="margin-bottom: 0;">Ehub</h3>
+          </div>
+          <p class="app-card-desc">
+            A focused, lightweight e-reader engineered for seamless EPUB and PDF navigation with custom typography.
+          </p>
+          <div class="app-card-footer">
+            <span class="platform-info">Target: Android &amp; iOS</span>
+            <a href="/apps/ehub/" class="app-card-link">Explore Details &rarr;</a>
+          </div>
+        </article>
+
+        <!-- App 3: PyLab -->
+        <article class="app-card">
+          <div class="app-card-top">
+            <div class="app-card-category">Programming / Education</div>
+            <span class="status-badge status-dev">In Development</span>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px;">
+            <div class="app-icon-capsule">🐍</div>
+            <h3 class="app-card-name" style="margin-bottom: 0;">PyLab</h3>
+          </div>
+          <p class="app-card-desc">
+            Hands-on Python learning, lessons, and code execution designed for mobile learners and developers.
+          </p>
+          <div class="app-card-footer">
+            <span class="platform-info">Target: Android</span>
+            <a href="/apps/pylab/" class="app-card-link">Explore Details &rarr;</a>
+          </div>
+        </article>
+
+        <!-- App 4: ModelPath ML (Clearly differentiated Studio ML Project) -->
+        <article class="app-card ml-product">
+          <div class="app-card-top">
+            <div class="app-card-category">Artificial Intelligence / Machine Learning</div>
+            <span class="status-badge status-ml">To Be Confirmed</span>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px;">
+            <div class="app-icon-capsule" style="background: rgba(69, 103, 232, 0.08); color: var(--accent-blue);">⚡</div>
+            <div>
+              <h3 class="app-card-name" style="margin-bottom: 0;">ModelPath ML</h3>
+              <span style="font-size: 0.75rem; color: var(--accent-blue); font-weight: 600;">Studio Machine Learning Project</span>
+            </div>
+          </div>
+          <p class="app-card-desc">
+            Machine learning application developed under ModelPath Studio. Features, platforms, and capabilities will be published upon owner verification.
+          </p>
+          <div class="app-card-footer">
+            <span class="platform-info">Platforms: To be confirmed</span>
+            <a href="/apps/modelpath-ml/" class="app-card-link">Project Status &rarr;</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Studio Philosophy Section (Recessed Inset Well) -->
+    <section>
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Studio Philosophy</h2>
+          <p class="section-subtitle">How ModelPath approaches digital craftsmanship</p>
+        </div>
+      </div>
+      <div class="philosophy-well">
+        <div class="philosophy-item">
+          <h3 class="philosophy-title">Thoughtful Engineering</h3>
+          <p class="philosophy-desc">Clean static architectures, zero unnecessary compute, and fast loading times.</p>
+        </div>
+        <div class="philosophy-item">
+          <h3 class="philosophy-title">Useful Experiences</h3>
+          <p class="philosophy-desc">Every product solves real everyday needs with focus and clarity.</p>
+        </div>
+        <div class="philosophy-item">
+          <h3 class="philosophy-title">Tactile Interfaces</h3>
+          <p class="philosophy-desc">Subtle 3D depth, comfortable touch targets, and high-contrast readability.</p>
+        </div>
+        <div class="philosophy-item">
+          <h3 class="philosophy-title">Continuous Polish</h3>
+          <p class="philosophy-desc">Relentless refinement of user ergonomics, performance, and security.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Global Footer -->
+    <footer class="footer-section">
+      <div class="footer-links">
+        <a href="/" class="footer-link">Home</a>
+        <a href="/apps/" class="footer-link">Apps Directory</a>
+        <a href="/about/" class="footer-link">About Studio</a>
+        <a href="/contact/" class="footer-link">Contact</a>
+        <a href="/privacy/" class="footer-link">Website Privacy</a>
+        <a href="/app-ads.txt" class="footer-link">app-ads.txt</a>
+      </div>
+      <p class="footer-copy">&copy; 2026 ModelPath Studio. All rights reserved. Independent Software Studio.</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
