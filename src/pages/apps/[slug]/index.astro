@@ -3,32 +3,36 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import StatusBadge from '../../../components/StatusBadge.astro';
 import PlatformBadge from '../../../components/PlatformBadge.astro';
 import FeatureCard from '../../../components/FeatureCard.astro';
-import ScreenshotPlaceholderCard from '../../../components/ScreenshotPlaceholderCard.astro';
 import RelatedAppsSection from '../../../components/RelatedAppsSection.astro';
+import AppIcon from '../../../components/AppIcon.astro';
+import AppCover from '../../../components/AppCover.astro';
+import ScreenshotCarousel from '../../../components/ScreenshotCarousel.astro';
+import PlatformDownloads from '../../../components/PlatformDownloads.astro';
 import { getCollection, render } from 'astro:content';
+import {
+  getPlatformAvailability,
+  getScreenshotSlides,
+  resolveCover,
+  resolveIcon,
+  resolveVideo,
+  toCardModel,
+} from '../../../lib/appMedia';
 
 export async function getStaticPaths() {
   const allApps = await getCollection('apps');
+  const sorted = [...allApps].sort((a, b) => a.data.order - b.data.order);
   return allApps.map((app) => ({
     params: { slug: app.data.slug },
     props: {
       app,
-      allApps: allApps.map((a) => ({
-        slug: a.data.slug,
-        name: a.data.name,
-        category: a.data.category,
-        tagline: a.data.tagline,
-        description: a.data.description,
-        status: a.data.status,
-        availablePlatforms: a.data.availablePlatforms,
-        plannedPlatforms: a.data.plannedPlatforms,
-      })),
+      allApps: sorted.map((a) => toCardModel(a.data)),
     },
   }));
 }
 
 const { app, allApps } = Astro.props;
 const { Content } = await render(app);
+const data = app.data;
 
 // Parse features dynamically
 interface FeatureItem {
@@ -38,11 +42,11 @@ interface FeatureItem {
   status?: 'available' | 'planned' | 'verification-pending';
 }
 
-const featuresList: FeatureItem[] = (app.data.features || []).map((f) => {
+const featuresList: FeatureItem[] = (data.features || []).map((f) => {
   if (typeof f === 'string') {
     return {
       title: f,
-      description: `${f} engineered for ${app.data.name}.`,
+      description: `${f} engineered for ${data.name}.`,
       icon: 'document',
       status: 'available',
     };
@@ -55,145 +59,29 @@ const featuresList: FeatureItem[] = (app.data.features || []).map((f) => {
   };
 });
 
-// Parse screenshots and fallbacks
-interface ScreenshotItem {
-  src: string;
-  alt: string;
-  caption?: string;
-}
-
-const screenshotsList: ScreenshotItem[] = (app.data.screenshots || []).map((s, idx) => {
-  if (typeof s === 'string') {
-    return {
-      src: s,
-      alt: `${app.data.name} interface screenshot ${idx + 1}`,
-      caption: `${app.data.name} screen view`,
-    };
-  }
-  return s;
-});
-
-const placeholderSets: Record<string, Array<{ title: string; note: string; footer: string; icon: string }>> = {
-  signmint: [
-    {
-      title: 'Document Viewer & Signature Canvas',
-      note: '[Screenshot Placeholder: Touch and pen input for signature placement]',
-      footer: 'Signature & Document Canvas',
-      icon: 'canvas',
-    },
-    {
-      title: 'Multi-Page Document Organizer',
-      note: '[Screenshot Placeholder: Multi-page document viewer and page layout]',
-      footer: 'Page Management View',
-      icon: 'organizer',
-    },
-    {
-      title: 'Signature Profiles',
-      note: '[Screenshot Placeholder: Stored signature and date presets]',
-      footer: 'Signature Profiles',
-      icon: 'profile',
-    },
-  ],
-  ehub: [
-    {
-      title: 'Distraction-Free Reading Canvas',
-      note: '[Screenshot Placeholder: EPUB reader view with typography adjustments]',
-      footer: 'EPUB Reader Canvas',
-      icon: 'canvas',
-    },
-    {
-      title: 'PDF Document Navigation',
-      note: '[Screenshot Placeholder: PDF document viewer and page navigation]',
-      footer: 'PDF Viewer',
-      icon: 'organizer',
-    },
-    {
-      title: 'Local Book Library',
-      note: '[Screenshot Placeholder: On-device library collection and shelf view]',
-      footer: 'Library Management',
-      icon: 'profile',
-    },
-  ],
-  pylab: [
-    {
-      title: 'Interactive Syntax Lessons',
-      note: '[Screenshot Placeholder: Structured Python lesson progression and syntax practice]',
-      footer: 'Lesson Canvas',
-      icon: 'canvas',
-    },
-    {
-      title: 'Guided Code Challenges',
-      note: '[Screenshot Placeholder: Hands-on code quizzes and exercises]',
-      footer: 'Challenge View',
-      icon: 'organizer',
-    },
-    {
-      title: 'Curriculum Progression',
-      note: '[Screenshot Placeholder: Module roadmap from beginner to intermediate concepts]',
-      footer: 'Curriculum Path',
-      icon: 'profile',
-    },
-  ],
-  'modelpath-ml': [
-    {
-      title: 'ModelPath ML Application Interface',
-      note: '[Screenshot Placeholder: Studio machine learning application view]',
-      footer: 'Application View',
-      icon: 'canvas',
-    },
-    {
-      title: 'Planned Workflow Interface',
-      note: '[Screenshot Placeholder: Exploratory machine learning workflow view]',
-      footer: 'Workflow Preview',
-      icon: 'organizer',
-    },
-    {
-      title: 'Studio Research Canvas',
-      note: '[Screenshot Placeholder: Internal ModelPath Studio experiment canvas]',
-      footer: 'Studio Project',
-      icon: 'profile',
-    },
-  ],
-};
-
-const defaultPlaceholders = [
-  {
-    title: `${app.data.name} Primary Interface`,
-    note: `[Screenshot Placeholder: ${app.data.name} main application screen]`,
-    footer: 'Application Interface',
-    icon: 'canvas',
-  },
-  {
-    title: `${app.data.name} Workflow View`,
-    note: `[Screenshot Placeholder: ${app.data.name} workflow and tool view]`,
-    footer: 'Workflow View',
-    icon: 'organizer',
-  },
-  {
-    title: `${app.data.name} Settings & Overview`,
-    note: `[Screenshot Placeholder: ${app.data.name} settings and overview]`,
-    footer: 'Settings & Overview',
-    icon: 'profile',
-  },
-];
-
-const fallbackPlaceholders = placeholderSets[app.data.slug] || defaultPlaceholders;
-
-const hasStoreLinks = Boolean(app.data.playStoreUrl || app.data.appStoreUrl);
+// Gate 11 media (genuine assets or honest placeholders)
+const icon = resolveIcon(data);
+const cover = resolveCover(data);
+const video = resolveVideo(data);
+const slides = getScreenshotSlides(data);
+const hasGenuineScreens = slides.some((s) => s.kind === 'genuine');
+const platforms = getPlatformAvailability(data);
+const anyStoreEnabled = platforms.some((p) => p.enabled);
 
 const isEligiblePublished =
-  app.data.status === 'published' &&
-  app.data.availablePlatforms.length > 0;
+  data.status === 'published' &&
+  data.availablePlatforms.length > 0;
 
 const pageSchema: Record<string, unknown> = isEligiblePublished
   ? {
       '@context': 'https://schema.org',
       '@type': 'SoftwareApplication',
-      name: app.data.name,
-      description: app.data.description,
-      applicationCategory: app.data.category,
-      operatingSystem: app.data.availablePlatforms.join(', '),
-      url: `https://modelpath.app/apps/${app.data.slug}/`,
+      name: data.name,
+      description: data.description,
+      applicationCategory: data.category,
+      operatingSystem: data.availablePlatforms.join(', '),
+      url: `https://modelpath.app/apps/${data.slug}/`,
+      ...(icon ? { image: `https://modelpath.app${icon.src}` } : {}),
       author: {
         '@id': 'https://modelpath.app/#organization',
       },
@@ -201,9 +89,9 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
   : {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
-      name: `${app.data.name} — ${app.data.tagline}`,
-      description: `${app.data.name} by ModelPath Studio: ${app.data.description}`,
-      url: `https://modelpath.app/apps/${app.data.slug}/`,
+      name: `${data.name} — ${data.tagline}`,
+      description: `${data.name} by ModelPath Studio: ${data.description}`,
+      url: `https://modelpath.app/apps/${data.slug}/`,
       isPartOf: {
         '@id': 'https://modelpath.app/#website',
       },
@@ -211,82 +99,94 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
 ---
 
 <BaseLayout
-  title={`${app.data.name} — ${app.data.tagline}`}
-  description={`${app.data.name} by ModelPath Studio: ${app.data.description}`}
+  title={`${data.name} — ${data.tagline}`}
+  description={`${data.name} by ModelPath Studio: ${data.description}`}
+  ogImage={cover?.src ?? icon?.src}
   jsonLd={pageSchema}
 >
   <article class="detail-container">
     <!-- Product Hero -->
     <header class="product-hero">
-      <div class="product-icon-frame">
-        {app.data.slug === 'signmint' && (
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 20h9" />
-            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-          </svg>
-        )}
-        {app.data.slug === 'ehub' && (
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-          </svg>
-        )}
-        {app.data.slug === 'pylab' && (
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polyline points="4 17 10 11 4 5" />
-            <line x1="12" y1="19" x2="20" y2="19" />
-          </svg>
-        )}
-        {app.data.slug === 'modelpath-ml' && (
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="3" />
-            <circle cx="19" cy="6" r="2" />
-            <circle cx="5" cy="6" r="2" />
-            <circle cx="19" cy="18" r="2" />
-            <circle cx="5" cy="18" r="2" />
-          </svg>
-        )}
-        {!['signmint', 'ehub', 'pylab', 'modelpath-ml'].includes(app.data.slug) && (
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-          </svg>
-        )}
-      </div>
-
       <div class="product-hero-body">
-        <div class="hero-meta-row">
-          <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-            <a href="/apps/">Applications</a>
-            <span aria-hidden="true">/</span>
-            <span>{app.data.category}</span>
-          </nav>
-          <StatusBadge status={app.data.status} size="sm" />
+        <div class="hero-identity">
+          <AppIcon slug={data.slug} name={data.name} icon={icon} size="lg" decorative={false} class="hero-app-icon" />
+          <div class="hero-meta-row">
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+              <a href="/apps/">Applications</a>
+              <span aria-hidden="true">/</span>
+              <span>{data.category}</span>
+            </nav>
+            <StatusBadge status={data.status} size="sm" />
+          </div>
         </div>
 
-        <h1 class="product-name">{app.data.name}</h1>
-        <div class="product-headline">{app.data.tagline}</div>
-        <p class="product-summary">{app.data.description}</p>
+        <h1 class="product-name">{data.name}</h1>
+        <div class="product-headline">{data.tagline}</div>
+        <p class="product-summary">{data.description}</p>
 
         <div class="product-actions-bar">
           <PlatformBadge
-            availablePlatforms={app.data.availablePlatforms}
-            plannedPlatforms={app.data.plannedPlatforms}
+            availablePlatforms={data.availablePlatforms}
+            plannedPlatforms={data.plannedPlatforms}
           />
-          <a href="#features" class="action-link-btn">Features</a>
           <a href="#screenshots" class="action-link-btn">Screenshots</a>
-          <a href={`/apps/${app.data.slug}/privacy/`} class="action-link-btn">
-            {app.data.privacyPolicyStatus === 'verified' ? 'Privacy Policy' : 'Privacy (Draft)'}
+          <a href="#features" class="action-link-btn">Features</a>
+          <a href="#download" class="action-link-btn">Download</a>
+          <a href={`/apps/${data.slug}/privacy/`} class="action-link-btn">
+            {data.privacyPolicyStatus === 'verified' ? 'Privacy Policy' : 'Privacy (Draft)'}
           </a>
-          <a href={`/apps/${app.data.slug}/support/`} class="action-link-btn">Support</a>
+          <a href={`/apps/${data.slug}/support/`} class="action-link-btn">Support</a>
         </div>
+      </div>
+
+      <div class="product-hero-media">
+        <AppCover slug={data.slug} name={data.name} cover={cover} variant="hero" eager />
       </div>
     </header>
 
-    <!-- Main Features Section -->
-    <section id="features" class="section-wrap">
+    <!-- Screenshot Carousel (genuine images or clearly labelled placeholders) -->
+    <section id="screenshots" class="section-wrap" aria-labelledby="screenshots-heading" data-reveal>
       <div class="section-header">
+        <span class="section-label">Visual Interface</span>
+        <h2 class="section-title" id="screenshots-heading">Application Screenshots</h2>
+        {!hasGenuineScreens && (
+          <p class="section-note">
+            Authentic screenshots of {data.name} have not been published yet. The panels below are labelled placeholders, not product imagery.
+          </p>
+        )}
+      </div>
+      <ScreenshotCarousel appName={data.name} slides={slides} id={`${data.slug}-screenshots`} />
+    </section>
+
+    <!-- Optional verified demonstration video (rendered only when genuinely supplied) -->
+    {video && (
+      <section id="demo" class="section-wrap" aria-labelledby="demo-heading" data-reveal>
+        <div class="section-header">
+          <span class="section-label">In Motion</span>
+          <h2 class="section-title" id="demo-heading">{video.title}</h2>
+        </div>
+        <div class="video-card">
+          <video
+            class="demo-video"
+            controls
+            playsinline
+            preload="none"
+            poster={video.poster}
+            aria-describedby="demo-description"
+          >
+            <source src={video.src} type={video.type} />
+            Your browser does not support embedded video. <a href={video.src}>Download the demonstration video</a>.
+          </video>
+          <p id="demo-description" class="video-desc">{video.description}</p>
+        </div>
+      </section>
+    )}
+
+    <!-- Main Features Section -->
+    <section id="features" class="section-wrap" aria-labelledby="features-heading">
+      <div class="section-header" data-reveal>
         <span class="section-label">Core Capabilities</span>
-        <h2 class="section-title">Application Capabilities & Features</h2>
+        <h2 class="section-title" id="features-heading">Application Capabilities &amp; Features</h2>
       </div>
 
       <div class="features-grid">
@@ -302,124 +202,57 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
     </section>
 
     <!-- Application Narrative / Content Section -->
-    <section class="section-wrap narrative-card">
+    <section class="section-wrap narrative-card" aria-labelledby="about-heading" data-reveal>
       <div class="section-header">
         <span class="section-label">Product Overview</span>
-        <h2 class="section-title">About {app.data.name}</h2>
+        <h2 class="section-title" id="about-heading">About {data.name}</h2>
       </div>
       <div class="prose-content">
         <Content />
       </div>
     </section>
 
-    <!-- Screenshot Gallery (Actual Images or Clearly Labeled Placeholders) -->
-    <section id="screenshots" class="section-wrap">
-      <div class="section-header">
-        <span class="section-label">Visual Interface</span>
-        <h2 class="section-title">Application Screenshots</h2>
+    <!-- Platform Availability & Download -->
+    <section id="download" class="section-wrap" aria-labelledby="download-heading">
+      <div class="section-header" data-reveal>
+        <span class="section-label">Platform Availability</span>
+        <h2 class="section-title" id="download-heading">Download {data.name}</h2>
+        <p class="section-note">
+          {anyStoreEnabled
+            ? `Official store listings for ${data.name}. Links open the verified store page in a new tab.`
+            : `${data.name} has no public store listing yet. Store buttons activate only once a verified listing is live.`}
+        </p>
       </div>
-
-      {screenshotsList.length > 0 ? (
-        <div class="screenshots-grid">
-          {screenshotsList.map((shot) => (
-            <div class="screenshot-card">
-              <div class="screenshot-real-frame">
-                <img
-                  src={shot.src}
-                  alt={shot.alt}
-                  loading="lazy"
-                  decoding="async"
-                  class="screenshot-img"
-                />
-              </div>
-              {shot.caption && <div class="screenshot-card-footer">{shot.caption}</div>}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div class="screenshots-grid">
-          {fallbackPlaceholders.map((item) => (
-            <ScreenshotPlaceholderCard
-              title={item.title}
-              placeholderNote={item.note}
-              footerLabel={item.footer}
-              iconType={item.icon}
-            />
-          ))}
-        </div>
-      )}
-    </section>
-
-    <!-- Platform Availability & Pre-Release Download Area -->
-    <section class="section-wrap">
-      <div class="download-well">
-        <div class="download-text-side">
-          <h3 class="download-info-title">Platform Availability & Download</h3>
-          <p class="download-info-text">
-            {hasStoreLinks
-              ? `${app.data.name} is available on verified application stores.`
-              : `${app.data.name} is currently in development or pre-release preparation. Official store links will be published here upon public release verification.`}
-          </p>
-        </div>
-
-        <div class="download-cta-side">
-          {hasStoreLinks ? (
-            <div class="store-links-group">
-              {app.data.playStoreUrl && (
-                <a href={app.data.playStoreUrl} class="btn-store-active" target="_blank" rel="noopener noreferrer">
-                  Google Play Store
-                </a>
-              )}
-              {app.data.appStoreUrl && (
-                <a href={app.data.appStoreUrl} class="btn-store-active" target="_blank" rel="noopener noreferrer">
-                  Apple App Store
-                </a>
-              )}
-            </div>
-          ) : (
-            <div class="btn-download-disabled" role="status" aria-label="Store link currently pending release">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              <span>Store Link Pending</span>
-            </div>
-          )}
-          <span class="download-status-note">
-            Target: {app.data.plannedPlatforms && app.data.plannedPlatforms.length > 0 ? app.data.plannedPlatforms.join(' & ') : 'To be confirmed'} &bull; {app.data.status}
-          </span>
-        </div>
-      </div>
+      <PlatformDownloads appName={data.name} platforms={platforms} />
     </section>
 
     <!-- Privacy & Support Capsules -->
-    <section class="section-wrap">
+    <section class="section-wrap" aria-label="Privacy and support">
       <div class="resources-grid">
-        <div class="resource-card">
+        <div class="resource-card" data-reveal>
           <div class="resource-content">
             <h3 class="resource-title">
-              {app.data.privacyPolicyStatus === 'verified' ? 'Privacy Policy' : 'Privacy Disclosures (Draft)'}
+              {data.privacyPolicyStatus === 'verified' ? 'Privacy Policy' : 'Privacy Disclosures (Draft)'}
             </h3>
             <p class="resource-desc">
-              {app.data.privacyPolicyStatus === 'verified'
-                ? `Review data practices, security disclosures, and user rights for ${app.data.name}.`
-                : `Review pre-release privacy disclosures and data handling specifications for ${app.data.name} (compliance review pending).`}
+              {data.privacyPolicyStatus === 'verified'
+                ? `Review data practices, security disclosures, and user rights for ${data.name}.`
+                : `Review pre-release privacy disclosures and data handling specifications for ${data.name} (compliance review pending).`}
             </p>
           </div>
-          <a href={`/apps/${app.data.slug}/privacy/`} class="action-link-btn">
-            {app.data.privacyPolicyStatus === 'verified' ? 'View Policy \u2192' : 'View Draft Disclosures \u2192'}
+          <a href={`/apps/${data.slug}/privacy/`} class="action-link-btn">
+            {data.privacyPolicyStatus === 'verified' ? 'View Policy \u2192' : 'View Draft Disclosures \u2192'}
           </a>
         </div>
 
-        <div class="resource-card">
+        <div class="resource-card" data-reveal>
           <div class="resource-content">
             <h3 class="resource-title">Product Support</h3>
             <p class="resource-desc">
               Encountering questions or early feedback? Reach our engineering team directly via email.
             </p>
           </div>
-          <a href={`/apps/${app.data.slug}/support/`} class="action-link-btn">
+          <a href={`/apps/${data.slug}/support/`} class="action-link-btn">
             Get Support &rarr;
           </a>
         </div>
@@ -427,7 +260,7 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
     </section>
 
     <!-- Related Applications -->
-    <RelatedAppsSection currentSlug={app.data.slug} apps={allApps} />
+    <RelatedAppsSection currentSlug={data.slug} apps={allApps} />
   </article>
 </BaseLayout>
 
@@ -443,32 +276,19 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
     background: var(--bg-surface);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-card);
-    padding: 48px;
+    padding: 40px;
     border: 1px solid rgba(255, 255, 255, 0.85);
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 400px);
     gap: 40px;
     align-items: center;
     margin-bottom: 56px;
+    animation: detail-rise 640ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  .product-icon-frame {
-    width: 120px;
-    height: 120px;
-    border-radius: 28px;
-    background: var(--bg-raised);
-    box-shadow: var(--shadow-card);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    flex-shrink: 0;
-  }
-
-  .product-icon-frame svg {
-    width: 58px;
-    height: 58px;
-    stroke: var(--accent-blue);
+  @keyframes detail-rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
   }
 
   .product-hero-body {
@@ -476,11 +296,17 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
     flex-direction: column;
   }
 
+  .hero-identity {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
   .hero-meta-row {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 8px;
     flex-wrap: wrap;
   }
 
@@ -524,14 +350,14 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
     font-size: 1.05rem;
     color: var(--text-body);
     line-height: 1.6;
-    max-width: 780px;
+    max-width: 640px;
     margin: 0 0 24px 0;
   }
 
   .product-actions-bar {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     flex-wrap: wrap;
   }
 
@@ -548,7 +374,7 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
     align-items: center;
     gap: 6px;
     border: 1px solid rgba(255, 255, 255, 0.85);
-    transition: all var(--transition-fast);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
     white-space: nowrap;
   }
 
@@ -558,9 +384,15 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
     box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(169, 180, 196, 0.32);
   }
 
+  .action-link-btn:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: var(--shadow-inset-box);
+  }
+
   /* Section Common */
   .section-wrap {
     margin-bottom: 56px;
+    scroll-margin-top: 24px;
   }
 
   .section-header {
@@ -585,6 +417,14 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
     margin: 0;
   }
 
+  .section-note {
+    font-size: 0.925rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin: 8px 0 0;
+    max-width: 720px;
+  }
+
   /* Features Grid */
   .features-grid {
     display: grid;
@@ -607,134 +447,27 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
     line-height: 1.7;
   }
 
-  /* Screenshots Grid */
-  .screenshots-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-
-  .screenshot-card {
+  /* Demo video */
+  .video-card {
     background: var(--bg-surface);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-card);
-    padding: 20px;
     border: 1px solid rgba(255, 255, 255, 0.85);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 16px;
   }
 
-  .screenshot-real-frame {
+  .demo-video {
+    display: block;
     width: 100%;
-    min-height: 380px;
-    background: var(--bg-inset);
+    max-height: 640px;
     border-radius: var(--radius-md);
-    box-shadow: var(--shadow-inset-well);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin-bottom: 16px;
-  }
-
-  .screenshot-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: var(--radius-md);
-  }
-
-  .screenshot-card-footer {
-    width: 100%;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-heading);
-    text-align: center;
-  }
-
-  /* Pre-Release Download Well */
-  .download-well {
     background: var(--bg-inset);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-inset-well);
-    padding: 36px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 32px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
   }
 
-  .download-text-side {
-    max-width: 600px;
-  }
-
-  .download-info-title {
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: var(--text-heading);
-    margin: 0 0 8px 0;
-  }
-
-  .download-info-text {
-    font-size: 0.95rem;
+  .video-desc {
+    font-size: 0.9rem;
     color: var(--text-body);
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  .download-cta-side {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
-    flex-shrink: 0;
-  }
-
-  .btn-download-disabled {
-    background: var(--bg-raised);
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 12px 28px;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-btn-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: default;
-    user-select: none;
-  }
-
-  .btn-download-disabled svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .store-links-group {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .btn-store-active {
-    background: var(--accent-blue);
-    color: #FFFFFF;
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 12px 24px;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-btn-primary);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .download-status-note {
-    font-size: 0.75rem;
-    color: var(--text-muted);
+    margin: 12px 4px 4px;
   }
 
   /* Resources Capsules */
@@ -776,25 +509,28 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
     margin: 0;
   }
 
-  @media (max-width: 860px) {
+  @media (max-width: 960px) {
     .product-hero {
       grid-template-columns: 1fr;
-      padding: 24px 18px;
-      gap: 18px;
+    }
+
+    .product-hero-media {
+      max-width: 520px;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .product-hero {
+      padding: 22px 16px;
+      gap: 22px;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-card-mobile);
       margin-bottom: 36px;
     }
 
-    .product-icon-frame {
-      width: 64px;
-      height: 64px;
-      border-radius: 16px;
-    }
-
-    .product-icon-frame svg {
-      width: 32px;
-      height: 32px;
+    .hero-identity {
+      gap: 12px;
+      margin-bottom: 14px;
     }
 
     .product-headline {
@@ -804,6 +540,15 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
     .product-summary {
       font-size: 0.875rem;
       margin-bottom: 16px;
+    }
+
+    .product-actions-bar {
+      gap: 10px;
+    }
+
+    .action-link-btn {
+      font-size: 0.8125rem;
+      padding: 8px 14px;
     }
 
     .section-wrap {
@@ -820,38 +565,6 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
       border-radius: var(--radius-md);
     }
 
-    .screenshots-grid {
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-
-    .download-well {
-      flex-direction: column;
-      padding: 24px 18px;
-      gap: 18px;
-      border-radius: var(--radius-md);
-    }
-
-    .download-info-title {
-      font-size: 1.15rem;
-    }
-
-    .download-info-text {
-      font-size: 0.85rem;
-    }
-
-    .download-cta-side {
-      width: 100%;
-      align-items: center;
-    }
-
-    .btn-download-disabled {
-      width: 100%;
-      justify-content: center;
-      font-size: 0.875rem;
-      padding: 12px;
-    }
-
     .resources-grid {
       grid-template-columns: 1fr;
       gap: 16px;
@@ -862,6 +575,17 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
       align-items: flex-start;
       padding: 20px 16px;
       border-radius: var(--radius-md);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product-hero {
+      animation: none;
+    }
+
+    .action-link-btn:hover,
+    .action-link-btn:active {
+      transform: none;
     }
   }
 </style>

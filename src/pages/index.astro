@@ -4,19 +4,11 @@ import HeroSection from '../components/HeroSection.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import AppGrid from '../components/AppGrid.astro';
 import { getCollection } from 'astro:content';
+import { toCardModel } from '../lib/appMedia';
 
 const rawApps = await getCollection('apps');
 const apps = rawApps
-  .map((entry) => ({
-    slug: entry.data.slug,
-    name: entry.data.name,
-    category: entry.data.category,
-    description: entry.data.description,
-    status: entry.data.status,
-    availablePlatforms: entry.data.availablePlatforms,
-    plannedPlatforms: entry.data.plannedPlatforms,
-    order: entry.data.order,
-  }))
+  .map((entry) => toCardModel(entry.data))
   .sort((a, b) => a.order - b.order);
 ---
 
@@ -28,7 +20,7 @@ const apps = rawApps
   <HeroSection />
 
   <!-- Our Applications Section -->
-  <section class="section-container" aria-labelledby="apps-heading">
+  <section class="section-container" aria-labelledby="apps-heading" data-reveal>
     <SectionHeading
       label="Software Portfolio"
       title="Our Applications"
@@ -39,7 +31,7 @@ const apps = rawApps
   </section>
 
   <!-- Studio Philosophy Section -->
-  <section class="section-container" aria-labelledby="philosophy-heading">
+  <section class="section-container" aria-labelledby="philosophy-heading" data-reveal>
     <SectionHeading
       label="Principles & Craft"
       title="Studio Philosophy"

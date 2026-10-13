@@ -1,0 +1,271 @@
+---
+/**
+ * PlatformDownloads — distinct Google Play and Apple App Store controls.
+ * A store button is a real link ONLY when the platform is published and a
+ * schema-validated store URL exists (see lib/appMedia.getPlatformAvailability).
+ * Otherwise it renders as a visibly disabled, non-interactive control with an
+ * accurate status — never a fabricated destination.
+ */
+import type { PlatformAvailability } from '../lib/appMedia';
+
+interface Props {
+  appName: string;
+  platforms: PlatformAvailability[];
+}
+
+const { appName, platforms } = Astro.props;
+
+const disabledCaption = (p: PlatformAvailability) => {
+  switch (p.status) {
+    case 'published': return 'Link pending';
+    case 'not-planned': return 'Not planned';
+    case 'unconfirmed': return 'Unconfirmed';
+    default: return 'Not yet available';
+  }
+};
+---
+
+<div class="platform-downloads">
+  {platforms.map((p) => (
+    <div
+      class={`platform-card status-${p.status}`}
+      data-platform={p.platform}
+      data-store-state={p.enabled ? 'enabled' : 'disabled'}
+      data-reveal
+    >
+      <div class="platform-head">
+        <span class="platform-icon" aria-hidden="true">
+          {p.platform === 'android' ? (
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.4 11.4 0 0 0-9.84 0L5.22 5.92a.38.38 0 1 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z" /></svg>
+          ) : (
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.37 12.6c-.02-2.1 1.72-3.12 1.8-3.17-.98-1.43-2.5-1.63-3.04-1.65-1.29-.13-2.52.76-3.18.76-.66 0-1.67-.74-2.75-.72-1.41.02-2.72.82-3.45 2.09-1.47 2.55-.38 6.33 1.06 8.4.7 1.01 1.53 2.15 2.62 2.11 1.05-.04 1.45-.68 2.72-.68 1.27 0 1.63.68 2.74.66 1.13-.02 1.85-1.03 2.54-2.05.8-1.17 1.13-2.31 1.15-2.37-.03-.01-2.2-.85-2.21-3.38zM14.3 6.43c.58-.7.97-1.68.86-2.65-.83.03-1.84.55-2.44 1.25-.53.62-1 1.61-.88 2.56.93.07 1.88-.47 2.46-1.16z" /></svg>
+          )}
+        </span>
+        <div class="platform-titles">
+          <h3 class="platform-name">{p.platformLabel}</h3>
+          <span class="platform-store">{p.storeName}</span>
+        </div>
+        <span class={`platform-status-pill pill-${p.status}`}>{p.statusLabel}</span>
+      </div>
+
+      <p class="platform-desc">{p.statusDescription}</p>
+
+      {p.enabled && p.url ? (
+        <a
+          href={p.url}
+          class="store-btn is-enabled"
+          target="_blank"
+          rel="noopener noreferrer external"
+          referrerpolicy="no-referrer"
+          aria-label={`${p.storeActionLabel}: ${appName} (opens in a new tab)`}
+        >
+          <span class="store-glyph" aria-hidden="true">
+            {p.platform === 'android' ? (
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 3.5v17a.8.8 0 0 0 1.2.7l14.6-8.5a.8.8 0 0 0 0-1.4L5.2 2.8A.8.8 0 0 0 4 3.5z" /></svg>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.37 12.6c-.02-2.1 1.72-3.12 1.8-3.17-.98-1.43-2.5-1.63-3.04-1.65-1.29-.13-2.52.76-3.18.76-.66 0-1.67-.74-2.75-.72-1.41.02-2.72.82-3.45 2.09-1.47 2.55-.38 6.33 1.06 8.4.7 1.01 1.53 2.15 2.62 2.11 1.05-.04 1.45-.68 2.72-.68 1.27 0 1.63.68 2.74.66 1.13-.02 1.85-1.03 2.54-2.05.8-1.17 1.13-2.31 1.15-2.37-.03-.01-2.2-.85-2.21-3.38zM14.3 6.43c.58-.7.97-1.68.86-2.65-.83.03-1.84.55-2.44 1.25-.53.62-1 1.61-.88 2.56.93.07 1.88-.47 2.46-1.16z" /></svg>
+            )}
+          </span>
+          <span class="store-text">
+            <span class="store-caption">{p.platform === 'android' ? 'Get it on' : 'Download on the'}</span>
+            <span class="store-label">{p.storeName}</span>
+          </span>
+        </a>
+      ) : (
+        <span class="store-btn is-disabled" role="link" aria-disabled="true">
+          <span class="store-glyph" aria-hidden="true">
+            {p.platform === 'android' ? (
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 3.5v17a.8.8 0 0 0 1.2.7l14.6-8.5a.8.8 0 0 0 0-1.4L5.2 2.8A.8.8 0 0 0 4 3.5z" /></svg>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.37 12.6c-.02-2.1 1.72-3.12 1.8-3.17-.98-1.43-2.5-1.63-3.04-1.65-1.29-.13-2.52.76-3.18.76-.66 0-1.67-.74-2.75-.72-1.41.02-2.72.82-3.45 2.09-1.47 2.55-.38 6.33 1.06 8.4.7 1.01 1.53 2.15 2.62 2.11 1.05-.04 1.45-.68 2.72-.68 1.27 0 1.63.68 2.74.66 1.13-.02 1.85-1.03 2.54-2.05.8-1.17 1.13-2.31 1.15-2.37-.03-.01-2.2-.85-2.21-3.38zM14.3 6.43c.58-.7.97-1.68.86-2.65-.83.03-1.84.55-2.44 1.25-.53.62-1 1.61-.88 2.56.93.07 1.88-.47 2.46-1.16z" /></svg>
+            )}
+          </span>
+          <span class="store-text">
+            <span class="store-caption">{disabledCaption(p)}</span>
+            <span class="store-label">{p.storeName}</span>
+          </span>
+          <span class="sr-only">— {appName} is not available on {p.storeName}: {p.statusLabel}</span>
+        </span>
+      )}
+    </div>
+  ))}
+</div>
+
+<style>
+  .platform-downloads {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .platform-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .platform-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .platform-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--bg-raised);
+    box-shadow: var(--shadow-inset-box);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  .platform-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .status-published .platform-icon {
+    color: var(--accent-blue);
+  }
+
+  .platform-titles {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .platform-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin: 0;
+  }
+
+  .platform-store {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  .platform-status-pill {
+    font-size: 0.725rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--bg-inset);
+    box-shadow: var(--shadow-inset-box);
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .pill-published { color: var(--color-status-published); }
+  .pill-coming-soon { color: var(--accent-blue); }
+
+  .platform-desc {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--text-body);
+    margin: 0;
+    flex: 1;
+  }
+
+  .store-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 22px 10px 16px;
+    border-radius: 14px;
+    width: fit-content;
+    min-width: 200px;
+    text-decoration: none;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+  }
+
+  .store-glyph svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .store-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .store-caption {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .store-label {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .store-btn.is-enabled {
+    background: var(--text-heading);
+    color: #FFFFFF;
+    box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(23, 34, 51, 0.28);
+  }
+
+  .store-btn.is-enabled:hover {
+    background: #0F1826;
+    transform: translateY(-1px);
+    box-shadow: -4px -4px 12px #FFFFFF, 5px 7px 18px rgba(23, 34, 51, 0.32);
+  }
+
+  .store-btn.is-enabled:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.35);
+  }
+
+  .store-btn.is-disabled {
+    background: var(--bg-inset);
+    color: var(--text-muted);
+    box-shadow: var(--shadow-inset-box);
+    border: 1px dashed rgba(169, 180, 196, 0.7);
+    cursor: not-allowed;
+    user-select: none;
+  }
+
+  .store-btn.is-disabled .store-glyph {
+    opacity: 0.55;
+  }
+
+  @media (max-width: 860px) {
+    .platform-downloads {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .platform-card {
+      padding: 20px 16px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card-mobile);
+    }
+
+    .store-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .store-btn.is-enabled:hover,
+    .store-btn.is-enabled:active {
+      transform: none;
+    }
+  }
+</style>

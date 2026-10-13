@@ -1,0 +1,350 @@
+---
+/**
+ * ScreenshotCarousel — responsive, accessible screenshot gallery.
+ * - Without JS: a native horizontally scrollable, snap-aligned list (swipeable).
+ * - With JS: previous/next buttons, ←/→/Home/End keys, live position status.
+ * - Genuine screenshots render as images; otherwise labelled placeholders.
+ */
+import ScreenshotPlaceholderCard from './ScreenshotPlaceholderCard.astro';
+import type { ScreenshotSlide } from '../lib/appMedia';
+
+interface Props {
+  appName: string;
+  slides: ScreenshotSlide[];
+  id?: string;
+}
+
+const { appName, slides, id = 'screenshot-carousel' } = Astro.props;
+const isPlaceholder = slides.every((s) => s.kind === 'placeholder');
+---
+
+<div
+  class="carousel"
+  id={id}
+  data-carousel
+  role="region"
+  aria-roledescription="carousel"
+  aria-label={`${appName} ${isPlaceholder ? 'screenshot placeholders' : 'screenshots'}`}
+>
+  <ul class="carousel-track" data-carousel-track tabindex="0" aria-label={`${appName} screenshots — use arrow keys to browse`}>
+    {slides.map((slide, idx) => (
+      <li
+        class="carousel-slide"
+        data-carousel-slide
+        role="group"
+        aria-roledescription="slide"
+        aria-label={`${idx + 1} of ${slides.length}: ${slide.title}`}
+        data-media-kind={slide.kind}
+      >
+        {slide.kind === 'genuine' ? (
+          <figure class="shot-card">
+            <div class="shot-frame">
+              <img
+                src={slide.src}
+                alt={slide.alt}
+                width={slide.width ?? 1080}
+                height={slide.height ?? 1920}
+                loading={idx === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                draggable="false"
+              />
+            </div>
+            {slide.caption && <figcaption class="shot-caption">{slide.caption}</figcaption>}
+          </figure>
+        ) : (
+          <ScreenshotPlaceholderCard
+            title={slide.title}
+            placeholderNote={`[Screenshot Placeholder: ${slide.note}]`}
+            footerLabel={slide.caption}
+            iconType={slide.icon}
+          />
+        )}
+      </li>
+    ))}
+  </ul>
+
+  <div class="carousel-controls" data-carousel-controls hidden>
+    <button type="button" class="carousel-btn" data-carousel-prev aria-controls={id} aria-label="Previous screenshot">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6" /></svg>
+    </button>
+
+    <div class="carousel-dots" aria-hidden="true">
+      {slides.map((_, idx) => (
+        <span class={`carousel-dot ${idx === 0 ? 'is-active' : ''}`} data-carousel-dot></span>
+      ))}
+    </div>
+    <span class="sr-only" data-carousel-status aria-live="polite" aria-atomic="true">
+      Showing screenshot 1 of {slides.length}
+    </span>
+
+    <button type="button" class="carousel-btn" data-carousel-next aria-controls={id} aria-label="Next screenshot">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6" /></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  function setupCarousel(root: HTMLElement) {
+    if (root.dataset.carouselReady === 'true') return;
+    const track = root.querySelector<HTMLElement>('[data-carousel-track]');
+    const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-carousel-slide]'));
+    const controls = root.querySelector<HTMLElement>('[data-carousel-controls]');
+    const prev = root.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-carousel-next]');
+    const dots = Array.from(root.querySelectorAll<HTMLElement>('[data-carousel-dot]'));
+    const status = root.querySelector<HTMLElement>('[data-carousel-status]');
+    if (!track || !slides.length || !controls || !prev || !next) return;
+    root.dataset.carouselReady = 'true';
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let current = 0;
+    let ticking = false;
+
+    const stepSize = () => {
+      if (slides.length < 2) return track.clientWidth;
+      return slides[1].offsetLeft - slides[0].offsetLeft;
+    };
+    const maxScroll = () => track.scrollWidth - track.clientWidth;
+
+    function render() {
+      const size = stepSize() || 1;
+      const atEnd = track!.scrollLeft >= maxScroll() - 2;
+      current = atEnd ? slides.length - 1 : Math.round(track!.scrollLeft / size);
+      current = Math.max(0, Math.min(slides.length - 1, current));
+      prev!.disabled = track!.scrollLeft <= 2;
+      next!.disabled = atEnd;
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === current));
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
+      if (status) status.textContent = `Showing screenshot ${current + 1} of ${slides.length}`;
+      // Hide the controls entirely when everything already fits.
+      controls!.hidden = maxScroll() <= 2;
+    }
+
+    function goTo(index: number) {
+      const target = Math.max(0, Math.min(slides.length - 1, index));
+      track!.scrollTo({
+        left: slides[target].offsetLeft - slides[0].offsetLeft,
+        behavior: reduced.matches ? 'auto' : 'smooth',
+      });
+    }
+
+    prev.addEventListener('click', () => goTo(current - 1));
+    next.addEventListener('click', () => goTo(current + 1));
+
+    track.addEventListener('keydown', (e) => {
+      const keys: Record<string, number> = {
+        ArrowLeft: current - 1,
+        ArrowRight: current + 1,
+        Home: 0,
+        End: slides.length - 1,
+      };
+      if (e.key in keys) {
+        e.preventDefault();
+        goTo(keys[e.key]);
+      }
+    });
+
+    track.addEventListener(
+      'scroll',
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          render();
+          ticking = false;
+        });
+      },
+      { passive: true }
+    );
+
+    new ResizeObserver(() => render()).observe(track);
+    root.classList.add('is-enhanced');
+    render();
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(setupCarousel);
+</script>
+
+<style>
+  .carousel {
+    position: relative;
+    --gap: 24px;
+  }
+
+  .carousel-track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - var(--gap) * 2) / 2.6);
+    gap: var(--gap);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 4px;
+    padding: 6px 4px 22px;
+    margin: -6px -4px 0;
+    list-style: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(169, 180, 196, 0.6) transparent;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--radius-md);
+  }
+
+  .carousel.is-enhanced .carousel-track {
+    scrollbar-width: none;
+  }
+
+  .carousel.is-enhanced .carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel-slide {
+    scroll-snap-align: start;
+    transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms ease;
+  }
+
+  .carousel.is-enhanced .carousel-slide:not(.is-active) {
+    opacity: 0.86;
+  }
+
+  .carousel.is-enhanced .carousel-slide.is-active {
+    transform: translateY(-3px);
+  }
+
+  .carousel-slide :global(.screenshot-card) {
+    height: 100%;
+  }
+
+  /* Genuine screenshot card */
+  .shot-card {
+    margin: 0;
+    height: 100%;
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .shot-frame {
+    aspect-ratio: 9 / 16;
+    border-radius: var(--radius-md);
+    background: var(--bg-inset);
+    box-shadow: var(--shadow-inset-well);
+    overflow: hidden;
+  }
+
+  .shot-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    user-select: none;
+  }
+
+  .shot-caption {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-heading);
+    text-align: center;
+  }
+
+  /* Controls */
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 4px;
+  }
+
+  .carousel-controls[hidden] {
+    display: none;
+  }
+
+  .carousel-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--bg-raised);
+    color: var(--text-heading);
+    box-shadow: var(--shadow-btn-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
+  }
+
+  .carousel-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .carousel-btn:hover:not(:disabled) {
+    color: var(--accent-blue);
+    transform: translateY(-1px);
+  }
+
+  .carousel-btn:active:not(:disabled) {
+    transform: scale(0.95);
+    box-shadow: var(--shadow-inset-box);
+  }
+
+  .carousel-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: var(--shadow-inset-box);
+  }
+
+  .carousel-dots {
+    display: flex;
+    gap: 8px;
+  }
+
+  .carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-pill);
+    background: rgba(100, 116, 139, 0.3);
+    transition: width var(--transition-normal), background-color var(--transition-normal);
+  }
+
+  .carousel-dot.is-active {
+    width: 22px;
+    background: var(--accent-blue);
+  }
+
+  @media (max-width: 960px) {
+    .carousel-track {
+      grid-auto-columns: calc((100% - var(--gap)) / 1.7);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .carousel {
+      --gap: 14px;
+    }
+
+    .carousel-track {
+      grid-auto-columns: 84%;
+    }
+
+    .shot-card {
+      padding: 12px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card-mobile);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-slide,
+    .carousel.is-enhanced .carousel-slide.is-active,
+    .carousel-btn:hover:not(:disabled),
+    .carousel-btn:active:not(:disabled) {
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

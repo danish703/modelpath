@@ -1,0 +1,85 @@
+---
+/**
+ * AppIcon — renders the genuine application icon when supplied, otherwise the
+ * studio glyph inside a neumorphic capsule (marked as a placeholder for AT).
+ */
+import AppGlyph from './AppGlyph.astro';
+import type { ImageAsset } from '../lib/appMedia';
+
+interface Props {
+  slug: string;
+  name: string;
+  icon: ImageAsset | null;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  /** Decorative usage (e.g. next to a visible app name) hides it from AT. */
+  decorative?: boolean;
+  class?: string;
+}
+
+const { slug, name, icon, size = 'md', decorative = true, class: className = '' } = Astro.props;
+const pixel = { sm: 44, md: 56, lg: 72, xl: 120 }[size];
+---
+
+<span
+  class={`app-icon size-${size} ${icon ? 'is-genuine' : 'is-placeholder'} ${className}`}
+  data-media-kind={icon ? 'genuine' : 'placeholder'}
+  role={decorative ? undefined : 'img'}
+  aria-label={decorative ? undefined : icon ? icon.alt : `${name} icon placeholder — genuine icon not yet available`}
+  aria-hidden={decorative ? 'true' : undefined}
+>
+  {icon ? (
+    <img
+      src={icon.src}
+      alt=""
+      width={icon.width ?? pixel}
+      height={icon.height ?? pixel}
+      loading="lazy"
+      decoding="async"
+    />
+  ) : (
+    <AppGlyph slug={slug} />
+  )}
+</span>
+
+<style>
+  .app-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--bg-raised);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    color: var(--accent-blue);
+    overflow: hidden;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  }
+
+  .app-icon.is-placeholder {
+    box-shadow: var(--shadow-btn-secondary);
+  }
+
+  .app-icon.is-genuine {
+    box-shadow: -3px -3px 8px #FFFFFF, 3px 4px 10px rgba(169, 180, 196, 0.32);
+  }
+
+  .app-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .size-sm { width: 44px; height: 44px; border-radius: 12px; }
+  .size-md { width: 56px; height: 56px; border-radius: 15px; }
+  .size-lg { width: 72px; height: 72px; border-radius: 19px; }
+  .size-xl { width: 120px; height: 120px; border-radius: 28px; box-shadow: var(--shadow-card); }
+
+  .size-sm :global(.app-glyph) { width: 22px; height: 22px; }
+  .size-md :global(.app-glyph) { width: 26px; height: 26px; }
+  .size-lg :global(.app-glyph) { width: 32px; height: 32px; }
+  .size-xl :global(.app-glyph) { width: 56px; height: 56px; }
+
+  @media (max-width: 860px) {
+    .size-xl { width: 72px; height: 72px; border-radius: 19px; box-shadow: var(--shadow-card-mobile); }
+    .size-xl :global(.app-glyph) { width: 34px; height: 34px; }
+  }
+</style>
