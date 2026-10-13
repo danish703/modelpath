@@ -1,8 +1,8 @@
 ---
 name: "PyLab"
 slug: "pylab"
-tagline: "Interactive Python learning on mobile"
-description: "Hands-on Python learning, lessons, and code execution designed for mobile learners and developers."
+tagline: "Learn Python through interactive lessons"
+description: "Learn Python through structured interactive lessons, syntax practice, and guided programming challenges designed for mobile learners."
 category: "Education"
 availablePlatforms: []
 plannedPlatforms:
@@ -11,9 +11,22 @@ status: "in-development"
 icon: "/images/apps/pylab/icon.svg"
 screenshots: []
 features:
-  - "Interactive Python syntax exercises"
-  - "On-device lesson progression"
-  - "Bite-sized mobile coding challenges"
+  - title: "Interactive Syntax Lessons"
+    description: "Bite-sized lesson modules covering Python fundamentals, core data types, and syntax rules."
+    icon: "document"
+    status: "available"
+  - title: "Guided Code Challenges"
+    description: "Hands-on exercises and code puzzles to reinforce programming concepts step by step."
+    icon: "document"
+    status: "available"
+  - title: "Progressive Learning Path"
+    description: "Structured curriculum designed for gradual progression from beginner concepts to intermediate topics."
+    icon: "performance"
+    status: "available"
+  - title: "Code Execution Sandbox"
+    description: "Planned on-device code execution and experiment sandbox currently under development."
+    icon: "performance"
+    status: "planned"
 playStoreUrl: null
 appStoreUrl: null
 privacyPolicyStatus: "pending-review"
@@ -27,4 +40,4 @@ version: "0.2.0-dev"
 order: 3
 ---
 
-PyLab makes learning Python accessible and practical with interactive exercises and on-device execution.
+PyLab makes learning Python accessible and practical through structured interactive lessons and guided challenges on mobile.

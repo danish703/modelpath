@@ -14,8 +14,27 @@ const apps = defineCollection({
     plannedPlatforms: z.array(z.enum(['android', 'ios'])).default([]),
     status: z.enum(['published', 'coming-soon', 'in-development', 'unconfirmed']),
     icon: z.string(),
-    screenshots: z.array(z.string()).default([]),
-    features: z.array(z.string()).default([]),
+    screenshots: z.array(
+      z.union([
+        z.string(),
+        z.object({
+          src: z.string(),
+          alt: z.string(),
+          caption: z.string().optional(),
+        }),
+      ])
+    ).default([]),
+    features: z.array(
+      z.union([
+        z.string(),
+        z.object({
+          title: z.string(),
+          description: z.string(),
+          icon: z.string().optional(),
+          status: z.enum(['available', 'planned']).optional(),
+        }),
+      ])
+    ).default([]),
     playStoreUrl: z.url().nullable().optional(),
     appStoreUrl: z.url().nullable().optional(),
     privacyPolicyStatus: z.enum(['verified', 'draft', 'pending-review']),

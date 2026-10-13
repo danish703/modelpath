@@ -30,30 +30,156 @@ export async function getStaticPaths() {
 const { app, allApps } = Astro.props;
 const { Content } = await render(app);
 
-// SignMint specific rich features matching actual confirmed project scope
-const isSignMint = app.data.slug === 'signmint';
-const signMintFeatures = [
+// Parse features dynamically
+interface FeatureItem {
+  title: string;
+  description: string;
+  icon?: string;
+  status?: 'available' | 'planned';
+}
+
+const featuresList: FeatureItem[] = (app.data.features || []).map((f) => {
+  if (typeof f === 'string') {
+    return {
+      title: f,
+      description: `${f} engineered for ${app.data.name}.`,
+      icon: 'document',
+      status: 'available',
+    };
+  }
+  return {
+    title: f.title,
+    description: f.description,
+    icon: f.icon || 'document',
+    status: f.status || 'available',
+  };
+});
+
+// Parse screenshots and fallbacks
+interface ScreenshotItem {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
+const screenshotsList: ScreenshotItem[] = (app.data.screenshots || []).map((s, idx) => {
+  if (typeof s === 'string') {
+    return {
+      src: s,
+      alt: `${app.data.name} interface screenshot ${idx + 1}`,
+      caption: `${app.data.name} screen view`,
+    };
+  }
+  return s;
+});
+
+const placeholderSets: Record<string, Array<{ title: string; note: string; footer: string; icon: string }>> = {
+  signmint: [
+    {
+      title: 'Document Viewer & Signature Canvas',
+      note: '[Screenshot Placeholder: Touch and pen input for signature placement]',
+      footer: 'Signature & Document Canvas',
+      icon: 'canvas',
+    },
+    {
+      title: 'Multi-Page Document Organizer',
+      note: '[Screenshot Placeholder: Multi-page document viewer and page layout]',
+      footer: 'Page Management View',
+      icon: 'organizer',
+    },
+    {
+      title: 'Signature Profiles',
+      note: '[Screenshot Placeholder: Stored signature and date presets]',
+      footer: 'Signature Profiles',
+      icon: 'profile',
+    },
+  ],
+  ehub: [
+    {
+      title: 'Distraction-Free Reading Canvas',
+      note: '[Screenshot Placeholder: EPUB reader view with typography adjustments]',
+      footer: 'EPUB Reader Canvas',
+      icon: 'canvas',
+    },
+    {
+      title: 'PDF Document Navigation',
+      note: '[Screenshot Placeholder: PDF document viewer and page navigation]',
+      footer: 'PDF Viewer',
+      icon: 'organizer',
+    },
+    {
+      title: 'Local Book Library',
+      note: '[Screenshot Placeholder: On-device library collection and shelf view]',
+      footer: 'Library Management',
+      icon: 'profile',
+    },
+  ],
+  pylab: [
+    {
+      title: 'Interactive Syntax Lessons',
+      note: '[Screenshot Placeholder: Structured Python lesson progression and syntax practice]',
+      footer: 'Lesson Canvas',
+      icon: 'canvas',
+    },
+    {
+      title: 'Guided Code Challenges',
+      note: '[Screenshot Placeholder: Hands-on code quizzes and exercises]',
+      footer: 'Challenge View',
+      icon: 'organizer',
+    },
+    {
+      title: 'Curriculum Progression',
+      note: '[Screenshot Placeholder: Module roadmap from beginner to intermediate concepts]',
+      footer: 'Curriculum Path',
+      icon: 'profile',
+    },
+  ],
+  'modelpath-ml': [
+    {
+      title: 'ModelPath ML Application Interface',
+      note: '[Screenshot Placeholder: Studio machine learning application view]',
+      footer: 'Application View',
+      icon: 'canvas',
+    },
+    {
+      title: 'Planned Workflow Interface',
+      note: '[Screenshot Placeholder: Exploratory machine learning workflow view]',
+      footer: 'Workflow Preview',
+      icon: 'organizer',
+    },
+    {
+      title: 'Studio Research Canvas',
+      note: '[Screenshot Placeholder: Internal ModelPath Studio experiment canvas]',
+      footer: 'Studio Project',
+      icon: 'profile',
+    },
+  ],
+};
+
+const defaultPlaceholders = [
   {
-    title: 'PDF Signature Placement',
-    desc: 'Intuitive touch and pen input designed for positioning digital signatures onto PDF pages.',
-    icon: 'pen',
+    title: `${app.data.name} Primary Interface`,
+    note: `[Screenshot Placeholder: ${app.data.name} main application screen]`,
+    footer: 'Application Interface',
+    icon: 'canvas',
   },
   {
-    title: 'Document Annotation Tools',
-    desc: 'Review and add clear visual annotations, text notes, and markups to documents.',
-    icon: 'document',
+    title: `${app.data.name} Workflow View`,
+    note: `[Screenshot Placeholder: ${app.data.name} workflow and tool view]`,
+    footer: 'Workflow View',
+    icon: 'organizer',
   },
   {
-    title: 'Privacy-Conscious Design',
-    desc: 'Engineered to respect document privacy by keeping standard signing workflows transparent and user-directed.',
-    icon: 'privacy',
-  },
-  {
-    title: 'Focused Document Workflow',
-    desc: 'A straightforward utility experience engineered for practical signing tasks without unnecessary interface clutter.',
-    icon: 'performance',
+    title: `${app.data.name} Settings & Overview`,
+    note: `[Screenshot Placeholder: ${app.data.name} settings and overview]`,
+    footer: 'Settings & Overview',
+    icon: 'profile',
   },
 ];
+
+const fallbackPlaceholders = placeholderSets[app.data.slug] || defaultPlaceholders;
+
+const hasStoreLinks = Boolean(app.data.playStoreUrl || app.data.appStoreUrl);
 ---
 
 <BaseLayout
@@ -129,25 +255,18 @@ const signMintFeatures = [
     <section id="features" class="section-wrap">
       <div class="section-header">
         <span class="section-label">Core Capabilities</span>
-        <h2 class="section-title">Planned Document Capabilities</h2>
+        <h2 class="section-title">Application Capabilities & Features</h2>
       </div>
 
       <div class="features-grid">
-        {isSignMint
-          ? signMintFeatures.map((feat) => (
-              <FeatureCard
-                title={feat.title}
-                description={feat.desc}
-                iconType={feat.icon}
-              />
-            ))
-          : app.data.features.map((feat, index) => (
-              <FeatureCard
-                title={feat}
-                description={`${feat} engineered specifically for intuitive workflows in ${app.data.name}.`}
-                iconType={index % 2 === 0 ? 'document' : 'performance'}
-              />
-            ))}
+        {featuresList.map((feat) => (
+          <FeatureCard
+            title={feat.title}
+            description={feat.description}
+            iconType={feat.icon}
+            status={feat.status}
+          />
+        ))}
       </div>
     </section>
 
@@ -162,33 +281,42 @@ const signMintFeatures = [
       </div>
     </section>
 
-    <!-- Screenshot Gallery (Clearly Labeled Placeholders) -->
+    <!-- Screenshot Gallery (Actual Images or Clearly Labeled Placeholders) -->
     <section id="screenshots" class="section-wrap">
       <div class="section-header">
         <span class="section-label">Visual Interface</span>
         <h2 class="section-title">Application Screenshots</h2>
       </div>
 
-      <div class="screenshots-grid">
-        <ScreenshotPlaceholderCard
-          title="Document Viewer & Signature Canvas"
-          placeholderNote="[Screenshot Placeholder: Pen input and signature placement]"
-          footerLabel="Signature & Document Canvas"
-          iconType="canvas"
-        />
-        <ScreenshotPlaceholderCard
-          title="Multi-Page Document Organizer"
-          placeholderNote="[Screenshot Placeholder: Multi-page document viewer and page layout]"
-          footerLabel="Page Management View"
-          iconType="organizer"
-        />
-        <ScreenshotPlaceholderCard
-          title="Signature Profile Presets"
-          placeholderNote="[Screenshot Placeholder: Stored signatures, date stamps, and initials]"
-          footerLabel="Signature Profiles"
-          iconType="profile"
-        />
-      </div>
+      {screenshotsList.length > 0 ? (
+        <div class="screenshots-grid">
+          {screenshotsList.map((shot) => (
+            <div class="screenshot-card">
+              <div class="screenshot-real-frame">
+                <img
+                  src={shot.src}
+                  alt={shot.alt}
+                  loading="lazy"
+                  decoding="async"
+                  class="screenshot-img"
+                />
+              </div>
+              {shot.caption && <div class="screenshot-card-footer">{shot.caption}</div>}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="screenshots-grid">
+          {fallbackPlaceholders.map((item) => (
+            <ScreenshotPlaceholderCard
+              title={item.title}
+              placeholderNote={item.note}
+              footerLabel={item.footer}
+              iconType={item.icon}
+            />
+          ))}
+        </div>
+      )}
     </section>
 
     <!-- Platform Availability & Pre-Release Download Area -->
@@ -197,21 +325,38 @@ const signMintFeatures = [
         <div class="download-text-side">
           <h3 class="download-info-title">Platform Availability & Download</h3>
           <p class="download-info-text">
-            {app.data.name} is currently in pre-release preparation. Official store links will be published here upon public release verification.
+            {hasStoreLinks
+              ? `${app.data.name} is available on verified application stores.`
+              : `${app.data.name} is currently in development or pre-release preparation. Official store links will be published here upon public release verification.`}
           </p>
         </div>
 
         <div class="download-cta-side">
-          <div class="btn-download-disabled" role="status" aria-label="Store link currently pending release">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-            <span>Store Link Pending</span>
-          </div>
+          {hasStoreLinks ? (
+            <div class="store-links-group">
+              {app.data.playStoreUrl && (
+                <a href={app.data.playStoreUrl} class="btn-store-active" target="_blank" rel="noopener noreferrer">
+                  Google Play Store
+                </a>
+              )}
+              {app.data.appStoreUrl && (
+                <a href={app.data.appStoreUrl} class="btn-store-active" target="_blank" rel="noopener noreferrer">
+                  Apple App Store
+                </a>
+              )}
+            </div>
+          ) : (
+            <div class="btn-download-disabled" role="status" aria-label="Store link currently pending release">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              <span>Store Link Pending</span>
+            </div>
+          )}
           <span class="download-status-note">
-            Target: {app.data.plannedPlatforms && app.data.plannedPlatforms.length > 0 ? app.data.plannedPlatforms.join(' & ') : 'To be confirmed'} &bull; Coming Soon
+            Target: {app.data.plannedPlatforms && app.data.plannedPlatforms.length > 0 ? app.data.plannedPlatforms.join(' & ') : 'To be confirmed'} &bull; {app.data.status}
           </span>
         </div>
       </div>
@@ -434,6 +579,45 @@ const signMintFeatures = [
     gap: 24px;
   }
 
+  .screenshot-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .screenshot-real-frame {
+    width: 100%;
+    min-height: 380px;
+    background: var(--bg-inset);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-inset-well);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .screenshot-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+  }
+
+  .screenshot-card-footer {
+    width: 100%;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-heading);
+    text-align: center;
+  }
+
   /* Pre-Release Download Well */
   .download-well {
     background: var(--bg-inset);
@@ -492,6 +676,25 @@ const signMintFeatures = [
   .btn-download-disabled svg {
     width: 18px;
     height: 18px;
+  }
+
+  .store-links-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn-store-active {
+    background: var(--accent-blue);
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-btn-primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
   }
 
   .download-status-note {

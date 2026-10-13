@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
-import AppGrid from '../../components/AppGrid.astro';
 import PrimaryButton from '../../components/PrimaryButton.astro';
 import { getCollection } from 'astro:content';
 
@@ -41,7 +40,7 @@ const principles = [
     title: 'Practical Engineering',
     summary: 'Favor maintainable, efficient solutions.',
     description:
-      'We prioritize lightweight architectures, robust static performance, and resilient codebases. We deliberately avoid technical bloat, heavy runtimes, and invasive background tracking.',
+      'We prioritize lightweight architectures, robust static performance, and resilient codebases. We focus on pragmatic engineering and disciplined software development.',
     icon: 'engineering',
   },
   {
@@ -81,10 +80,10 @@ const principles = [
         </div>
         <div class="story-body">
           <p>
-            ModelPath Studio was established as an independent product studio dedicated to deliberate craftsmanship in modern software. In an era where digital tools are frequently weighed down by intrusive telemetry, aggressive monetization, and bloated architectures, we take an alternative path.
+            ModelPath Studio was established as an independent product studio dedicated to deliberate craftsmanship in modern software. We build focused digital tools prioritizing clean aesthetics, responsive ergonomics, and dependable utility.
           </p>
           <p>
-            We build software from first principles: clean design, responsive ergonomics, and strict respect for user privacy. By focusing on utility and clarity, we create focused mobile and digital applications that empower people in their day-to-day work, reading, learning, and productivity workflows.
+            We build software from first principles: clean design, responsive ergonomics, and thoughtful consideration for user workflows. By focusing on utility and clarity, we create focused mobile and digital applications that empower people in their day-to-day work, reading, learning, and productivity workflows.
           </p>
           <p>
             As an independent studio, our roadmap is shaped purely by product quality and user benefit. We take pride in building software we genuinely rely on ourselves.
@@ -151,10 +150,86 @@ const principles = [
       <SectionHeading
         label="Studio Portfolio"
         title="Our Applications"
-        description="Explore the current generation of software designed and developed by ModelPath Studio."
+        description="A concise overview of active and planned software crafted by ModelPath Studio."
       />
 
-      <AppGrid apps={apps} />
+      <div class="portfolio-card">
+        <ul class="portfolio-list" role="list">
+          {apps.map((app) => (
+            <li class="portfolio-item">
+              <div class="portfolio-item-content">
+                <div class="portfolio-icon-well">
+                  {app.slug === 'signmint' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 20h9" />
+                      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                    </svg>
+                  )}
+                  {app.slug === 'ehub' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                  )}
+                  {app.slug === 'pylab' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="4 17 10 11 4 5" />
+                      <line x1="12" y1="19" x2="20" y2="19" />
+                    </svg>
+                  )}
+                  {app.slug === 'modelpath-ml' && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="3" />
+                      <circle cx="19" cy="6" r="2" />
+                      <circle cx="5" cy="6" r="2" />
+                      <circle cx="19" cy="18" r="2" />
+                      <circle cx="5" cy="18" r="2" />
+                      <line x1="7" y1="7" x2="10" y2="10" />
+                      <line x1="17" y1="7" x2="14" y2="10" />
+                      <line x1="7" y1="17" x2="10" y2="14" />
+                      <line x1="17" y1="17" x2="14" y2="14" />
+                    </svg>
+                  )}
+                  {!['signmint', 'ehub', 'pylab', 'modelpath-ml'].includes(app.slug) && (
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                      <line x1="8" y1="21" x2="16" y2="21" />
+                      <line x1="12" y1="17" x2="12" y2="21" />
+                    </svg>
+                  )}
+                </div>
+
+                <div class="portfolio-details">
+                  <div class="portfolio-meta">
+                    <span class="portfolio-category">{app.category}</span>
+                    <span class={`portfolio-status-chip ${app.status === 'unconfirmed' ? 'status-unconfirmed' : ''}`}>
+                      {app.status === 'unconfirmed' ? 'Unconfirmed' : 'In Development'}
+                    </span>
+                  </div>
+                  <h3 class="portfolio-name">
+                    <a href={`/apps/${app.slug}/`}>{app.name}</a>
+                  </h3>
+                  <p class="portfolio-desc">{app.description}</p>
+                </div>
+              </div>
+
+              <div class="portfolio-action">
+                <a href={`/apps/${app.slug}/`} class="portfolio-link-btn">
+                  <span>View Details</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <div class="portfolio-cta-row">
+          <PrimaryButton href="/apps/">
+            <span>Explore All Applications</span>
+            <span aria-hidden="true">&rarr;</span>
+          </PrimaryButton>
+        </div>
+      </div>
     </section>
 
     <!-- Contact CTA Section -->
@@ -356,6 +431,168 @@ const principles = [
     margin: 0;
   }
 
+  /* Studio Portfolio Summary */
+  .portfolio-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 36px 36px 32px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .portfolio-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .portfolio-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .portfolio-item:first-child {
+    padding-top: 0;
+  }
+
+  .portfolio-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .portfolio-item-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .portfolio-icon-well {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
+    box-shadow: var(--shadow-inset-box);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .portfolio-icon-well svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--accent-blue);
+  }
+
+  .portfolio-details {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .portfolio-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .portfolio-category {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-blue);
+  }
+
+  .portfolio-status-chip {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    background: rgba(14, 116, 144, 0.08);
+    color: #0e7490;
+    border: 1px solid rgba(14, 116, 144, 0.2);
+  }
+
+  .portfolio-status-chip.status-unconfirmed {
+    background: rgba(100, 116, 139, 0.1);
+    color: var(--text-muted);
+    border-color: rgba(100, 116, 139, 0.2);
+  }
+
+  .portfolio-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    letter-spacing: -0.015em;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .portfolio-name a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .portfolio-name a:hover {
+    color: var(--accent-blue);
+  }
+
+  .portfolio-desc {
+    font-size: 0.925rem;
+    color: var(--text-body);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .portfolio-action {
+    flex-shrink: 0;
+  }
+
+  .portfolio-link-btn {
+    background: var(--bg-raised);
+    color: var(--accent-blue);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-btn-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .portfolio-link-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(169, 180, 196, 0.32);
+  }
+
+  .portfolio-cta-row {
+    display: flex;
+    justify-content: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
   /* Contact CTA Well */
   .contact-cta-well {
     background: var(--bg-inset);
@@ -429,6 +666,33 @@ const principles = [
     .principle-card {
       padding: 22px 18px;
       border-radius: var(--radius-md);
+    }
+
+    .portfolio-card {
+      padding: 24px 20px 20px;
+      border-radius: var(--radius-md);
+    }
+
+    .portfolio-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 18px 0;
+    }
+
+    .portfolio-action {
+      width: 100%;
+    }
+
+    .portfolio-link-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .portfolio-cta-row :global(a),
+    .portfolio-cta-row :global(button) {
+      width: 100%;
+      justify-content: center;
     }
 
     .contact-cta-well {

@@ -1,8 +1,8 @@
 ---
 name: "SignMint"
 slug: "signmint"
-tagline: "PDF signing and document utilities"
-description: "Streamlined PDF signing, document annotation, and export utilities designed for speed and clarity."
+tagline: "PDF signing and document annotation"
+description: "Streamlined PDF signing, digital signature placement, and clean document annotation utilities designed for clarity and ease of use."
 category: "Productivity"
 availablePlatforms: []
 plannedPlatforms:
@@ -11,9 +11,22 @@ status: "coming-soon"
 icon: "/images/apps/signmint/icon.svg"
 screenshots: []
 features:
-  - "Quick PDF signature placement"
-  - "Local-first document processing"
-  - "Clean annotation tools"
+  - title: "PDF Signing"
+    description: "Create and position digital signatures directly onto PDF documents with intuitive touch and pen controls."
+    icon: "pen"
+    status: "available"
+  - title: "Signature Placement"
+    description: "Accurately position, resize, and manage signatures across document pages."
+    icon: "document"
+    status: "available"
+  - title: "Document Annotation"
+    description: "Review and mark up documents with straightforward visual annotations and text notes."
+    icon: "document"
+    status: "available"
+  - title: "Privacy-Conscious Utility"
+    description: "Designed to respect document privacy by keeping standard signing workflows transparent and user-directed."
+    icon: "privacy"
+    status: "available"
 playStoreUrl: null
 appStoreUrl: null
 privacyPolicyStatus: "pending-review"
@@ -27,4 +40,4 @@ version: "0.1.0-preview"
 order: 1
 ---
 
-SignMint provides document signing and utility workflows with a focus on ease-of-use and local document privacy.
+SignMint provides focused document signing and utility workflows with an emphasis on ease-of-use and respectful privacy.
