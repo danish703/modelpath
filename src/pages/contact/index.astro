@@ -1,27 +1,570 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { studioContactConfig } from '../../data/studioContact';
+import { getCollection } from 'astro:content';
+
+const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title="Contact" description="Get in touch with ModelPath studio for app inquiries, support, and feedback.">
-  <article>
-    <header style="margin-bottom: 2rem;">
-      <h1 style="font-size: 2.25rem; margin-bottom: 0.5rem;">Contact ModelPath</h1>
-      <p style="color: var(--color-text-secondary); font-size: 1.125rem;">
-        We welcome questions, suggestions, partnership discussions, and direct feedback about our software.
+<BaseLayout
+  title="Contact ModelPath Studio"
+  description="Get in touch with ModelPath Studio for general inquiries, technical support, partnerships, and user feedback."
+>
+  <div class="contact-container">
+    <!-- Header -->
+    <header class="contact-hero">
+      <div class="hero-badge">
+        <span class="badge-dot" aria-hidden="true"></span>
+        <span>{studioContactConfig.tagline}</span>
+      </div>
+      <h1 class="hero-title">Contact ModelPath Studio</h1>
+      <p class="hero-intro">
+        {studioContactConfig.intro}
       </p>
     </header>
 
-    <div style="padding: 2rem; background: var(--color-bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-raised-sm); max-width: 540px;">
-      <h2 style="font-size: 1.25rem; margin-bottom: 0.75rem;">Direct Studio Inquiries</h2>
-      <p style="color: var(--color-text-secondary); margin-bottom: 1.25rem;">
-        Email is our primary communication channel. Please direct inquiries to:
-      </p>
-      <p style="font-size: 1.25rem; margin-bottom: 1rem;">
-        <a href="mailto:hello@modelpath.app" style="font-weight: 600;">hello@modelpath.app</a>
-      </p>
-      <p style="font-size: 0.875rem; color: var(--color-text-muted);">
-        For technical assistance with an individual application, you may also email <a href="mailto:support@modelpath.app">support@modelpath.app</a>.
-      </p>
-    </div>
-  </article>
+    <!-- Direct Inquiry Channels -->
+    <section class="section-block" aria-labelledby="channels-heading">
+      <div class="section-header">
+        <span class="section-label">Communication Channels</span>
+        <h2 id="channels-heading" class="section-title">Direct Studio Inquiries</h2>
+      </div>
+
+      <div class="channels-grid">
+        {studioContactConfig.channels.map((channel) => (
+          <div class="channel-card">
+            <div class="channel-card-top">
+              <div class="channel-icon-well" aria-hidden="true">
+                {channel.purpose === 'General' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                  </svg>
+                )}
+                {channel.purpose === 'Support' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                  </svg>
+                )}
+                {channel.purpose === 'Privacy' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                )}
+              </div>
+              <span class="channel-tag">{channel.purpose}</span>
+            </div>
+
+            <h3 class="channel-name">{channel.label}</h3>
+            <p class="channel-desc">{channel.description}</p>
+
+            <div class="channel-action">
+              <a
+                href={`mailto:${channel.email}?subject=[${channel.purpose}] Inquiry for ModelPath Studio`}
+                class="channel-email-btn"
+                aria-label={`Send email to ${channel.email} for ${channel.label}`}
+              >
+                <span>{channel.email}</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- App Support Navigation Section -->
+    <section class="section-block" aria-labelledby="app-support-heading">
+      <div class="section-header">
+        <span class="section-label">Product Assistance</span>
+        <h2 id="app-support-heading" class="section-title">Application Support Hubs</h2>
+        <p class="section-subtext">
+          Looking for troubleshooting guidance, pre-release FAQs, or application-specific disclosures? Access dedicated support resources for each app:
+        </p>
+      </div>
+
+      <div class="app-support-grid">
+        {apps.map((app) => (
+          <div class="app-support-card">
+            <div class="app-support-card-content">
+              <div class="app-icon-well" aria-hidden="true">
+                {app.data.slug === 'signmint' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                  </svg>
+                )}
+                {app.data.slug === 'ehub' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                  </svg>
+                )}
+                {app.data.slug === 'pylab' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="4 17 10 11 4 5" />
+                    <line x1="12" y1="19" x2="20" y2="19" />
+                  </svg>
+                )}
+                {app.data.slug === 'modelpath-ml' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3" />
+                    <circle cx="19" cy="6" r="2" />
+                    <circle cx="5" cy="6" r="2" />
+                    <circle cx="19" cy="18" r="2" />
+                    <circle cx="5" cy="18" r="2" />
+                  </svg>
+                )}
+              </div>
+              <div class="app-support-info">
+                <span class="app-support-category">{app.data.category}</span>
+                <h3 class="app-support-title">{app.data.name}</h3>
+                <p class="app-support-desc">{app.data.tagline}</p>
+              </div>
+            </div>
+
+            <div class="app-support-actions">
+              <a href={`/apps/${app.data.slug}/support/`} class="btn-app-support">
+                <span>View Support &amp; FAQ</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+              <a href={`/apps/${app.data.slug}/privacy/`} class="link-app-privacy">
+                <span>Privacy Notice</span>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Operational Note Well -->
+    <aside class="operational-notice-well" aria-label="Studio Operations Notice">
+      <div class="notice-icon-well" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="16" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg>
+      </div>
+      <div class="notice-content">
+        <strong class="notice-title">Studio Operational Notice</strong>
+        <p class="notice-text">
+          {studioContactConfig.responseTimeNote}
+        </p>
+        <p class="notice-text note-secondary">
+          {studioContactConfig.postalAddressNote}
+        </p>
+      </div>
+    </aside>
+  </div>
 </BaseLayout>
+
+<style>
+  .contact-container {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  /* Hero */
+  .contact-hero {
+    margin-bottom: 56px;
+    max-width: 820px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: var(--bg-surface);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-inset-box);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    flex-shrink: 0;
+  }
+
+  .hero-title {
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--text-heading);
+    margin: 0 0 16px 0;
+  }
+
+  .hero-intro {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--text-body);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Section Blocks */
+  .section-block {
+    margin-bottom: 64px;
+    width: 100%;
+  }
+
+  .section-header {
+    margin-bottom: 28px;
+  }
+
+  .section-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-blue);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 800;
+    color: var(--text-heading);
+    letter-spacing: -0.02em;
+    margin: 0 0 8px 0;
+  }
+
+  .section-subtext {
+    font-size: 1rem;
+    color: var(--text-body);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 720px;
+  }
+
+  /* Channels Grid */
+  .channels-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .channel-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 32px 28px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .channel-card:hover {
+    transform: translateY(-2px);
+    box-shadow: -8px -8px 20px #FFFFFF, 8px 8px 20px rgba(169, 180, 196, 0.32);
+  }
+
+  .channel-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .channel-icon-well {
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
+    box-shadow: var(--shadow-inset-box);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .channel-icon-well svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--accent-blue);
+  }
+
+  .channel-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-blue);
+    background: rgba(14, 116, 144, 0.08);
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(14, 116, 144, 0.2);
+  }
+
+  .channel-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    letter-spacing: -0.015em;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .channel-desc {
+    font-size: 0.925rem;
+    color: var(--text-body);
+    line-height: 1.55;
+    margin: 0;
+    flex: 1;
+  }
+
+  .channel-action {
+    margin-top: 8px;
+  }
+
+  .channel-email-btn {
+    background: var(--bg-raised);
+    color: var(--accent-blue);
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-btn-secondary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .channel-email-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(169, 180, 196, 0.32);
+  }
+
+  /* App Support Grid */
+  .app-support-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .app-support-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .app-support-card:hover {
+    transform: translateY(-2px);
+    box-shadow: -8px -8px 20px #FFFFFF, 8px 8px 20px rgba(169, 180, 196, 0.32);
+  }
+
+  .app-support-card-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .app-icon-well {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
+    box-shadow: var(--shadow-inset-box);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .app-icon-well svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--accent-blue);
+  }
+
+  .app-support-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .app-support-category {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-blue);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .app-support-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin: 0 0 4px 0;
+    line-height: 1.25;
+  }
+
+  .app-support-desc {
+    font-size: 0.9rem;
+    color: var(--text-body);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .app-support-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-subtle);
+    flex-wrap: wrap;
+  }
+
+  .btn-app-support {
+    background: var(--bg-raised);
+    color: var(--accent-blue);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-btn-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .btn-app-support:hover {
+    transform: translateY(-1px);
+    box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(169, 180, 196, 0.32);
+  }
+
+  .link-app-privacy {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .link-app-privacy:hover {
+    color: var(--accent-blue);
+    text-decoration: underline;
+  }
+
+  /* Operational Notice Well */
+  .operational-notice-well {
+    background: var(--bg-inset);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-inset-well);
+    padding: 24px 28px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .notice-icon-well {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-surface);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .notice-icon-well svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text-muted);
+  }
+
+  .notice-content {
+    flex: 1;
+  }
+
+  .notice-title {
+    font-size: 0.975rem;
+    color: var(--text-heading);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .notice-text {
+    font-size: 0.925rem;
+    color: var(--text-body);
+    line-height: 1.6;
+    margin: 0 0 6px 0;
+  }
+
+  .notice-text.note-secondary {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 960px) {
+    .channels-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .app-support-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .contact-hero {
+      margin-bottom: 36px;
+    }
+
+    .section-block {
+      margin-bottom: 44px;
+    }
+
+    .channel-card {
+      padding: 22px 18px;
+      border-radius: var(--radius-md);
+    }
+
+    .app-support-card {
+      padding: 20px 18px;
+      border-radius: var(--radius-md);
+    }
+
+    .operational-notice-well {
+      padding: 18px 16px;
+      gap: 14px;
+    }
+  }
+</style>

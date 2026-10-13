@@ -1,49 +1,335 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { websitePrivacyData } from '../../data/websitePrivacy';
 ---
 
-<BaseLayout title="Website Privacy Policy" description="Privacy policy and data governance practices for the ModelPath studio website.">
-  <article>
-    <header style="margin-bottom: 2rem;">
-      <h1 style="font-size: 2.25rem; margin-bottom: 0.5rem;">Website Privacy Policy</h1>
-      <p style="font-size: 0.875rem; color: var(--color-text-muted);">
-        Effective Date: October 13, 2026 | Last Updated: October 13, 2026
-      </p>
+<BaseLayout
+  title={websitePrivacyData.title}
+  description="Privacy policy and data governance practices for the ModelPath Studio website."
+>
+  <div class="policy-container">
+    <!-- Header -->
+    <header class="policy-header">
+      <div class="header-badge">
+        <span class="badge-dot" aria-hidden="true"></span>
+        <span>Studio Data Governance</span>
+      </div>
+      <h1 class="policy-title">{websitePrivacyData.title}</h1>
+      <div class="policy-dates-pill">
+        <span>Effective: {websitePrivacyData.effectiveDate}</span>
+        <span class="divider" aria-hidden="true">&bull;</span>
+        <span>Last Updated: {websitePrivacyData.lastUpdated}</span>
+      </div>
     </header>
 
-    <section style="margin-bottom: 1.5rem; color: var(--color-text-secondary); line-height: 1.7;">
-      <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--color-text-primary);">1. Overview</h2>
-      <p>
-        This Privacy Policy applies solely to the website at <strong>https://modelpath.app</strong> operated by ModelPath. For our individual mobile applications, please refer to their respective application-specific privacy policies linked on each application page.
-      </p>
-    </section>
+    <!-- Scope Clarification Notice Well -->
+    <aside class="scope-notice-well" aria-label="Policy Scope Notice">
+      <div class="scope-icon-well" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="16" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg>
+      </div>
+      <div class="scope-text">
+        <strong class="scope-title">Website Policy Scope Notice</strong>
+        <p>
+          This policy applies strictly to the studio website at <strong>{websitePrivacyData.websiteUrl}</strong>.
+          Our mobile applications operate under individual application privacy policies.
+          To view disclosures for an individual app, explore our <a href="/apps/">Applications Directory</a>.
+        </p>
+      </div>
+    </aside>
 
-    <section style="margin-bottom: 1.5rem; color: var(--color-text-secondary); line-height: 1.7;">
-      <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--color-text-primary);">2. Information We Do Not Collect</h2>
-      <p>
-        The ModelPath website is a static showcase. We do not require user accounts, logins, cookies, or profile creation. We do not run invasive tracking pixels or behavioral cross-site trackers on this website.
-      </p>
-    </section>
+    <!-- Document Card -->
+    <article class="policy-document-card">
+      {websitePrivacyData.sections.map((section) => (
+        <section id={section.id} class="policy-section">
+          <h2 class="section-title">{section.title}</h2>
+          <div class="section-content">
+            {section.content.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+        </section>
+      ))}
 
-    <section style="margin-bottom: 1.5rem; color: var(--color-text-secondary); line-height: 1.7;">
-      <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--color-text-primary);">3. Infrastructure &amp; Technical Logs</h2>
-      <p>
-        Our static website is hosted using Cloudflare infrastructure. Standard, ephemeral server logs (such as IP addresses and user-agent strings) may be processed by Cloudflare at the network edge solely for security, DDoS mitigation, and operational telemetry.
-      </p>
-    </section>
-
-    <section style="margin-bottom: 1.5rem; color: var(--color-text-secondary); line-height: 1.7;">
-      <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--color-text-primary);">4. Direct Communications</h2>
-      <p>
-        If you contact us via email, your email address and message contents are used strictly to answer your question and provide support. We do not sell or lease communication records to third parties.
-      </p>
-    </section>
-
-    <section style="margin-bottom: 2rem; color: var(--color-text-secondary); line-height: 1.7;">
-      <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--color-text-primary);">5. Contact</h2>
-      <p>
-        For privacy questions regarding the studio website, email: <a href="mailto:privacy@modelpath.app">privacy@modelpath.app</a>.
-      </p>
-    </section>
-  </article>
+      <!-- Dedicated Privacy Contact Card -->
+      <section class="privacy-contact-box" aria-labelledby="contact-heading">
+        <h3 id="contact-heading" class="contact-box-title">Have Privacy Inquiries?</h3>
+        <p class="contact-box-text">
+          Direct questions, deletion requests, or data governance inquiries concerning this website to our designated studio privacy contact:
+        </p>
+        <div class="contact-action-row">
+          <a href={`mailto:${websitePrivacyData.privacyEmail}`} class="contact-email-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            <span>{websitePrivacyData.privacyEmail}</span>
+          </a>
+          <a href="/contact/" class="general-contact-link">
+            <span>General Studio Contact &rarr;</span>
+          </a>
+        </div>
+      </section>
+    </article>
+  </div>
 </BaseLayout>
+
+<style>
+  .policy-container {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .policy-header {
+    margin-bottom: 32px;
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: var(--bg-surface);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-inset-box);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  .badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    flex-shrink: 0;
+  }
+
+  .policy-title {
+    font-size: clamp(2.2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--text-heading);
+    margin: 0 0 12px 0;
+    line-height: 1.15;
+  }
+
+  .policy-dates-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .divider {
+    color: var(--border-subtle);
+  }
+
+  /* Scope Notice Well */
+  .scope-notice-well {
+    background: var(--bg-inset);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-inset-well);
+    padding: 20px 24px;
+    border: 1px solid rgba(14, 116, 144, 0.25);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+
+  .scope-icon-well {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
+    box-shadow: var(--shadow-inset-box);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .scope-icon-well svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--accent-blue);
+  }
+
+  .scope-text {
+    font-size: 0.925rem;
+    color: var(--text-body);
+    line-height: 1.55;
+  }
+
+  .scope-title {
+    display: block;
+    color: var(--text-heading);
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+  }
+
+  .scope-text p {
+    margin: 0;
+  }
+
+  .scope-text a {
+    color: var(--accent-blue);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  /* Document Card */
+  .policy-document-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 44px 44px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .policy-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .policy-section:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+
+  .section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 1rem;
+    color: var(--text-body);
+    line-height: 1.65;
+  }
+
+  .section-content p {
+    margin: 0;
+  }
+
+  /* Privacy Contact Box */
+  .privacy-contact-box {
+    background: var(--bg-inset);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-inset-box);
+    padding: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .contact-box-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin: 0 0 8px 0;
+  }
+
+  .contact-box-text {
+    font-size: 0.95rem;
+    color: var(--text-body);
+    line-height: 1.55;
+    margin: 0 0 18px 0;
+  }
+
+  .contact-action-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .contact-email-btn {
+    background: var(--bg-raised);
+    color: var(--accent-blue);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-btn-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .contact-email-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(169, 180, 196, 0.32);
+  }
+
+  .contact-email-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--accent-blue);
+  }
+
+  .general-contact-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .general-contact-link:hover {
+    color: var(--accent-blue);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .policy-document-card {
+      padding: 24px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card-mobile);
+      gap: 24px;
+    }
+
+    .scope-notice-well {
+      padding: 16px 14px;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .privacy-contact-box {
+      padding: 20px 16px;
+    }
+
+    .contact-action-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .contact-email-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
