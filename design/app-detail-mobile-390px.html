@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ModelPath Studio — SignMint Product Details (Mobile 390px Reference)</title>
+  <style>
+    /* --------------------------------------------------------------------------
+       CSS Reset & Sizing Discipline
+       -------------------------------------------------------------------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      min-width: 0;
+    }
+
+    :root {
+      --bg-canvas: #F4F6F8;
+      --bg-surface: #F7F9FB;
+      --bg-raised: #F4F6F8;
+      --bg-inset: #EBEEF2;
+
+      --text-heading: #172233;
+      --text-body: #475569;
+      --text-muted: #64748B;
+      --border-subtle: rgba(169, 180, 196, 0.32);
+
+      --accent-blue: #4567E8;
+      --accent-blue-hover: #3354D4;
+
+      --shadow-nav: -4px -4px 10px #FFFFFF, 4px 4px 12px rgba(169, 180, 196, 0.22);
+      --shadow-card: -6px -6px 16px #FFFFFF, 6px 6px 16px rgba(169, 180, 196, 0.24);
+      --shadow-btn-primary: -3px -3px 8px #FFFFFF, 3px 3px 10px rgba(69, 103, 232, 0.30);
+      --shadow-btn-secondary: -3px -3px 8px #FFFFFF, 3px 3px 10px rgba(169, 180, 196, 0.22);
+      --shadow-inset-box: inset 3px 3px 6px rgba(169, 180, 196, 0.22), inset -3px -3px 6px #FFFFFF;
+      --shadow-inset-well: inset 4px 4px 10px rgba(169, 180, 196, 0.20), inset -4px -4px 10px #FFFFFF;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-pill: 9999px;
+
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+    }
+
+    html {
+      width: 100%;
+      background-color: var(--bg-canvas);
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: 16px 16px 48px;
+      background-color: var(--bg-canvas);
+      color: var(--text-heading);
+      font-family: var(--font-stack);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* --------------------------------------------------------------------------
+       Mobile Header
+       -------------------------------------------------------------------------- */
+    .mobile-header {
+      width: 100%;
+      height: 56px;
+      background: var(--bg-raised);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-nav);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .brand-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--accent-blue);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(69, 103, 232, 0.35);
+      flex-shrink: 0;
+    }
+
+    .brand-mark svg {
+      width: 18px;
+      height: 18px;
+      stroke: #FFFFFF;
+    }
+
+    .brand-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .hamburger-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-raised);
+      border: none;
+      box-shadow: var(--shadow-btn-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .hamburger-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-heading);
+    }
+
+    /* --------------------------------------------------------------------------
+       Product Hero
+       -------------------------------------------------------------------------- */
+    .product-hero {
+      width: 100%;
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      padding: 24px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+
+    .hero-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .product-icon-frame {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: var(--bg-raised);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      flex-shrink: 0;
+    }
+
+    .product-icon-frame svg {
+      width: 32px;
+      height: 32px;
+      stroke: var(--accent-blue);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .status-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--bg-inset);
+      color: var(--accent-blue);
+      box-shadow: var(--shadow-inset-box);
+      white-space: nowrap;
+    }
+
+    .breadcrumb-nav {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .breadcrumb-nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .product-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-heading);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .product-headline {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+      margin-bottom: 2px;
+    }
+
+    .product-summary {
+      font-size: 0.875rem;
+      color: var(--text-body);
+      line-height: 1.55;
+    }
+
+    .platform-pill {
+      font-size: 0.775rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: var(--bg-inset);
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-inset-box);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+    }
+
+    .hero-actions-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn-pill {
+      background: var(--bg-raised);
+      color: var(--text-heading);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-btn-secondary);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      white-space: nowrap;
+    }
+
+    /* --------------------------------------------------------------------------
+       Sections Common
+       -------------------------------------------------------------------------- */
+    .section-wrap {
+      width: 100%;
+      margin-bottom: 36px;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-blue);
+      margin-bottom: 4px;
+    }
+
+    .section-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--text-heading);
+      letter-spacing: -0.015em;
+      margin-bottom: 18px;
+    }
+
+    /* --------------------------------------------------------------------------
+       Main Features (Stacked)
+       -------------------------------------------------------------------------- */
+    .features-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .feature-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      padding: 18px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .feature-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .feature-icon-well {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--bg-raised);
+      box-shadow: var(--shadow-inset-box);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-icon-well svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--accent-blue);
+    }
+
+    .feature-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-heading);
+    }
+
+    .feature-desc {
+      font-size: 0.85rem;
+      color: var(--text-body);
+      line-height: 1.5;
+    }
+
+    /* --------------------------------------------------------------------------
+       Screenshot Gallery (Stacked Mobile Placeholders)
+       -------------------------------------------------------------------------- */
+    .screenshots-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .screenshot-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .screenshot-frame {
+      width: 100%;
+      height: 280px;
+      background: var(--bg-inset);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-inset-well);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      text-align: center;
+      border: 1px dashed rgba(169, 180, 196, 0.6);
+      margin-bottom: 12px;
+    }
+
+    .screenshot-frame-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--bg-surface);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .screenshot-frame-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--text-muted);
+    }
+
+    .screenshot-placeholder-tag {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .screenshot-caption-title {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 4px;
+    }
+
+    .screenshot-caption-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      max-width: 240px;
+      line-height: 1.4;
+    }
+
+    .screenshot-card-footer {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-heading);
+      text-align: center;
+    }
+
+    /* --------------------------------------------------------------------------
+       Pre-Release Download Area
+       -------------------------------------------------------------------------- */
+    .download-well {
+      width: 100%;
+      background: var(--bg-inset);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-inset-well);
+      padding: 24px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .download-info-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-heading);
+      margin-bottom: 6px;
+    }
+
+    .download-info-text {
+      font-size: 0.85rem;
+      color: var(--text-body);
+      line-height: 1.55;
+    }
+
+    .btn-download-disabled {
+      width: 100%;
+      background: var(--bg-raised);
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 12px 18px;
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-btn-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: default;
+    }
+
+    .download-status-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* --------------------------------------------------------------------------
+       Privacy & Support Capsules (Stacked)
+       -------------------------------------------------------------------------- */
+    .resources-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .resource-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      padding: 20px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .resource-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 4px;
+    }
+
+    .resource-desc {
+      font-size: 0.85rem;
+      color: var(--text-body);
+      line-height: 1.5;
+    }
+
+    .action-link-btn {
+      align-self: flex-start;
+      background: var(--bg-raised);
+      color: var(--accent-blue);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-btn-secondary);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    /* --------------------------------------------------------------------------
+       Related Applications (Stacked)
+       -------------------------------------------------------------------------- */
+    .related-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .related-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      padding: 18px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .related-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .related-icon-capsule {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      box-shadow: var(--shadow-inset-box);
+      background: var(--bg-raised);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .related-icon-capsule svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--accent-blue);
+    }
+
+    .related-chip {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: var(--bg-inset);
+      color: var(--text-muted);
+      box-shadow: var(--shadow-inset-box);
+    }
+
+    .related-category {
+      font-size: 0.725rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .related-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-heading);
+    }
+
+    .related-desc {
+      font-size: 0.8125rem;
+      color: var(--text-body);
+      line-height: 1.5;
+    }
+
+    .related-footer {
+      padding-top: 10px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    /* --------------------------------------------------------------------------
+       Mobile Footer
+       -------------------------------------------------------------------------- */
+    .mobile-footer {
+      width: 100%;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+    }
+
+    .footer-links-wrap {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px 18px;
+      list-style: none;
+    }
+
+    .footer-links-wrap a {
+      color: var(--text-body);
+      font-size: 0.8125rem;
+      text-decoration: none;
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile Header -->
+  <header class="mobile-header">
+    <a href="/" class="brand-container">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 18V6l8 8 8-8v12"/>
+        </svg>
+      </div>
+      <span class="brand-name">ModelPath Studio</span>
+    </a>
+
+    <button class="hamburger-btn" aria-label="Open Navigation Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Product Hero -->
+  <section class="product-hero">
+    <div class="hero-top-row">
+      <div class="product-icon-frame">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+      </div>
+      <div class="hero-meta">
+        <span class="status-badge">Coming Soon</span>
+        <div class="breadcrumb-nav"><a href="/apps/">Apps</a> / Productivity</div>
+      </div>
+    </div>
+
+    <div>
+      <h1 class="product-title">SignMint</h1>
+      <div class="product-headline">PDF signing and document utilities</div>
+    </div>
+
+    <p class="product-summary">
+      SignMint offers clean, fluid document workflows with reliable digital signature creation, on-device page organization, and zero unnecessary cloud dependencies. Designed for privacy-first productivity.
+    </p>
+
+    <div class="platform-pill">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+        <line x1="12" y1="18" x2="12.01" y2="18"/>
+      </svg>
+      Target: Android initially
+    </div>
+
+    <div class="hero-actions-scroll">
+      <a href="#features" class="action-btn-pill">Features</a>
+      <a href="#screenshots" class="action-btn-pill">Screenshots</a>
+      <a href="/apps/signmint/privacy/" class="action-btn-pill">Privacy</a>
+      <a href="/apps/signmint/support/" class="action-btn-pill">Support</a>
+    </div>
+  </section>
+
+  <!-- Core Features -->
+  <section id="features" class="section-wrap">
+    <div class="section-label">Core Capabilities</div>
+    <h2 class="section-title">Engineered for Document Efficiency</h2>
+
+    <div class="features-stack">
+      <!-- Feature 1 -->
+      <div class="feature-card">
+        <div class="feature-card-header">
+          <div class="feature-icon-well">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Intuitive PDF Signing</h3>
+        </div>
+        <p class="feature-desc">
+          Capture smooth pen strokes, save encrypted signature presets, and insert precise signatures onto multiple PDF pages with drag-and-drop precision.
+        </p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-card">
+        <div class="feature-card-header">
+          <div class="feature-icon-well">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Document Management & Utilities</h3>
+        </div>
+        <p class="feature-desc">
+          Reorder pages, merge multiple PDF files, rotate scans, and compress files into clean digital documents ready for sharing and archiving.
+        </p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-card">
+        <div class="feature-card-header">
+          <div class="feature-icon-well">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">On-Device Privacy Architecture</h3>
+        </div>
+        <p class="feature-desc">
+          All document manipulation and signature processing runs locally on your device. Your sensitive files and personal documents are never transmitted to unauthorized external servers.
+        </p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="feature-card">
+        <div class="feature-card-header">
+          <div class="feature-icon-well">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Lightweight & Fast Performance</h3>
+        </div>
+        <p class="feature-desc">
+          Engineered for swift startup and responsive gesture interactions without unnecessary background telemetry or resource bloat.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshot Gallery -->
+  <section id="screenshots" class="section-wrap">
+    <div class="section-label">Visual Interface</div>
+    <h2 class="section-title">Application Screenshots</h2>
+
+    <div class="screenshots-stack">
+      <!-- Screenshot 1 -->
+      <div class="screenshot-card">
+        <div class="screenshot-frame">
+          <div class="screenshot-frame-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
+          <div class="screenshot-placeholder-tag">Pre-Release Mockup</div>
+          <div class="screenshot-caption-title">PDF Annotation & Signing Canvas</div>
+          <p class="screenshot-caption-sub">[Screenshot Placeholder: Pen input and signature placement]</p>
+        </div>
+        <div class="screenshot-card-footer">Signature & Document Canvas</div>
+      </div>
+
+      <!-- Screenshot 2 -->
+      <div class="screenshot-card">
+        <div class="screenshot-frame">
+          <div class="screenshot-frame-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </div>
+          <div class="screenshot-placeholder-tag">Pre-Release Mockup</div>
+          <div class="screenshot-caption-title">Multi-Page Organizer</div>
+          <p class="screenshot-caption-sub">[Screenshot Placeholder: Page reordering, rotation, and merge view]</p>
+        </div>
+        <div class="screenshot-card-footer">Page Management View</div>
+      </div>
+
+      <!-- Screenshot 3 -->
+      <div class="screenshot-card">
+        <div class="screenshot-frame">
+          <div class="screenshot-frame-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div class="screenshot-placeholder-tag">Pre-Release Mockup</div>
+          <div class="screenshot-caption-title">Signature Profile Presets</div>
+          <p class="screenshot-caption-sub">[Screenshot Placeholder: Stored signatures, date stamps, and initials]</p>
+        </div>
+        <div class="screenshot-card-footer">Signature Profiles</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pre-Release Download Area -->
+  <section class="section-wrap">
+    <div class="download-well">
+      <div>
+        <h3 class="download-info-title">Platform Availability & Download</h3>
+        <p class="download-info-text">
+          SignMint is currently in pre-release preparation targeting Android devices. Official Google Play Store links will be published here upon release verification.
+        </p>
+      </div>
+
+      <div class="btn-download-disabled">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Store Link Pending
+      </div>
+      <div class="download-status-note">Target: Android initially &bull; Coming Soon</div>
+    </div>
+  </section>
+
+  <!-- Privacy & Support Capsules -->
+  <section class="section-wrap">
+    <div class="resources-stack">
+      <div class="resource-card">
+        <div>
+          <h3 class="resource-title">Privacy Policy</h3>
+          <p class="resource-desc">
+            Review how SignMint handles document security, storage, and telemetry. (Draft for upcoming release).
+          </p>
+        </div>
+        <a href="/apps/signmint/privacy/" class="action-link-btn">
+          View Policy &rarr;
+        </a>
+      </div>
+
+      <div class="resource-card">
+        <div>
+          <h3 class="resource-title">Product Support</h3>
+          <p class="resource-desc">
+            Encountering questions or early feedback? Reach our engineering team directly via email.
+          </p>
+        </div>
+        <a href="/apps/signmint/support/" class="action-link-btn">
+          Get Support &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Applications -->
+  <section class="section-wrap">
+    <div class="section-label">More From ModelPath</div>
+    <h2 class="section-title">Related Applications</h2>
+
+    <div class="related-stack">
+      <!-- Ehub -->
+      <a href="/apps/ehub/" class="related-card">
+        <div class="related-card-top">
+          <div class="related-icon-capsule">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+          </div>
+          <span class="related-chip">In Development</span>
+        </div>
+        <div class="related-category">Reading</div>
+        <h3 class="related-title">Ehub</h3>
+        <p class="related-desc">EPUB and PDF reader with distraction-free layout.</p>
+        <div class="related-footer">
+          <span>Target: Android &amp; iOS</span>
+          <span>Explore &rarr;</span>
+        </div>
+      </a>
+
+      <!-- PyLab -->
+      <a href="/apps/pylab/" class="related-card">
+        <div class="related-card-top">
+          <div class="related-icon-capsule">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 17 10 11 4 5"/>
+              <line x1="12" y1="19" x2="20" y2="19"/>
+            </svg>
+          </div>
+          <span class="related-chip">In Development</span>
+        </div>
+        <div class="related-category">Education</div>
+        <h3 class="related-title">PyLab</h3>
+        <p class="related-desc">Learn Python through interactive lessons and code puzzles.</p>
+        <div class="related-footer">
+          <span>Target: Android</span>
+          <span>Explore &rarr;</span>
+        </div>
+      </a>
+
+      <!-- ModelPath ML -->
+      <a href="/apps/modelpath-ml/" class="related-card">
+        <div class="related-card-top">
+          <div class="related-icon-capsule">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <circle cx="19" cy="6" r="2"/>
+              <circle cx="5" cy="6" r="2"/>
+              <circle cx="19" cy="18" r="2"/>
+              <circle cx="5" cy="18" r="2"/>
+            </svg>
+          </div>
+          <span class="related-chip">Unconfirmed</span>
+        </div>
+        <div class="related-category">Machine Learning</div>
+        <h3 class="related-title">ModelPath ML</h3>
+        <p class="related-desc">Machine learning application by ModelPath Studio.</p>
+        <div class="related-footer">
+          <span>Platforms: TBD</span>
+          <span>Explore &rarr;</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Mobile Footer -->
+  <footer class="mobile-footer">
+    <ul class="footer-links-wrap">
+      <li><a href="/">Home</a></li>
+      <li><a href="/apps/">Apps</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/contact/">Contact</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+      <li><a href="/app-ads.txt">app-ads.txt</a></li>
+    </ul>
+    <p class="footer-copy">&copy; 2026 ModelPath Studio. Independent Software Studio.</p>
+  </footer>
+
+</body>
+</html>
