@@ -11,75 +11,73 @@ export async function getStaticPaths() {
 }
 
 const { app } = Astro.props;
-const isPending = app.data.privacyPolicyStatus !== 'verified';
+const isVerified = app.data.privacyPolicyStatus === 'verified';
 ---
 
 <BaseLayout 
   title={`${app.data.name} Privacy Policy`} 
-  description={`Privacy Policy and data governance disclosures for ${app.data.name}.`}
+  description={`Privacy Policy information for ${app.data.name}.`}
 >
   <article>
     <header style="margin-bottom: 2rem;">
       <p style="font-size: 0.875rem; color: var(--color-text-muted);"><a href={`/apps/${app.data.slug}/`}>&larr; {app.data.name}</a></p>
       <h1 style="font-size: 2.25rem; margin: 0.5rem 0;">Privacy Policy — {app.data.name}</h1>
       <p style="font-size: 0.875rem; color: var(--color-text-muted);">
-        Status: <strong style="text-transform: uppercase;">{app.data.privacyPolicyStatus}</strong> | 
-        Effective: {app.data.privacyPolicyEffectiveDate || 'Pending verification'} | 
-        Last Updated: {app.data.privacyPolicyLastUpdated || 'Pending verification'}
+        Policy Status: <strong style="text-transform: uppercase; color: var(--color-text-primary);">{app.data.privacyPolicyStatus}</strong>
+        {isVerified ? (
+          <span> | Effective: {app.data.privacyPolicyEffectiveDate} | Last Updated: {app.data.privacyPolicyLastUpdated}</span>
+        ) : (
+          <span> | (Not Finalized — Pre-Release)</span>
+        )}
       </p>
     </header>
 
-    {isPending ? (
+    {!isVerified ? (
       <div style="padding: 1.5rem; background: var(--color-bg-inset); border-left: 4px solid var(--color-status-dev); margin-bottom: 2rem; border-radius: var(--radius-sm);">
-        <h2 style="font-size: 1.125rem; margin-bottom: 0.5rem;">Draft / Verification in Progress</h2>
-        <p style="color: var(--color-text-secondary); font-size: 0.9375rem;">
-          The formal privacy disclosures for {app.data.name} are currently undergoing technical audit prior to public release. The disclosures below represent pre-release draft documentation.
+        <h2 style="font-size: 1.125rem; margin-bottom: 0.5rem; color: var(--color-text-primary);">
+          [UNPUBLISHED DRAFT] — Legal Verification In Progress
+        </h2>
+        <p style="color: var(--color-text-secondary); font-size: 0.9375rem; line-height: 1.6; margin-bottom: 0.75rem;">
+          This application is currently in development or pre-release preparation. A finalized, legally binding privacy policy has not yet been audited or published for <strong>{app.data.name}</strong>.
+        </p>
+        <p style="color: var(--color-text-secondary); font-size: 0.9375rem; line-height: 1.6;">
+          Complete and verified privacy disclosures regarding data retention, advertising SDKs, third-party libraries, and user permissions will be formally audited and published prior to any public store distribution.
         </p>
       </div>
-    ) : null}
+    ) : (
+      <div>
+        <section style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Data Collection &amp; Usage</h2>
+          <ul style="margin-left: 1.5rem; color: var(--color-text-secondary); line-height: 1.7;">
+            {app.data.privacyDisclosures?.dataCollected.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </section>
 
-    <section style="margin-bottom: 1.5rem;">
-      <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Data Collection &amp; Usage</h2>
-      {app.data.privacyDisclosures.dataCollected.length > 0 ? (
-        <ul style="margin-left: 1.5rem; color: var(--color-text-secondary); line-height: 1.7;">
-          {app.data.privacyDisclosures.dataCollected.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      ) : (
-        <p style="color: var(--color-text-secondary);">
-          Pending technical verification before store release. No unauthorized telemetry or tracking is enabled by default.
-        </p>
-      )}
-    </section>
+        <section style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Third-Party Services &amp; Disclosures</h2>
+          <ul style="margin-left: 1.5rem; color: var(--color-text-secondary); line-height: 1.7;">
+            {app.data.privacyDisclosures?.thirdPartyServices.map((service) => (
+              <li>{service}</li>
+            ))}
+          </ul>
+        </section>
 
-    <section style="margin-bottom: 1.5rem;">
-      <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Third-Party Services &amp; SDKs</h2>
-      {app.data.privacyDisclosures.thirdPartyServices.length > 0 ? (
-        <ul style="margin-left: 1.5rem; color: var(--color-text-secondary); line-height: 1.7;">
-          {app.data.privacyDisclosures.thirdPartyServices.map((service) => (
-            <li>{service}</li>
-          ))}
-        </ul>
-      ) : (
-        <p style="color: var(--color-text-secondary);">
-          {app.data.privacyDisclosures.advertisingDisclosures || "No third-party advertising or analytics SDKs configured for this pre-release build."}
-        </p>
-      )}
-    </section>
+        <section style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Data Retention &amp; Storage</h2>
+          <p style="color: var(--color-text-secondary);">
+            {app.data.privacyDisclosures?.dataRetentionInfo}
+          </p>
+        </section>
+      </div>
+    )}
 
-    <section style="margin-bottom: 1.5rem;">
-      <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Data Retention &amp; Storage</h2>
+    <section style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Inquiries</h2>
       <p style="color: var(--color-text-secondary);">
-        {app.data.privacyDisclosures.dataRetentionInfo || "Application state and documents reside on the user's local device."}
-      </p>
-    </section>
-
-    <section style="margin-bottom: 2rem;">
-      <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Contact &amp; Data Inquiries</h2>
-      <p style="color: var(--color-text-secondary);">
-        For privacy questions regarding {app.data.name}, contact: 
-        <a href={`mailto:${app.data.privacyDisclosures.contactEmail}`}>{app.data.privacyDisclosures.contactEmail}</a>
+        Direct questions regarding privacy or data handling for {app.data.name} to: 
+        <a href={`mailto:${app.data.supportEmail}`}>{app.data.supportEmail}</a>
       </p>
     </section>
 

@@ -4,7 +4,8 @@ slug: "ehub"
 tagline: "Distraction-free EPUB and PDF reading"
 description: "A focused, lightweight e-reader engineered for seamless EPUB and PDF navigation with custom typography."
 category: "Books & Reference"
-platforms:
+availablePlatforms: []
+plannedPlatforms:
   - "android"
   - "ios"
 status: "in-development"
@@ -17,14 +18,8 @@ features:
 playStoreUrl: null
 appStoreUrl: null
 privacyPolicyStatus: "pending-review"
-privacyPolicyEffectiveDate: "Pending verification"
-privacyPolicyLastUpdated: "Pending verification"
-privacyDisclosures:
-  dataCollected: []
-  thirdPartyServices: []
-  advertisingDisclosures: "To be verified before public store release."
-  dataRetentionInfo: "Files are stored locally on the user's device."
-  contactEmail: "support@modelpath.app"
+privacyPolicyEffectiveDate: "Unpublished — Pending Review"
+privacyPolicyLastUpdated: "Unpublished — Pending Review"
 supportEmail: "support@modelpath.app"
 supportFaqs:
   - question: "Which document formats are supported?"

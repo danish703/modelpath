@@ -20,13 +20,18 @@ const { Content } = await render(app);
       <span style="font-size: 0.875rem; text-transform: uppercase; color: var(--color-text-muted); font-weight: 600;">{app.data.category}</span>
       <h1 style="font-size: 2.25rem; margin: 0.25rem 0 0.5rem;">{app.data.name}</h1>
       <p style="font-size: 1.25rem; color: var(--color-text-secondary);">{app.data.tagline}</p>
-      <div style="margin-top: 1rem; display: flex; gap: 0.75rem; align-items: center;">
-        <span style="padding: 0.25rem 0.75rem; border-radius: var(--radius-pill); background: var(--color-bg-inset); font-size: 0.875rem;">
+      <div style="margin-top: 1rem; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+        <span style="padding: 0.25rem 0.75rem; border-radius: var(--radius-pill); background: var(--color-bg-inset); font-size: 0.875rem; font-weight: 600;">
           Status: {app.data.status}
         </span>
-        {app.data.platforms.map((p) => (
-          <span style="padding: 0.25rem 0.75rem; border-radius: var(--radius-pill); background: var(--color-bg-inset); font-size: 0.875rem; text-transform: capitalize;">
-            {p}
+        {app.data.availablePlatforms.map((p) => (
+          <span style="padding: 0.25rem 0.75rem; border-radius: var(--radius-pill); background: var(--color-status-published); color: #fff; font-size: 0.875rem; text-transform: capitalize;">
+            Available on {p}
+          </span>
+        ))}
+        {app.data.plannedPlatforms.map((p) => (
+          <span style="padding: 0.25rem 0.75rem; border-radius: var(--radius-pill); background: var(--color-bg-inset); font-size: 0.875rem; text-transform: capitalize; color: var(--color-text-muted);">
+            Target Platform: {p}
           </span>
         ))}
       </div>

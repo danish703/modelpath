@@ -10,7 +10,8 @@ const apps = defineCollection({
     tagline: z.string(),
     description: z.string(),
     category: z.string(),
-    platforms: z.array(z.enum(['android', 'ios'])),
+    availablePlatforms: z.array(z.enum(['android', 'ios'])).default([]),
+    plannedPlatforms: z.array(z.enum(['android', 'ios'])).default([]),
     status: z.enum(['published', 'coming-soon', 'in-development']),
     icon: z.string(),
     screenshots: z.array(z.string()).default([]),
@@ -26,7 +27,7 @@ const apps = defineCollection({
       advertisingDisclosures: z.string().optional(),
       dataRetentionInfo: z.string().optional(),
       contactEmail: z.email(),
-    }),
+    }).optional(),
     supportEmail: z.email(),
     supportFaqs: z.array(
       z.object({

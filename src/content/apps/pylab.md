@@ -4,7 +4,8 @@ slug: "pylab"
 tagline: "Interactive Python learning on mobile"
 description: "Hands-on Python learning, lessons, and code execution designed for mobile learners and developers."
 category: "Education"
-platforms:
+availablePlatforms: []
+plannedPlatforms:
   - "android"
 status: "in-development"
 icon: "/images/apps/pylab/icon.svg"
@@ -16,14 +17,8 @@ features:
 playStoreUrl: null
 appStoreUrl: null
 privacyPolicyStatus: "pending-review"
-privacyPolicyEffectiveDate: "Pending verification"
-privacyPolicyLastUpdated: "Pending verification"
-privacyDisclosures:
-  dataCollected: []
-  thirdPartyServices: []
-  advertisingDisclosures: "To be verified before public store release."
-  dataRetentionInfo: "Lesson progress saved on device."
-  contactEmail: "support@modelpath.app"
+privacyPolicyEffectiveDate: "Unpublished — Pending Review"
+privacyPolicyLastUpdated: "Unpublished — Pending Review"
 supportEmail: "support@modelpath.app"
 supportFaqs:
   - question: "Is PyLab for beginners or experienced developers?"
