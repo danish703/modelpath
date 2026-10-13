@@ -1,0 +1,7 @@
+# ModelPath Authorized Digital Sellers (app-ads.txt)
+# Specification: https://iabtechlab.com/ads-txt/
+# Format: <Exchange Domain>, <Publisher Account ID>, <Relationship (DIRECT/RESELLER)>, <Certification Authority ID>
+#
+# OWNER NOTE: Pending owner AdMob publisher credentials.
+# Replace the placeholder below with the verified publisher entry upon AdMob setup:
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

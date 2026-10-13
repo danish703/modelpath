@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const apps = await getCollection('apps');
+apps.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Applications Directory" description="Explore digital products and mobile applications crafted by ModelPath studio.">
+  <section style="margin-bottom: 2rem;">
+    <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Applications</h1>
+    <p style="color: var(--color-text-secondary);">Browse current and upcoming applications by ModelPath.</p>
+  </section>
+
+  <div style="display: grid; gap: 1.5rem;">
+    {apps.map((app) => (
+      <article style="padding: 1.5rem; background: var(--color-bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-raised-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+          <h2 style="font-size: 1.35rem;"><a href={`/apps/${app.data.slug}/`}>{app.data.name}</a></h2>
+          <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: var(--color-text-muted);">{app.data.status}</span>
+        </div>
+        <p style="color: var(--color-text-secondary); margin: 0.5rem 0 1rem;">{app.data.description}</p>
+        <div style="display: flex; gap: 1rem; font-size: 0.875rem;">
+          <a href={`/apps/${app.data.slug}/`}>View App &rarr;</a>
+          <a href={`/apps/${app.data.slug}/privacy/`}>Privacy Policy</a>
+          <a href={`/apps/${app.data.slug}/support/`}>Support</a>
+        </div>
+      </article>
+    ))}
+  </div>
+</BaseLayout>

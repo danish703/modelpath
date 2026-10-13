@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const apps = await getCollection('apps');
+  return apps.map((app) => ({
+    params: { slug: app.data.slug },
+    props: { app },
+  }));
+}
+
+const { app } = Astro.props;
+---
+
+<BaseLayout 
+  title={`${app.data.name} Support & FAQ`} 
+  description={`Support resources, troubleshooting guidance, and FAQs for ${app.data.name}.`}
+>
+  <article>
+    <header style="margin-bottom: 2rem;">
+      <p style="font-size: 0.875rem; color: var(--color-text-muted);"><a href={`/apps/${app.data.slug}/`}>&larr; {app.data.name}</a></p>
+      <h1 style="font-size: 2.25rem; margin: 0.5rem 0;">Support &amp; FAQ — {app.data.name}</h1>
+      <p style="color: var(--color-text-secondary);">Direct assistance and common troubleshooting steps for {app.data.name}.</p>
+    </header>
+
+    <section style="padding: 1.5rem; background: var(--color-bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-raised-sm); margin-bottom: 2rem;">
+      <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Contact Support</h2>
+      <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">
+        Have feedback, an issue report, or a feature request? Contact the studio directly:
+      </p>
+      <p>
+        <a href={`mailto:${app.data.supportEmail}?subject=[Support] ${app.data.name}`} style="font-weight: 600;">
+          {app.data.supportEmail}
+        </a>
+      </p>
+    </section>
+
+    <section style="margin-bottom: 2rem;">
+      <h2 style="font-size: 1.35rem; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+      {app.data.supportFaqs.length > 0 ? (
+        <dl style="display: grid; gap: 1rem;">
+          {app.data.supportFaqs.map((faq) => (
+            <div style="padding: 1rem; background: var(--color-bg-surface); border-radius: var(--radius-sm);">
+              <dt style="font-weight: 600; margin-bottom: 0.25rem;">{faq.question}</dt>
+              <dd style="color: var(--color-text-secondary);">{faq.answer}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : (
+        <p style="color: var(--color-text-secondary);">No FAQs published for this pre-release application yet.</p>
+      )}
+    </section>
+
+    <footer style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border-subtle); display: flex; gap: 1.5rem;">
+      <a href={`/apps/${app.data.slug}/privacy/`}>View Privacy Policy</a>
+      <a href={`/apps/${app.data.slug}/`}>&larr; Return to {app.data.name}</a>
+    </footer>
+  </article>
+</BaseLayout>

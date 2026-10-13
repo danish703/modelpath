@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page Not Found" description="The requested page could not be found.">
+  <section style="text-align: center; padding: 4rem 1rem;">
+    <span style="font-size: 3.5rem; font-weight: 800; color: var(--color-accent); display: block; margin-bottom: 0.5rem;">404</span>
+    <h1 style="font-size: 2rem; margin-bottom: 1rem;">Page Not Found</h1>
+    <p style="color: var(--color-text-secondary); max-width: 480px; margin: 0 auto 2rem;">
+      The page you requested does not exist or may have been moved. Return to the homepage or explore our application directory.
+    </p>
+    <div style="display: flex; gap: 1rem; justify-content: center;">
+      <a href="/" style="padding: 0.75rem 1.5rem; background: var(--color-accent); color: #fff; border-radius: var(--radius-sm); font-weight: 600;">Back to Home</a>
+      <a href="/apps/" style="padding: 0.75rem 1.5rem; background: var(--color-bg-inset); border-radius: var(--radius-sm); font-weight: 600;">Browse Apps</a>
+    </div>
+  </section>
+</BaseLayout>

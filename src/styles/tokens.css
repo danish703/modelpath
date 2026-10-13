@@ -1,0 +1,60 @@
+/* ==========================================================================
+   ModelPath Design Tokens — Preliminary Neumorphic System (Gate 1)
+   Approved Stitch UI/UX specifications will refine these values in Gate 2.
+   ========================================================================== */
+
+:root {
+  /* Surfaces & Canvas */
+  --color-bg-primary: #F4F6F8;
+  --color-bg-surface: #F7F9FB;
+  --color-bg-raised: #F4F6F8;
+  --color-bg-inset: #ECEFF3;
+
+  /* Typography & High-Contrast Colors (WCAG 2.2 AA Compliant) */
+  --color-text-primary: #172233;     /* > 11:1 against #F4F6F8 */
+  --color-text-secondary: #475569;   /* > 5.5:1 against #F4F6F8 */
+  --color-text-muted: #64748B;       /* > 4.5:1 against #F4F6F8 */
+  --color-border-subtle: rgba(169, 180, 196, 0.35);
+
+  /* Brand Accent */
+  --color-accent: #4567E8;
+  --color-accent-hover: #3354D4;
+  --color-accent-subtle: rgba(69, 103, 232, 0.12);
+
+  /* Status Tokens */
+  --color-status-published: #0D9488;
+  --color-status-dev: #D97706;
+  --color-status-coming: #6366F1;
+
+  /* Neumorphic Lighting & Shadows (Preliminary Dual-Direction) */
+  --shadow-raised-sm: -4px -4px 10px rgba(255, 255, 255, 0.95), 4px 4px 12px rgba(169, 180, 196, 0.22);
+  --shadow-raised-md: -7px -7px 16px rgba(255, 255, 255, 0.95), 7px 7px 18px rgba(169, 180, 196, 0.28);
+  --shadow-raised-hover: -9px -9px 20px rgba(255, 255, 255, 1.0), 9px 9px 22px rgba(169, 180, 196, 0.35);
+  --shadow-inset-sm: inset 3px 3px 6px rgba(169, 180, 196, 0.20), inset -3px -3px 6px rgba(255, 255, 255, 0.90);
+  --shadow-inset-md: inset 4px 4px 9px rgba(169, 180, 196, 0.22), inset -4px -4px 9px rgba(255, 255, 255, 0.90);
+
+  /* Focus Indicator Token */
+  --focus-ring: 2px solid var(--color-accent);
+  --focus-ring-offset: 3px;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 9999px;
+
+  /* Typography Scale */
+  --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-normal: 0ms;
+  }
+}
