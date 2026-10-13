@@ -1,19 +1,461 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import AppGrid from '../../components/AppGrid.astro';
+import PrimaryButton from '../../components/PrimaryButton.astro';
+import { getCollection } from 'astro:content';
+
+const rawApps = await getCollection('apps');
+const apps = rawApps
+  .map((entry) => ({
+    slug: entry.data.slug,
+    name: entry.data.name,
+    category: entry.data.category,
+    description: entry.data.description,
+    status: entry.data.status,
+    availablePlatforms: entry.data.availablePlatforms,
+    plannedPlatforms: entry.data.plannedPlatforms,
+    order: entry.data.order,
+  }))
+  .sort((a, b) => a.order - b.order);
+
+const principles = [
+  {
+    number: '01',
+    title: 'Purposeful Software',
+    summary: 'Build applications that solve real problems.',
+    description:
+      'We identify clear, practical needs before writing a line of code. Every feature exists to serve a genuine purpose, eliminating distraction and unnecessary interface noise.',
+    icon: 'purpose',
+  },
+  {
+    number: '02',
+    title: 'Thoughtful Design',
+    summary: 'Prioritize usability, clarity, and accessibility.',
+    description:
+      'Great design is intuitive and respectful. We craft tactile, high-contrast interfaces with deliberate hierarchy, ensuring our applications remain accessible to everyone.',
+    icon: 'design',
+  },
+  {
+    number: '03',
+    title: 'Practical Engineering',
+    summary: 'Favor maintainable, efficient solutions.',
+    description:
+      'We prioritize lightweight architectures, robust static performance, and resilient codebases. We deliberately avoid technical bloat, heavy runtimes, and invasive background tracking.',
+    icon: 'engineering',
+  },
+  {
+    number: '04',
+    title: 'Continuous Improvement',
+    summary: 'Refine products through testing and feedback.',
+    description:
+      'Software craft is an ongoing practice. We systematically test across device form factors and evolve our products through direct user input and disciplined iteration.',
+    icon: 'improvement',
+  },
+];
 ---
 
-<BaseLayout title="About the Studio" description="About ModelPath — Independent software studio philosophy and design approach.">
-  <article>
-    <h1 style="font-size: 2rem; margin-bottom: 1rem;">About ModelPath</h1>
-    <p style="font-size: 1.125rem; color: var(--color-text-secondary); margin-bottom: 1.5rem;">
-      ModelPath is an independent studio focused on crafting focused, high-utility digital products.
-    </p>
-    <h2 style="font-size: 1.25rem; margin-top: 1.5rem; margin-bottom: 0.5rem;">Our Philosophy</h2>
-    <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
-      <li><strong>Simplicity:</strong> Removing noise to emphasize core utility.</li>
-      <li><strong>Usability:</strong> High ergonomics, accessible contrast, and tactile feedback.</li>
-      <li><strong>Privacy:</strong> On-device processing whenever technically possible.</li>
-      <li><strong>Performance:</strong> Lightweight, fast-loading, zero unnecessary bloat.</li>
-    </ul>
-  </article>
+<BaseLayout
+  title="About ModelPath Studio"
+  description="ModelPath Studio is an independent software studio focused on creating practical, thoughtfully designed applications that make digital experiences simpler and more enjoyable."
+>
+  <div class="about-container">
+    <!-- Hero Section -->
+    <header class="about-hero">
+      <div class="hero-badge">
+        <span class="badge-dot" aria-hidden="true"></span>
+        <span>Independent Software Studio</span>
+      </div>
+      <h1 class="hero-title">About ModelPath Studio</h1>
+      <p class="hero-description">
+        ModelPath Studio is an independent software studio focused on creating practical, thoughtfully designed applications that make digital experiences simpler and more enjoyable.
+      </p>
+    </header>
+
+    <!-- Studio Story Section -->
+    <section class="section-container" aria-labelledby="story-heading">
+      <div class="story-card">
+        <div class="story-header">
+          <span class="story-label">Our Story</span>
+          <h2 id="story-heading" class="story-title">Crafting Independent Digital Tools</h2>
+        </div>
+        <div class="story-body">
+          <p>
+            ModelPath Studio was established as an independent product studio dedicated to deliberate craftsmanship in modern software. In an era where digital tools are frequently weighed down by intrusive telemetry, aggressive monetization, and bloated architectures, we take an alternative path.
+          </p>
+          <p>
+            We build software from first principles: clean design, responsive ergonomics, and strict respect for user privacy. By focusing on utility and clarity, we create focused mobile and digital applications that empower people in their day-to-day work, reading, learning, and productivity workflows.
+          </p>
+          <p>
+            As an independent studio, our roadmap is shaped purely by product quality and user benefit. We take pride in building software we genuinely rely on ourselves.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Development Philosophy Section -->
+    <section class="section-container" aria-labelledby="philosophy-heading">
+      <SectionHeading
+        label="Guiding Principles"
+        title="Development Philosophy"
+        description="Our core values guide every architecture decision, interaction pattern, and product release."
+      />
+
+      <div class="principles-grid">
+        {principles.map((p) => (
+          <div class="principle-card">
+            <div class="principle-card-top">
+              <div class="principle-icon-well">
+                {p.icon === 'purpose' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="12" r="6" />
+                    <circle cx="12" cy="12" r="2" />
+                  </svg>
+                )}
+                {p.icon === 'design' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                    <path d="M2 2l7.586 7.586" />
+                    <circle cx="11" cy="11" r="2" />
+                  </svg>
+                )}
+                {p.icon === 'engineering' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                    <line x1="8" y1="21" x2="16" y2="21" />
+                    <line x1="12" y1="17" x2="12" y2="21" />
+                  </svg>
+                )}
+                {p.icon === 'improvement' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                    <polyline points="17 6 23 6 23 12" />
+                  </svg>
+                )}
+              </div>
+              <span class="principle-number">{p.number}</span>
+            </div>
+
+            <h3 class="principle-title">{p.title}</h3>
+            <div class="principle-summary">{p.summary}</div>
+            <p class="principle-desc">{p.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Our Applications Section -->
+    <section class="section-container" aria-labelledby="apps-heading">
+      <SectionHeading
+        label="Studio Portfolio"
+        title="Our Applications"
+        description="Explore the current generation of software designed and developed by ModelPath Studio."
+      />
+
+      <AppGrid apps={apps} />
+    </section>
+
+    <!-- Contact CTA Section -->
+    <section class="section-container" aria-labelledby="contact-heading">
+      <div class="contact-cta-well">
+        <div class="contact-cta-content">
+          <span class="contact-label">Get In Touch</span>
+          <h2 id="contact-heading" class="contact-title">Have a Question?</h2>
+          <p class="contact-description">
+            For application support, feedback, or general inquiries, get in touch with ModelPath Studio.
+          </p>
+        </div>
+
+        <div class="contact-cta-action">
+          <PrimaryButton href="/contact/">
+            <span>Contact Us</span>
+            <span aria-hidden="true">&rarr;</span>
+          </PrimaryButton>
+        </div>
+      </div>
+    </section>
+  </div>
 </BaseLayout>
+
+<style>
+  .about-container {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  /* About Hero */
+  .about-hero {
+    margin-bottom: 56px;
+    max-width: 840px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: var(--bg-surface);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-inset-box);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    flex-shrink: 0;
+  }
+
+  .hero-title {
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--text-heading);
+    margin: 0 0 18px 0;
+  }
+
+  .hero-description {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--text-body);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Section Containers */
+  .section-container {
+    margin-bottom: 64px;
+    width: 100%;
+  }
+
+  /* Story Card */
+  .story-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 44px 40px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .story-header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .story-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-blue);
+  }
+
+  .story-title {
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--text-heading);
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .story-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 1.05rem;
+    color: var(--text-body);
+    line-height: 1.7;
+  }
+
+  .story-body p {
+    margin: 0;
+  }
+
+  /* Principles Grid */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .principle-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 32px 28px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .principle-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .principle-icon-well {
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
+    box-shadow: var(--shadow-inset-box);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .principle-icon-well svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--accent-blue);
+  }
+
+  .principle-number {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: -0.02em;
+    opacity: 0.6;
+  }
+
+  .principle-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+
+  .principle-summary {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent-blue);
+    line-height: 1.4;
+  }
+
+  .principle-desc {
+    font-size: 0.95rem;
+    color: var(--text-body);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Contact CTA Well */
+  .contact-cta-well {
+    background: var(--bg-inset);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-inset-well);
+    padding: 40px 44px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .contact-cta-content {
+    max-width: 600px;
+  }
+
+  .contact-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-blue);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .contact-title {
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--text-heading);
+    letter-spacing: -0.02em;
+    margin: 0 0 10px 0;
+  }
+
+  .contact-description {
+    font-size: 1.05rem;
+    color: var(--text-body);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .contact-cta-action {
+    flex-shrink: 0;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 860px) {
+    .about-hero {
+      margin-bottom: 40px;
+    }
+
+    .section-container {
+      margin-bottom: 44px;
+    }
+
+    .story-card {
+      padding: 24px 20px;
+      border-radius: var(--radius-md);
+    }
+
+    .story-body {
+      font-size: 0.975rem;
+    }
+
+    .principles-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .principle-card {
+      padding: 22px 18px;
+      border-radius: var(--radius-md);
+    }
+
+    .contact-cta-well {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 28px 20px;
+      gap: 20px;
+      border-radius: var(--radius-md);
+    }
+
+    .contact-cta-action {
+      width: 100%;
+    }
+
+    .contact-cta-action :global(a),
+    .contact-cta-action :global(button) {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .story-card {
+      padding: 20px 16px;
+    }
+
+    .contact-cta-well {
+      padding: 24px 16px;
+    }
+  }
+</style>
