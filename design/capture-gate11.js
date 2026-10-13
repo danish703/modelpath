@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 const edgePath = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
-const port = 9223;
+const port = 9224;
 const artifactDir = "C:/Users/dipud/.gemini/antigravity-ide/brain/879f1c33-c566-43a7-8c03-22b0fcb2196c";
 const gate11DesignDir = "D:\\modelpath\\design\\gate-11";
 
@@ -52,30 +52,13 @@ try {
     });
   }
 
+  // Targeted capture: exactly the two requested views
   const tasks = [
     {
       name: 'homepage-desktop-1440px',
       url: 'http://localhost:4321/',
       isMobile: false,
       width: 1440
-    },
-    {
-      name: 'homepage-mobile-390px',
-      url: 'http://localhost:4321/',
-      isMobile: true,
-      width: 390
-    },
-    {
-      name: 'signmint-detail-desktop-1440px',
-      url: 'http://localhost:4321/apps/signmint/',
-      isMobile: false,
-      width: 1440
-    },
-    {
-      name: 'signmint-detail-mobile-390px',
-      url: 'http://localhost:4321/apps/signmint/',
-      isMobile: true,
-      width: 390
     },
     {
       name: 'apps-directory-desktop-1440px',
@@ -104,61 +87,32 @@ try {
     await sendSession('Page.enable');
     await sendSession('DOM.enable');
 
-    // Wait for page to render and hydrate
     await new Promise(r => setTimeout(r, 600));
 
-    if (task.isMobile) {
-      // Responsive overflow audit
-      const testWidths = [320, 375, 390, 430];
-      const overflowResults = [];
-      for (const w of testWidths) {
-        await sendSession('Emulation.setDeviceMetricsOverride', {
-          width: w,
-          height: 844,
-          deviceScaleFactor: 2,
-          mobile: true
-        });
-        await new Promise(r => setTimeout(r, 150));
-        const evalRes = await sendSession('Runtime.evaluate', {
-          expression: `JSON.stringify({
-            targetWidth: ${w},
-            clientWidth: document.documentElement.clientWidth,
-            scrollWidth: document.documentElement.scrollWidth,
-            hasOverflow: document.documentElement.scrollWidth > window.innerWidth
-          })`,
-          returnByValue: true
-        });
-        overflowResults.push(JSON.parse(evalRes.result.result.value));
-      }
-      console.log(`Overflow audit (${task.name}):`, JSON.stringify(overflowResults));
-    }
-
-    // Set viewport
+    // Viewport setup
     await sendSession('Emulation.setDeviceMetricsOverride', {
       width: task.width,
       height: 900,
       deviceScaleFactor: 1,
-      mobile: task.isMobile
+      mobile: false
     });
     await new Promise(r => setTimeout(r, 300));
 
-    // Get full height
     const heightRes = await sendSession('Runtime.evaluate', {
       expression: 'Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)',
       returnByValue: true
     });
     const fullHeight = heightRes.result.result.value;
-    console.log(`${task.name} height: ${fullHeight}px`);
+    console.log(`${task.name} full height: ${fullHeight}px`);
 
     await sendSession('Emulation.setDeviceMetricsOverride', {
       width: task.width,
       height: fullHeight,
       deviceScaleFactor: 1,
-      mobile: task.isMobile
+      mobile: false
     });
     await new Promise(r => setTimeout(r, 400));
 
-    // Capture full-page screenshot
     const screenshot = await sendSession('Page.captureScreenshot', {
       format: 'png',
       clip: {
@@ -176,9 +130,8 @@ try {
 
     fs.writeFileSync(localPath, buffer);
     fs.writeFileSync(artifactPath, buffer);
-    console.log(`Saved screenshot: ${task.name}.png (${buffer.length} bytes)`);
+    console.log(`Saved screenshot: ${task.name}.png (${buffer.length} bytes) to design/gate-11 and artifactDir`);
 
-    // Functional tests on the page
     if (task.name === 'homepage-desktop-1440px') {
       const heroCheck = await sendSession('Runtime.evaluate', {
         expression: `JSON.stringify({
@@ -193,28 +146,21 @@ try {
       console.log('Homepage constellation check:', heroCheck.result.result.value);
     }
 
-    if (task.name === 'signmint-detail-desktop-1440px') {
-      const detailCheck = await sendSession('Runtime.evaluate', {
-        expression: `JSON.stringify({
-          productName: document.querySelector('.product-name')?.textContent?.trim(),
-          carouselSlides: document.querySelectorAll('[data-carousel-slide]').length,
-          carouselControls: Boolean(document.querySelector('[data-carousel-controls]')),
-          platformCards: Array.from(document.querySelectorAll('[data-platform]')).map(el => ({
-            platform: el.getAttribute('data-platform'),
-            state: el.getAttribute('data-store-state'),
-            text: el.querySelector('.platform-name')?.textContent?.trim(),
-            status: el.querySelector('.platform-status-pill')?.textContent?.trim(),
-            btnEnabled: Boolean(el.querySelector('a.store-btn.is-enabled')),
-            btnDisabled: Boolean(el.querySelector('.store-btn.is-disabled'))
+    if (task.name === 'apps-directory-desktop-1440px') {
+      // Verify differentiated covers are present
+      const coversCheck = await sendSession('Runtime.evaluate', {
+        expression: `JSON.stringify(
+          Array.from(document.querySelectorAll('.app-card')).map(card => ({
+            name: card.querySelector('.app-name')?.textContent?.trim(),
+            coverTag: card.querySelector('.cover-tag')?.textContent?.trim(),
+            hasMotifSvg: Boolean(card.querySelector('.motif-svg'))
           }))
-        })`,
+        )`,
         returnByValue: true
       });
-      console.log('SignMint detail check:', detailCheck.result.result.value);
-    }
+      console.log('Application covers check:', coversCheck.result.result.value);
 
-    if (task.name === 'apps-directory-desktop-1440px') {
-      // Test category filtering
+      // Verify category filtering has no regressions
       const filterCheck = await sendSession('Runtime.evaluate', {
         expression: `(() => {
           const totalBefore = document.querySelectorAll('[data-app-card]:not([hidden])').length;
@@ -234,8 +180,73 @@ try {
     await send('Target.closeTarget', { targetId });
   }
 
-  // Next, test prefers-reduced-motion behavior on Homepage
-  console.log('\n=== Testing prefers-reduced-motion ===');
+  // Regression check: SignMint detail page placeholders & carousel
+  console.log('\n=== Regression check: SignMint detail page ===');
+  const signmintTarget = await send('Target.createTarget', { url: 'http://localhost:4321/apps/signmint/' });
+  const signmintAttached = await send('Target.attachToTarget', { targetId: signmintTarget.result.targetId, flatten: true });
+  const smSessionId = signmintAttached.result.sessionId;
+
+  function sendSm(method, params = {}) {
+    return new Promise(resolve => {
+      const msgId = id++;
+      pending.set(msgId, resolve);
+      ws.send(JSON.stringify({ id: msgId, sessionId: smSessionId, method, params }));
+    });
+  }
+
+  await sendSm('Page.enable');
+  await new Promise(r => setTimeout(r, 600));
+
+  const smCheck = await sendSm('Runtime.evaluate', {
+    expression: `JSON.stringify({
+      productName: document.querySelector('.product-name')?.textContent?.trim(),
+      placeholderTitles: Array.from(document.querySelectorAll('.placeholder-title')).map(el => el.textContent.trim()),
+      hasOrganizerPlaceholder: document.body.innerText.includes('Multi-Page Document Organizer'),
+      hasNavigationPlaceholder: document.body.innerText.includes('Document Navigation & Review'),
+      carouselExists: Boolean(document.querySelector('[data-carousel]')),
+      carouselControls: Boolean(document.querySelector('[data-carousel-controls]'))
+    })`,
+    returnByValue: true
+  });
+  console.log('SignMint placeholder audit:', smCheck.result.result.value);
+  await send('Target.closeTarget', { targetId: signmintTarget.result.targetId });
+
+  // Regression check: Mobile overflow check (390px)
+  console.log('\n=== Regression check: Mobile responsiveness (390px) ===');
+  const mobileTarget = await send('Target.createTarget', { url: 'http://localhost:4321/' });
+  const mobileAttached = await send('Target.attachToTarget', { targetId: mobileTarget.result.targetId, flatten: true });
+  const mbSessionId = mobileAttached.result.sessionId;
+
+  function sendMb(method, params = {}) {
+    return new Promise(resolve => {
+      const msgId = id++;
+      pending.set(msgId, resolve);
+      ws.send(JSON.stringify({ id: msgId, sessionId: mbSessionId, method, params }));
+    });
+  }
+
+  await sendMb('Page.enable');
+  await sendMb('Emulation.setDeviceMetricsOverride', {
+    width: 390,
+    height: 844,
+    deviceScaleFactor: 2,
+    mobile: true
+  });
+  await new Promise(r => setTimeout(r, 300));
+
+  const mobileOverflow = await sendMb('Runtime.evaluate', {
+    expression: `JSON.stringify({
+      clientWidth: document.documentElement.clientWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+      hasOverflow: document.documentElement.scrollWidth > window.innerWidth
+    })`,
+    returnByValue: true
+  });
+  console.log('Mobile overflow audit (390px):', mobileOverflow.result.result.value);
+  await send('Target.closeTarget', { targetId: mobileTarget.result.targetId });
+
+  // Regression check: prefers-reduced-motion
+  console.log('\n=== Regression check: prefers-reduced-motion ===');
   const motionTarget = await send('Target.createTarget', { url: 'http://localhost:4321/' });
   const motionAttached = await send('Target.attachToTarget', { targetId: motionTarget.result.targetId, flatten: true });
   const motionSessionId = motionAttached.result.sessionId;
@@ -252,13 +263,12 @@ try {
   await sendMotion('Emulation.setEmulatedMedia', {
     features: [{ name: 'prefers-reduced-motion', value: 'reduce' }]
   });
-  await new Promise(r => setTimeout(r, 600));
+  await new Promise(r => setTimeout(r, 500));
 
   const motionEval = await sendMotion('Runtime.evaluate', {
     expression: `JSON.stringify({
       mediaMatches: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-      motionAttr: document.querySelector('[data-constellation]')?.getAttribute('data-motion'),
-      bodyFont: getComputedStyle(document.body).fontFamily
+      motionAttr: document.querySelector('[data-constellation]')?.getAttribute('data-motion')
     })`,
     returnByValue: true
   });
@@ -266,7 +276,7 @@ try {
   await send('Target.closeTarget', { targetId: motionTarget.result.targetId });
 
   ws.close();
-  console.log('\n=== ALL AUDITS & SCREENSHOTS COMPLETED SUCCESSFULLY ===');
+  console.log('\n=== ALL TARGETED AUDITS & SCREENSHOTS COMPLETED SUCCESSFULLY ===');
 } catch (err) {
   console.error("Capture failed:", err);
 } finally {

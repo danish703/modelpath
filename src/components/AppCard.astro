@@ -109,12 +109,9 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
     border-radius: var(--radius-md);
   }
 
-  .app-card:hover :global(.app-cover img) {
-    transform: scale(1.03);
-  }
-
-  .app-card:hover :global(.cover-mark) {
-    transform: translateY(-3px);
+  .app-card:hover :global(.app-cover img),
+  .app-card:hover :global(.motif-svg) {
+    transform: scale(1.025);
   }
 
   .card-body {
@@ -300,11 +297,11 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
   @media (prefers-reduced-motion: reduce) {
     .app-card:hover,
     .app-card:hover :global(.app-cover img),
-    .app-card:hover :global(.cover-mark),
+    .app-card:hover :global(.motif-svg),
     .app-card:hover :global(.card-icon),
     .btn-explore-app:hover,
     .btn-explore-app:hover .btn-arrow {
-      transform: none;
+      transform: none !important;
     }
   }
 </style>

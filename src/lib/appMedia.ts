@@ -110,7 +110,7 @@ export function resolveVideo(data: AppData): VideoAsset | null {
 const placeholderSets: Record<string, Array<{ title: string; note: string; caption: string; icon: string }>> = {
   signmint: [
     { title: 'Document Viewer & Signature Canvas', note: 'Touch and pen input for signature placement', caption: 'Signature & Document Canvas', icon: 'canvas' },
-    { title: 'Multi-Page Document Organizer', note: 'Multi-page document viewer and page layout', caption: 'Page Management View', icon: 'organizer' },
+    { title: 'Document Navigation & Review', note: 'Document page viewing and layout inspection for signature placement', caption: 'Document Review View', icon: 'organizer' },
     { title: 'Signature Profiles', note: 'Stored signature and date presets', caption: 'Signature Profiles', icon: 'profile' },
   ],
   ehub: [

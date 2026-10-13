@@ -1,9 +1,17 @@
 ---
 /**
- * AppCover — genuine cover/thumbnail artwork, or an honest, clearly labelled
- * placeholder panel. Never substitutes fabricated product imagery.
+ * AppCover — genuine cover/thumbnail artwork, or a differentiated, conceptual
+ * vector cover motif (Gate 11 Visual Review).
+ *
+ * Rules:
+ * - Differentiated conceptual treatments per app motif:
+ *   • SignMint: PDF signing & document annotation motif
+ *   • Ehub: Digital reading & book spread motif
+ *   • PyLab: Python interactive coding & syntax motif
+ *   • ModelPath ML: Abstract machine-learning / neural lattice motif
+ * - Clearly labeled as decorative conceptual artwork, never disguised as product screenshots.
+ * - Content-driven: When genuine artwork is provided in `media.cover`, it seamlessly renders the real image.
  */
-import AppGlyph from './AppGlyph.astro';
 import type { ImageAsset } from '../lib/appMedia';
 
 interface Props {
@@ -16,11 +24,20 @@ interface Props {
 }
 
 const { slug, name, cover, variant = 'card', eager = false, class: className = '' } = Astro.props;
+
+const conceptualLabels: Record<string, string> = {
+  signmint: 'Conceptual Artwork • Document & Signature Motif',
+  ehub: 'Conceptual Artwork • Digital Reading Motif',
+  pylab: 'Conceptual Artwork • Code Learning Motif',
+  'modelpath-ml': 'Conceptual Artwork • Neural Network Motif',
+};
+
+const conceptualLabel = conceptualLabels[slug] || 'Conceptual Artwork • Studio Motif';
 ---
 
 <figure
-  class={`app-cover variant-${variant} ${cover ? 'is-genuine' : 'is-placeholder'} ${className}`}
-  data-media-kind={cover ? 'genuine' : 'placeholder'}
+  class={`app-cover variant-${variant} slug-${slug} ${cover ? 'is-genuine' : 'is-conceptual'} ${className}`}
+  data-media-kind={cover ? 'genuine' : 'conceptual'}
 >
   {cover ? (
     <img
@@ -32,16 +49,227 @@ const { slug, name, cover, variant = 'card', eager = false, class: className = '
       decoding="async"
     />
   ) : (
-    <Fragment>
-      <div class="cover-pattern" aria-hidden="true"></div>
-      <div class="cover-mark" aria-hidden="true">
-        <AppGlyph slug={slug} />
-      </div>
-      <figcaption class="cover-tag">
-        <span class="sr-only">{name}: </span>Cover artwork pending
-      </figcaption>
-    </Fragment>
+    <div class="conceptual-canvas" aria-hidden="true">
+      {slug === 'signmint' && (
+        <svg class="motif-svg" viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background Document Grid -->
+          <defs>
+            <pattern id="sm-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(100, 116, 139, 0.08)" stroke-width="1" />
+            </pattern>
+            <filter id="sm-shadow" x="-8%" y="-8%" width="120%" height="120%">
+              <feDropShadow dx="3" dy="4" stdDeviation="5" flood-color="rgba(169, 180, 196, 0.35)" />
+            </filter>
+          </defs>
+          <rect width="400" height="225" fill="url(#sm-grid)" />
+
+          <!-- Document Sheet (Neumorphic Paper) -->
+          <g filter="url(#sm-shadow)">
+            <rect x="80" y="24" width="240" height="176" rx="12" fill="#FAFBFD" stroke="#FFFFFF" stroke-width="2" />
+          </g>
+
+          <!-- Document Header Bar -->
+          <rect x="104" y="44" width="76" height="8" rx="4" fill="rgba(69, 103, 232, 0.45)" />
+          <rect x="188" y="45" width="48" height="6" rx="3" fill="rgba(100, 116, 139, 0.22)" />
+
+          <!-- Document Content Lines -->
+          <rect x="104" y="64" width="192" height="4" rx="2" fill="rgba(100, 116, 139, 0.18)" />
+          <rect x="104" y="76" width="170" height="4" rx="2" fill="rgba(100, 116, 139, 0.18)" />
+          <rect x="104" y="88" width="184" height="4" rx="2" fill="rgba(100, 116, 139, 0.18)" />
+          <rect x="104" y="100" width="140" height="4" rx="2" fill="rgba(100, 116, 139, 0.18)" />
+
+          <!-- Document Signature Line Block -->
+          <rect x="104" y="126" width="192" height="54" rx="8" fill="#EBEEF2" stroke="rgba(169, 180, 196, 0.4)" stroke-dasharray="4 3" />
+          <text x="116" y="142" font-size="9" font-family="sans-serif" font-weight="700" fill="#64748B" letter-spacing="0.05em">AUTHORIZED SIGNATURE</text>
+          <line x1="116" y1="168" x2="280" y2="168" stroke="rgba(100, 116, 139, 0.35)" stroke-width="1.5" />
+          <text x="116" y="165" font-size="11" font-family="sans-serif" font-weight="600" fill="#4567E8">✕</text>
+
+          <!-- Flowing Digital Signature Vector -->
+          <path d="M 134 163 Q 146 142 158 152 T 184 150 Q 198 138 206 160 T 232 154 Q 248 146 264 158" fill="none" stroke="#4567E8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+
+          <!-- Seal Badge Motif -->
+          <circle cx="270" cy="98" r="14" fill="#F4F6F8" stroke="#4567E8" stroke-width="1.5" />
+          <path d="M 264 98 L 268 102 L 276 94" stroke="#4567E8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      )}
+
+      {slug === 'ehub' && (
+        <svg class="motif-svg" viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="eh-shadow" x="-8%" y="-8%" width="120%" height="120%">
+              <feDropShadow dx="3" dy="4" stdDeviation="5" flood-color="rgba(169, 180, 196, 0.32)" />
+            </filter>
+            <linearGradient id="eh-page-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#FAFBFD" />
+              <stop offset="48%" stop-color="#F2F5F8" />
+              <stop offset="50%" stop-color="#E2E7ED" />
+              <stop offset="52%" stop-color="#F2F5F8" />
+              <stop offset="100%" stop-color="#FAFBFD" />
+            </linearGradient>
+          </defs>
+
+          <!-- Ambient Book Backdrop Glow -->
+          <radialGradient id="eh-ambient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(69, 103, 232, 0.08)" />
+            <stop offset="100%" stop-color="transparent" />
+          </radialGradient>
+          <rect width="400" height="225" fill="url(#eh-ambient)" />
+
+          <!-- Open Book Spread -->
+          <g filter="url(#eh-shadow)">
+            <rect x="70" y="32" width="260" height="160" rx="10" fill="url(#eh-page-grad)" stroke="#FFFFFF" stroke-width="2" />
+          </g>
+
+          <!-- Book Spine Line -->
+          <line x1="200" y1="32" x2="200" y2="192" stroke="rgba(169, 180, 196, 0.45)" stroke-width="1.5" />
+
+          <!-- Left Page Typography Rhythm Lines -->
+          <rect x="94" y="52" width="60" height="6" rx="3" fill="rgba(69, 103, 232, 0.4)" />
+          <rect x="94" y="68" width="86" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <rect x="94" y="78" width="82" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <rect x="94" y="88" width="88" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <rect x="94" y="98" width="76" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <rect x="94" y="112" width="88" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <rect x="94" y="122" width="84" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <rect x="94" y="132" width="70" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <text x="94" y="174" font-size="8" font-family="sans-serif" font-weight="600" fill="#94A3B8">PAGE 42</text>
+
+          <!-- Right Page Typography Rhythm Lines -->
+          <rect x="218" y="52" width="84" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <rect x="218" y="62" width="88" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <rect x="218" y="72" width="76" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <rect x="218" y="86" width="88" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <rect x="218" y="96" width="82" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <rect x="218" y="106" width="86" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <rect x="218" y="120" width="74" height="4" rx="2" fill="rgba(100, 116, 139, 0.22)" />
+          <text x="282" y="174" font-size="8" font-family="sans-serif" font-weight="600" fill="#94A3B8">PAGE 43</text>
+
+          <!-- Bookmark Ribbon on Spine -->
+          <path d="M 194 32 L 194 72 L 200 66 L 206 72 L 206 32 Z" fill="#4567E8" />
+        </svg>
+      )}
+
+      {slug === 'pylab' && (
+        <svg class="motif-svg" viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="pl-shadow" x="-8%" y="-8%" width="120%" height="120%">
+              <feDropShadow dx="3" dy="4" stdDeviation="5" flood-color="rgba(169, 180, 196, 0.32)" />
+            </filter>
+          </defs>
+
+          <!-- Monospace Dot Grid -->
+          <defs>
+            <pattern id="pl-dots" width="16" height="16" patternUnits="userSpaceOnUse">
+              <circle cx="8" cy="8" r="1" fill="rgba(100, 116, 139, 0.16)" />
+            </pattern>
+          </defs>
+          <rect width="400" height="225" fill="url(#pl-dots)" />
+
+          <!-- Terminal / Code Editor Window Card -->
+          <g filter="url(#pl-shadow)">
+            <rect x="72" y="28" width="256" height="168" rx="12" fill="#FAFBFD" stroke="#FFFFFF" stroke-width="2" />
+          </g>
+
+          <!-- Window Header Bar with Discreet Window Dots -->
+          <path d="M 72 40 C 72 33.37 77.37 28 84 28 L 316 28 C 322.63 28 328 33.37 328 40 L 328 48 L 72 48 Z" fill="#EBEEF2" />
+          <circle cx="86" cy="38" r="3" fill="#CBD5E1" />
+          <circle cx="95" cy="38" r="3" fill="#CBD5E1" />
+          <circle cx="104" cy="38" r="3" fill="#CBD5E1" />
+          <text x="174" y="41" font-size="8.5" font-family="monospace" font-weight="600" fill="#64748B">lesson_01.py</text>
+
+          <!-- Code Execution & Syntax Lines Motif -->
+          <text x="88" y="70" font-size="10" font-family="monospace" font-weight="700" fill="#4567E8">&gt;&gt;&gt;</text>
+          <text x="114" y="70" font-size="10" font-family="monospace" font-weight="700" fill="#172233">def</text>
+          <text x="136" y="70" font-size="10" font-family="monospace" font-weight="600" fill="#4567E8">solve_challenge</text>
+          <text x="234" y="70" font-size="10" font-family="monospace" fill="#64748B">(items):</text>
+
+          <!-- Indented Body Lines -->
+          <rect x="114" y="82" width="112" height="4" rx="2" fill="rgba(100, 116, 139, 0.25)" />
+          <rect x="114" y="94" width="144" height="4" rx="2" fill="rgba(69, 103, 232, 0.35)" />
+          <rect x="114" y="106" width="96" height="4" rx="2" fill="rgba(100, 116, 139, 0.25)" />
+
+          <text x="114" y="128" font-size="10" font-family="monospace" font-weight="700" fill="#0D9488">return</text>
+          <text x="156" y="128" font-size="10" font-family="monospace" font-weight="600" fill="#172233">[x for x in items]</text>
+
+          <!-- Interactive Syntax Pill Box -->
+          <rect x="88" y="146" width="224" height="34" rx="8" fill="#EBEEF2" stroke="rgba(169, 180, 196, 0.35)" />
+          <text x="100" y="163" font-size="8.5" font-family="monospace" font-weight="600" fill="#0D9488">✓ Output: [1, 2, 3]</text>
+          <rect x="100" y="169" width="78" height="3" rx="1.5" fill="#0D9488" opacity="0.6" />
+        </svg>
+      )}
+
+      {slug === 'modelpath-ml' && (
+        <svg class="motif-svg" viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="ml-shadow" x="-8%" y="-8%" width="120%" height="120%">
+              <feDropShadow dx="3" dy="4" stdDeviation="5" flood-color="rgba(169, 180, 196, 0.32)" />
+            </filter>
+          </defs>
+
+          <!-- Coordinate Axis Background -->
+          <rect width="400" height="225" fill="#F4F6F8" />
+          <line x1="40" y1="185" x2="360" y2="185" stroke="rgba(100, 116, 139, 0.18)" stroke-width="1.5" />
+          <line x1="40" y1="40" x2="40" y2="185" stroke="rgba(100, 116, 139, 0.18)" stroke-width="1.5" />
+
+          <!-- Card Base -->
+          <g filter="url(#ml-shadow)">
+            <rect x="76" y="28" width="248" height="168" rx="12" fill="#FAFBFD" stroke="#FFFFFF" stroke-width="2" />
+          </g>
+
+          <!-- Neural Network Interconnection Lines (Graph Weights) -->
+          <!-- Input Layer (3 nodes) to Hidden Layer (4 nodes) -->
+          <line x1="120" y1="65" x2="200" y2="55" stroke="rgba(69, 103, 232, 0.35)" stroke-width="1.2" />
+          <line x1="120" y1="65" x2="200" y2="92" stroke="rgba(100, 116, 139, 0.22)" stroke-width="1" />
+          <line x1="120" y1="65" x2="200" y2="130" stroke="rgba(100, 116, 139, 0.18)" stroke-width="1" />
+          <line x1="120" y1="112" x2="200" y2="55" stroke="rgba(100, 116, 139, 0.2)" stroke-width="1" />
+          <line x1="120" y1="112" x2="200" y2="92" stroke="rgba(69, 103, 232, 0.45)" stroke-width="1.5" />
+          <line x1="120" y1="112" x2="200" y2="130" stroke="rgba(69, 103, 232, 0.35)" stroke-width="1.2" />
+          <line x1="120" y1="112" x2="200" y2="165" stroke="rgba(100, 116, 139, 0.2)" stroke-width="1" />
+          <line x1="120" y1="160" x2="200" y2="92" stroke="rgba(100, 116, 139, 0.2)" stroke-width="1" />
+          <line x1="120" y1="160" x2="200" y2="130" stroke="rgba(69, 103, 232, 0.35)" stroke-width="1.2" />
+          <line x1="120" y1="160" x2="200" y2="165" stroke="rgba(69, 103, 232, 0.45)" stroke-width="1.5" />
+
+          <!-- Hidden Layer to Output Layer (2 nodes) -->
+          <line x1="200" y1="55" x2="280" y2="85" stroke="rgba(69, 103, 232, 0.35)" stroke-width="1.2" />
+          <line x1="200" y1="92" x2="280" y2="85" stroke="rgba(69, 103, 232, 0.55)" stroke-width="1.8" />
+          <line x1="200" y1="92" x2="280" y2="140" stroke="rgba(100, 116, 139, 0.2)" stroke-width="1" />
+          <line x1="200" y1="130" x2="280" y2="85" stroke="rgba(100, 116, 139, 0.22)" stroke-width="1" />
+          <line x1="200" y1="130" x2="280" y2="140" stroke="rgba(69, 103, 232, 0.55)" stroke-width="1.8" />
+          <line x1="200" y1="165" x2="280" y2="140" stroke="rgba(69, 103, 232, 0.35)" stroke-width="1.2" />
+
+          <!-- Layer 1 Nodes (Input) -->
+          <circle cx="120" cy="65" r="8" fill="#F4F6F8" stroke="#4567E8" stroke-width="2" />
+          <circle cx="120" cy="112" r="8" fill="#F4F6F8" stroke="#4567E8" stroke-width="2" />
+          <circle cx="120" cy="160" r="8" fill="#F4F6F8" stroke="#4567E8" stroke-width="2" />
+
+          <!-- Layer 2 Nodes (Hidden Processing) -->
+          <circle cx="200" cy="55" r="7" fill="#EBEEF2" stroke="#64748B" stroke-width="1.5" />
+          <circle cx="200" cy="92" r="8" fill="#F4F6F8" stroke="#4567E8" stroke-width="2.2" />
+          <circle cx="200" cy="130" r="8" fill="#F4F6F8" stroke="#4567E8" stroke-width="2.2" />
+          <circle cx="200" cy="165" r="7" fill="#EBEEF2" stroke="#64748B" stroke-width="1.5" />
+
+          <!-- Layer 3 Nodes (Output Decision) -->
+          <circle cx="280" cy="85" r="9" fill="#4567E8" stroke="#FFFFFF" stroke-width="2" />
+          <circle cx="280" cy="140" r="9" fill="#172233" stroke="#FFFFFF" stroke-width="2" />
+
+          <!-- Activation Curve Motif Across Bottom -->
+          <path d="M 88 178 C 140 178 160 156 200 156 C 240 156 260 134 312 134" stroke="rgba(69, 103, 232, 0.5)" stroke-width="1.5" stroke-dasharray="3 3" fill="none" />
+        </svg>
+      )}
+
+      {!['signmint', 'ehub', 'pylab', 'modelpath-ml'].includes(slug) && (
+        <svg class="motif-svg" viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="225" fill="#FAFBFD" />
+          <rect x="80" y="30" width="240" height="165" rx="12" fill="#EBEEF2" stroke="rgba(169, 180, 196, 0.4)" />
+        </svg>
+      )}
+    </div>
   )}
+
+  <figcaption class="cover-tag">
+    <span class="sr-only">{name}: </span>
+    {cover ? 'Authentic Application Cover' : conceptualLabel}
+  </figcaption>
 </figure>
 
 <style>
@@ -68,51 +296,31 @@ const { slug, name, cover, variant = 'card', eager = false, class: className = '
     transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  /* Placeholder treatment */
-  .is-placeholder {
-    background:
-      radial-gradient(120% 90% at 85% 10%, rgba(69, 103, 232, 0.08), transparent 60%),
-      linear-gradient(160deg, #EFF2F6 0%, #E7EBF1 100%);
-  }
-
-  .cover-pattern {
+  /* Conceptual Vector Canvas */
+  .conceptual-canvas {
     position: absolute;
     inset: 0;
-    z-index: -1;
-    background-image: radial-gradient(rgba(100, 116, 139, 0.22) 1px, transparent 1.2px);
-    background-size: 18px 18px;
-    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 20%, transparent 85%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 20%, transparent 85%);
-  }
-
-  .cover-mark {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 72px;
-    height: 72px;
-    margin: -36px 0 0 -36px;
-    border-radius: 20px;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg-surface);
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    box-shadow: var(--shadow-card);
-    color: var(--accent-blue);
-    transition: transform var(--transition-normal);
+    background:
+      radial-gradient(120% 90% at 85% 10%, rgba(69, 103, 232, 0.06), transparent 60%),
+      linear-gradient(160deg, #F4F6F8 0%, #E9EDF2 100%);
   }
 
-  .cover-mark :global(.app-glyph) { width: 32px; height: 32px; }
-
-  .variant-hero .cover-mark {
-    width: 96px;
-    height: 96px;
-    margin: -48px 0 0 -48px;
-    border-radius: 26px;
+  .motif-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .variant-hero .cover-mark :global(.app-glyph) { width: 44px; height: 44px; }
+  .app-cover:hover .motif-svg {
+    transform: scale(1.025);
+  }
 
   .cover-tag {
     position: absolute;
@@ -120,20 +328,35 @@ const { slug, name, cover, variant = 'card', eager = false, class: className = '
     bottom: 10px;
     font-size: 0.6875rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--text-muted);
-    background: rgba(247, 249, 251, 0.85);
+    background: rgba(247, 249, 251, 0.92);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     padding: 4px 10px;
     border-radius: var(--radius-pill);
     box-shadow: var(--shadow-inset-box);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    max-width: calc(100% - 20px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   @media (max-width: 600px) {
-    .cover-mark { width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 16px; }
-    .cover-mark :global(.app-glyph) { width: 26px; height: 26px; }
     .variant-hero { aspect-ratio: 16 / 10; border-radius: var(--radius-md); }
-    .variant-hero .cover-mark { width: 72px; height: 72px; margin: -36px 0 0 -36px; border-radius: 20px; }
-    .variant-hero .cover-mark :global(.app-glyph) { width: 32px; height: 32px; }
+    .cover-tag {
+      font-size: 0.625rem;
+      padding: 3px 8px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .app-cover:hover .motif-svg,
+    .app-cover img {
+      transform: none !important;
+      transition: none !important;
+    }
   }
 </style>

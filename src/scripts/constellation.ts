@@ -44,8 +44,8 @@ const SLATE = '100, 116, 139';
 function getConfig(width: number): Config {
   const mobile = width < 640;
   return mobile
-    ? { maxDpr: 1.5, areaPerParticle: 15000, minParticles: 14, maxParticles: 26, linkDistance: 96, speed: 7, frameInterval: 1000 / 30, lineAlpha: 0.11 }
-    : { maxDpr: 2, areaPerParticle: 13500, minParticles: 28, maxParticles: 68, linkDistance: 138, speed: 10, frameInterval: 0, lineAlpha: 0.14 };
+    ? { maxDpr: 1.5, areaPerParticle: 14000, minParticles: 16, maxParticles: 30, linkDistance: 105, speed: 7, frameInterval: 1000 / 30, lineAlpha: 0.20 }
+    : { maxDpr: 2, areaPerParticle: 12000, minParticles: 34, maxParticles: 75, linkDistance: 145, speed: 10, frameInterval: 0, lineAlpha: 0.26 };
 }
 
 /** Small deterministic PRNG so the static/no-motion frame is stable across loads. */
@@ -88,15 +88,15 @@ export function initConstellation(root: HTMLElement): () => void {
   function makeParticle(): Particle {
     const angle = rand() * Math.PI * 2;
     const speed = (0.35 + rand() * 0.65) * cfg.speed;
-    const tone: 0 | 1 = rand() < 0.38 ? 1 : 0;
+    const tone: 0 | 1 = rand() < 0.42 ? 1 : 0;
     return {
       x: rand() * width,
       y: rand() * height,
       vx: Math.cos(angle) * speed,
       vy: Math.sin(angle) * speed,
-      r: tone === 1 ? 1.1 + rand() * 0.9 : 0.8 + rand() * 0.8,
+      r: tone === 1 ? 1.35 + rand() * 1.05 : 1.0 + rand() * 0.9,
       tone,
-      alpha: tone === 1 ? 0.42 + rand() * 0.22 : 0.3 + rand() * 0.2,
+      alpha: tone === 1 ? 0.62 + rand() * 0.24 : 0.48 + rand() * 0.22,
     };
   }
 
@@ -181,7 +181,7 @@ export function initConstellation(root: HTMLElement): () => void {
     const maxD2 = maxD * maxD;
 
     // Links
-    ctx!.lineWidth = 0.6;
+    ctx!.lineWidth = 0.75;
     for (let i = 0; i < particles.length; i++) {
       const pi = particles[i];
       for (let j = i + 1; j < particles.length; j++) {
@@ -193,11 +193,11 @@ export function initConstellation(root: HTMLElement): () => void {
         const falloff = 1 - Math.sqrt(d2) / maxD;
         const glow = reducedMotion ? 0 : pulseIntensity(i, j, now);
         if (glow > 0.01) {
-          ctx!.strokeStyle = `rgba(${BLUE}, ${(falloff * cfg.lineAlpha + glow * 0.22).toFixed(3)})`;
-          ctx!.lineWidth = 0.6 + glow * 0.5;
+          ctx!.strokeStyle = `rgba(${BLUE}, ${(falloff * cfg.lineAlpha + glow * 0.28).toFixed(3)})`;
+          ctx!.lineWidth = 0.75 + glow * 0.55;
         } else {
           ctx!.strokeStyle = `rgba(${SLATE}, ${(falloff * cfg.lineAlpha).toFixed(3)})`;
-          ctx!.lineWidth = 0.6;
+          ctx!.lineWidth = 0.75;
         }
         ctx!.beginPath();
         ctx!.moveTo(pi.x, pi.y);
