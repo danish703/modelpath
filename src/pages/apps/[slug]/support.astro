@@ -2,6 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import StatusBadge from '../../../components/StatusBadge.astro';
+import { studioContactConfig } from '../../../data/studioContact';
 
 export async function getStaticPaths() {
   const apps = await getCollection('apps');
@@ -12,6 +13,7 @@ export async function getStaticPaths() {
 }
 
 const { app } = Astro.props;
+const supportEmail = studioContactConfig.emails.support || app.data.supportEmail;
 ---
 
 <BaseLayout
@@ -95,17 +97,17 @@ const { app } = Astro.props;
 
       <div class="contact-action-box">
         <a
-          href={`mailto:${app.data.supportEmail}?subject=[Support] ${app.data.name}`}
+          href={`mailto:${supportEmail}?subject=[Support] ${app.data.name}`}
           class="support-email-btn"
-          aria-label={`Send support email to ${app.data.supportEmail}`}
+          aria-label={`Send support email to ${supportEmail}`}
         >
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
             <polyline points="22,6 12,13 2,6" />
           </svg>
-          <span>{app.data.supportEmail}</span>
+          <span>{supportEmail}</span>
         </a>
-        <span class="response-note">Inquiries reviewed directly by engineering &bull; Typical response in 2–3 business days</span>
+        <span class="response-note">Incoming messages routed via Cloudflare Email Routing directly to our engineering team</span>
       </div>
     </section>
 

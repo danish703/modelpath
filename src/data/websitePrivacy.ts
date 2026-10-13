@@ -1,3 +1,5 @@
+import { studioContactConfig } from './studioContact';
+
 export interface PrivacySection {
   id: string;
   title: string;
@@ -20,7 +22,7 @@ export const websitePrivacyData: WebsitePrivacyData = {
   lastUpdated: "October 13, 2026",
   operator: "ModelPath Studio",
   websiteUrl: "https://modelpath.app",
-  privacyEmail: "privacy@modelpath.app",
+  privacyEmail: studioContactConfig.emails.privacy,
   sections: [
     {
       id: "scope",

@@ -2,6 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { appPrivacyChecklists } from '../../../data/appPrivacyChecklist';
+import { studioContactConfig } from '../../../data/studioContact';
 
 export async function getStaticPaths() {
   const apps = await getCollection('apps');
@@ -15,6 +16,7 @@ const { app } = Astro.props;
 const isVerified = app.data.privacyPolicyStatus === 'verified';
 const isPending = app.data.privacyPolicyStatus === 'pending-review';
 const isDraft = app.data.privacyPolicyStatus === 'draft';
+const privacyEmail = studioContactConfig.emails.privacy || app.data.supportEmail;
 
 const evidenceProfile = appPrivacyChecklists[app.data.slug] || {
   appName: app.data.name,
@@ -34,7 +36,7 @@ const disclosures = app.data.privacyDisclosures || {
   permissions: [],
   securityPractices: '',
   dataDeletion: '',
-  contactEmail: app.data.supportEmail
+  contactEmail: privacyEmail
 };
 ---
 
@@ -238,8 +240,8 @@ const disclosures = app.data.privacyDisclosures || {
         <p class="footer-well-text">
           Direct all privacy questions, data handling clarifications, or pre-release governance inquiries for <strong>{app.data.name}</strong> to:
         </p>
-        <a href={`mailto:${app.data.supportEmail}?subject=[Privacy] ${app.data.name}`} class="footer-email-link">
-          {app.data.supportEmail}
+        <a href={`mailto:${privacyEmail}?subject=[Privacy] ${app.data.name}`} class="footer-email-link">
+          {privacyEmail}
         </a>
       </div>
 

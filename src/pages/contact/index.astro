@@ -55,7 +55,10 @@ const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.
                   </svg>
                 )}
               </div>
-              <span class="channel-tag">{channel.purpose}</span>
+              <div class="channel-tags-group">
+                <span class="channel-status-badge">Active Verified</span>
+                <span class="channel-tag">{channel.purpose}</span>
+              </div>
             </div>
 
             <h3 class="channel-name">{channel.label}</h3>
@@ -152,7 +155,7 @@ const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.
       <div class="notice-content">
         <strong class="notice-title">Studio Operational Notice</strong>
         <p class="notice-text">
-          {studioContactConfig.responseTimeNote}
+          {studioContactConfig.routingNotice}
         </p>
         <p class="notice-text note-secondary">
           {studioContactConfig.postalAddressNote}
@@ -296,6 +299,26 @@ const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.
     width: 22px;
     height: 22px;
     stroke: var(--accent-blue);
+  }
+
+  .channel-tags-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .channel-status-badge {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #0e7490;
+    background: rgba(14, 116, 144, 0.08);
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(14, 116, 144, 0.25);
+    box-shadow: var(--shadow-inset-box);
   }
 
   .channel-tag {
