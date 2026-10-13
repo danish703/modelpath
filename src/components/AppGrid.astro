@@ -1,0 +1,43 @@
+---
+import AppCard from './AppCard.astro';
+
+interface AppItem {
+  slug: string;
+  name: string;
+  category: string;
+  description: string;
+  status: 'published' | 'coming-soon' | 'in-development' | 'unconfirmed' | string;
+  availablePlatforms?: string[];
+  plannedPlatforms?: string[];
+}
+
+interface Props {
+  apps: AppItem[];
+  class?: string;
+}
+
+const { apps, class: className = '' } = Astro.props;
+---
+
+<div class={`apps-grid-container ${className}`}>
+  {apps.map((app) => (
+    <AppCard app={app} />
+  ))}
+</div>
+
+<style>
+  .apps-grid-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+
+  @media (max-width: 860px) {
+    .apps-grid-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+</style>

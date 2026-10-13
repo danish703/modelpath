@@ -12,7 +12,7 @@ const apps = defineCollection({
     category: z.string(),
     availablePlatforms: z.array(z.enum(['android', 'ios'])).default([]),
     plannedPlatforms: z.array(z.enum(['android', 'ios'])).default([]),
-    status: z.enum(['published', 'coming-soon', 'in-development']),
+    status: z.enum(['published', 'coming-soon', 'in-development', 'unconfirmed']),
     icon: z.string(),
     screenshots: z.array(z.string()).default([]),
     features: z.array(z.string()).default([]),

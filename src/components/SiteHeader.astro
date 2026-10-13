@@ -1,0 +1,367 @@
+---
+interface Props {
+  activePath?: string;
+}
+
+const { activePath = Astro.url.pathname } = Astro.props;
+
+const isLinkActive = (path: string) => {
+  if (path === '/' && activePath === '/') return true;
+  if (path !== '/' && activePath.startsWith(path)) return true;
+  return false;
+};
+---
+
+<header class="header-wrapper">
+  <!-- Desktop & Tablet Floating Header Pill -->
+  <div class="nav-desktop">
+    <a href="/" class="brand-container" aria-label="ModelPath Studio Homepage">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 18V6l8 8 8-8v12" />
+        </svg>
+      </div>
+      <span class="brand-name">ModelPath Studio</span>
+    </a>
+
+    <nav class="desktop-nav-links" aria-label="Primary Navigation">
+      <ul class="nav-list">
+        <li>
+          <a href="/" class={`nav-link ${isLinkActive('/') ? 'active' : ''}`}>
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="/apps/" class={`nav-link ${isLinkActive('/apps') ? 'active' : ''}`}>
+            Apps
+          </a>
+        </li>
+        <li>
+          <a href="/about/" class={`nav-link ${isLinkActive('/about') ? 'active' : ''}`}>
+            About
+          </a>
+        </li>
+        <li>
+          <a href="/contact/" class={`nav-link ${isLinkActive('/contact') ? 'active' : ''}`}>
+            Contact
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="nav-cta-wrapper">
+      <a href="/apps/" class="nav-cta-btn">
+        Explore Apps
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobile Header Bar (Viewport < 860px) -->
+  <div class="nav-mobile">
+    <a href="/" class="brand-container" aria-label="ModelPath Studio Homepage">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 18V6l8 8 8-8v12" />
+        </svg>
+      </div>
+      <span class="brand-name">ModelPath Studio</span>
+    </a>
+
+    <button
+      id="mobile-nav-toggle"
+      class="hamburger-btn"
+      aria-expanded="false"
+      aria-controls="mobile-nav-menu"
+      aria-label="Toggle navigation menu"
+    >
+      <svg class="hamburger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6" class="line-top" />
+        <line x1="3" y1="12" x2="21" y2="12" class="line-mid" />
+        <line x1="3" y1="18" x2="21" y2="18" class="line-bot" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <nav id="mobile-nav-menu" class="mobile-menu" aria-label="Mobile Navigation" hidden>
+    <ul class="mobile-menu-list">
+      <li>
+        <a href="/" class={`mobile-menu-link ${isLinkActive('/') ? 'active' : ''}`}>
+          Home
+        </a>
+      </li>
+      <li>
+        <a href="/apps/" class={`mobile-menu-link ${isLinkActive('/apps') ? 'active' : ''}`}>
+          Apps
+        </a>
+      </li>
+      <li>
+        <a href="/about/" class={`mobile-menu-link ${isLinkActive('/about') ? 'active' : ''}`}>
+          About
+        </a>
+      </li>
+      <li>
+        <a href="/contact/" class={`mobile-menu-link ${isLinkActive('/contact') ? 'active' : ''}`}>
+          Contact
+        </a>
+      </li>
+      <li class="mobile-cta-item">
+        <a href="/apps/" class="mobile-cta-btn">
+          Explore Our Apps &rarr;
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  function setupMobileNav() {
+    const toggle = document.getElementById('mobile-nav-toggle');
+    const menu = document.getElementById('mobile-nav-menu');
+    if (!toggle || !menu) return;
+
+    toggle.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!isExpanded));
+      if (isExpanded) {
+        menu.hidden = true;
+      } else {
+        menu.hidden = false;
+      }
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) {
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.hidden = true;
+        toggle.focus();
+      }
+    });
+  }
+
+  // Run on page load
+  setupMobileNav();
+  document.addEventListener('astro:after-swap', setupMobileNav);
+</script>
+
+<style>
+  .header-wrapper {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto 36px;
+    position: relative;
+    z-index: 50;
+  }
+
+  /* Desktop Floating Pill */
+  .nav-desktop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 68px;
+    background: var(--bg-raised);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-nav);
+    padding: 0 28px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+  }
+
+  .brand-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    background: var(--accent-blue);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: -2px -2px 6px #FFFFFF, 2px 2px 8px rgba(69, 103, 232, 0.35);
+    flex-shrink: 0;
+  }
+
+  .brand-mark svg {
+    width: 20px;
+    height: 20px;
+    stroke: #FFFFFF;
+  }
+
+  .brand-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .desktop-nav-links {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    color: var(--text-body);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: var(--radius-pill);
+    transition: all var(--transition-fast);
+  }
+
+  .nav-link:hover {
+    color: var(--text-heading);
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+  .nav-link.active {
+    color: var(--accent-blue);
+    box-shadow: var(--shadow-inset-box);
+    font-weight: 600;
+  }
+
+  .nav-cta-btn {
+    background: var(--accent-blue);
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 10px 22px;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    box-shadow: var(--shadow-btn-primary);
+    transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .nav-cta-btn:hover {
+    background: var(--accent-blue-hover);
+    transform: translateY(-1px);
+  }
+
+  /* Mobile Bar (hidden by default on desktop) */
+  .nav-mobile {
+    display: none;
+    width: 100%;
+    height: 56px;
+    background: var(--bg-raised);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-nav-mobile);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+  }
+
+  .nav-mobile .brand-name {
+    font-size: 1.05rem;
+  }
+
+  .hamburger-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
+    border: none;
+    box-shadow: var(--shadow-btn-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .hamburger-icon {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text-heading);
+  }
+
+  /* Mobile Dropdown Menu */
+  .mobile-menu {
+    width: 100%;
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card-mobile);
+    margin-top: 12px;
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+  }
+
+  .mobile-menu[hidden] {
+    display: none;
+  }
+
+  .mobile-menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .mobile-menu-link {
+    display: block;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-heading);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .mobile-menu-link.active {
+    color: var(--accent-blue);
+    background: var(--bg-inset);
+    box-shadow: var(--shadow-inset-box);
+  }
+
+  .mobile-cta-item {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .mobile-cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    background: var(--accent-blue);
+    color: #FFFFFF;
+    font-weight: 600;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-btn-primary);
+    text-decoration: none;
+    text-align: center;
+  }
+
+  /* Responsive Breakpoint */
+  @media (max-width: 860px) {
+    .nav-desktop {
+      display: none;
+    }
+    .nav-mobile {
+      display: flex;
+    }
+  }
+</style>

@@ -1,12 +1,18 @@
 ---
 import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = 'ModelPath — Independent Software Studio' } = Astro.props;
+const {
+  title,
+  description = 'ModelPath Studio — An independent software studio creating elegant mobile applications and intelligent digital experiences.',
+} = Astro.props;
+
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://modelpath.app');
 ---
 
@@ -15,29 +21,41 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://modelpat
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} | ModelPath</title>
+    <title>{title} | ModelPath Studio</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl.href} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
-    <header style="padding: 1rem 2rem; border-bottom: 1px solid var(--color-border-subtle); display: flex; justify-content: space-between; align-items: center;">
-      <a href="/" style="font-weight: 700; color: var(--color-text-primary); text-decoration: none;">ModelPath</a>
-      <nav style="display: flex; gap: 1.5rem;">
-        <a href="/">Home</a>
-        <a href="/apps/">Apps</a>
-        <a href="/about/">About</a>
-        <a href="/contact/">Contact</a>
-        <a href="/privacy/">Privacy</a>
-      </nav>
-    </header>
-
-    <main style="flex: 1; padding: 2rem; max-width: 960px; margin: 0 auto; width: 100%;">
-      <slot />
-    </main>
-
-    <footer style="padding: 1.5rem 2rem; border-top: 1px solid var(--color-border-subtle); text-align: center; color: var(--color-text-muted); font-size: 0.875rem;">
-      <p>&copy; {new Date().getFullYear()} ModelPath. All rights reserved. | <a href="/privacy/">Privacy</a></p>
-    </footer>
+    <div class="site-container">
+      <SiteHeader />
+      <main id="main-content" class="main-content">
+        <slot />
+      </main>
+      <SiteFooter />
+    </div>
   </body>
 </html>
+
+<style>
+  .site-container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 32px 48px 48px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .main-content {
+    flex: 1;
+    width: 100%;
+  }
+
+  @media (max-width: 860px) {
+    .site-container {
+      padding: 16px 16px 36px;
+    }
+  }
+</style>

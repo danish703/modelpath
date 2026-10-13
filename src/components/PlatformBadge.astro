@@ -1,0 +1,59 @@
+---
+interface Props {
+  availablePlatforms?: string[];
+  plannedPlatforms?: string[];
+  customText?: string;
+}
+
+const { availablePlatforms = [], plannedPlatforms = [], customText } = Astro.props;
+
+let displayText = customText;
+
+if (!displayText) {
+  if (availablePlatforms.length > 0) {
+    const formatted = availablePlatforms.map(p => p === 'ios' ? 'iOS' : 'Android').join(' & ');
+    displayText = `Available on ${formatted}`;
+  } else if (plannedPlatforms.length > 0) {
+    if (plannedPlatforms.length === 1 && plannedPlatforms[0] === 'android') {
+      displayText = 'Target: Android initially';
+    } else {
+      const formatted = plannedPlatforms.map(p => p === 'ios' ? 'iOS' : 'Android').join(' & ');
+      displayText = `Target: ${formatted}`;
+    }
+  } else {
+    displayText = 'Platforms: To be confirmed';
+  }
+}
+---
+
+<span class="platform-badge">
+  <svg class="device-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+    <line x1="12" y1="18" x2="12.01" y2="18" />
+  </svg>
+  <span>{displayText}</span>
+</span>
+
+<style>
+  .platform-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.775rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: var(--bg-inset);
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-inset-box);
+    white-space: nowrap;
+    width: fit-content;
+  }
+
+  .device-icon {
+    width: 14px;
+    height: 14px;
+    stroke: var(--text-muted);
+    flex-shrink: 0;
+  }
+</style>

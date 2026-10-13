@@ -1,31 +1,198 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AppGrid from '../../components/AppGrid.astro';
 import { getCollection } from 'astro:content';
 
-const apps = await getCollection('apps');
-apps.sort((a, b) => a.data.order - b.data.order);
+const rawApps = await getCollection('apps');
+const apps = rawApps
+  .map((entry) => ({
+    slug: entry.data.slug,
+    name: entry.data.name,
+    category: entry.data.category,
+    description: entry.data.description,
+    status: entry.data.status,
+    availablePlatforms: entry.data.availablePlatforms,
+    plannedPlatforms: entry.data.plannedPlatforms,
+    order: entry.data.order,
+  }))
+  .sort((a, b) => a.order - b.order);
 ---
 
-<BaseLayout title="Applications Directory" description="Explore digital products and mobile applications crafted by ModelPath studio.">
-  <section style="margin-bottom: 2rem;">
-    <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Applications</h1>
-    <p style="color: var(--color-text-secondary);">Browse current and upcoming applications by ModelPath.</p>
-  </section>
+<BaseLayout
+  title="Our Applications"
+  description="Explore software developed by ModelPath Studio. Each product is engineered with a strict focus on utility, performance, and respectful on-device privacy."
+>
+  <div class="directory-container">
+    <!-- Directory Header -->
+    <header class="directory-header">
+      <div class="breadcrumb">ModelPath Studio / Directory</div>
+      <h1 class="directory-title">Our Applications</h1>
+      <p class="directory-desc">
+        Explore software developed by ModelPath Studio. Each product is engineered with a strict focus on utility, performance, and respectful on-device privacy.
+      </p>
 
-  <div style="display: grid; gap: 1.5rem;">
-    {apps.map((app) => (
-      <article style="padding: 1.5rem; background: var(--color-bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-raised-sm);">
-        <div style="display: flex; justify-content: space-between; align-items: baseline;">
-          <h2 style="font-size: 1.35rem;"><a href={`/apps/${app.data.slug}/`}>{app.data.name}</a></h2>
-          <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: var(--color-text-muted);">{app.data.status}</span>
-        </div>
-        <p style="color: var(--color-text-secondary); margin: 0.5rem 0 1rem;">{app.data.description}</p>
-        <div style="display: flex; gap: 1rem; font-size: 0.875rem;">
-          <a href={`/apps/${app.data.slug}/`}>View App &rarr;</a>
-          <a href={`/apps/${app.data.slug}/privacy/`}>Privacy Policy</a>
-          <a href={`/apps/${app.data.slug}/support/`}>Support</a>
-        </div>
-      </article>
-    ))}
+      <!-- Category Filter Pills -->
+      <nav class="filter-nav" aria-label="Category Filters">
+        <ul class="filter-tabs">
+          <li>
+            <button type="button" class="filter-pill active" aria-current="page">
+              <span>All</span>
+              <span class="filter-count">4</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="filter-pill">
+              <span>Productivity</span>
+              <span class="filter-count">1</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="filter-pill">
+              <span>Reading</span>
+              <span class="filter-count">1</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="filter-pill">
+              <span>Education</span>
+              <span class="filter-count">1</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="filter-pill">
+              <span>Machine Learning</span>
+              <span class="filter-count">1</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Applications Grid -->
+    <section class="apps-section" aria-label="Applications List">
+      <AppGrid apps={apps} />
+    </section>
   </div>
 </BaseLayout>
+
+<style>
+  .directory-container {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  .directory-header {
+    margin-bottom: 40px;
+  }
+
+  .breadcrumb {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+  }
+
+  .directory-title {
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--text-heading);
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .directory-desc {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: var(--text-body);
+    max-width: 720px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  .filter-tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+  }
+
+  .filter-pill {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-body);
+    background: var(--bg-surface);
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-btn-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .filter-pill:hover {
+    color: var(--text-heading);
+    transform: translateY(-1px);
+  }
+
+  .filter-pill.active {
+    color: var(--accent-blue);
+    box-shadow: var(--shadow-inset-box);
+    background: var(--bg-inset);
+  }
+
+  .filter-count {
+    font-size: 0.725rem;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: var(--bg-inset);
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .filter-pill.active .filter-count {
+    background: var(--accent-blue);
+    color: #FFFFFF;
+  }
+
+  .apps-section {
+    margin-bottom: 64px;
+  }
+
+  @media (max-width: 600px) {
+    .directory-header {
+      margin-bottom: 28px;
+    }
+
+    .breadcrumb {
+      font-size: 0.75rem;
+      margin-bottom: 8px;
+    }
+
+    .directory-desc {
+      font-size: 0.925rem;
+      margin-bottom: 20px;
+    }
+
+    .filter-pill {
+      font-size: 0.775rem;
+      padding: 6px 12px;
+      gap: 6px;
+    }
+
+    .filter-count {
+      font-size: 0.6875rem;
+      padding: 1px 6px;
+    }
+
+    .apps-section {
+      margin-bottom: 40px;
+    }
+  }
+</style>

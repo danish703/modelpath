@@ -1,55 +1,68 @@
 /* ==========================================================================
-   ModelPath Design Tokens — Preliminary Neumorphic System (Gate 1)
-   Approved Stitch UI/UX specifications will refine these values in Gate 2.
+   ModelPath Design Tokens — Approved Premium White Neumorphic System (Gate 2/3)
    ========================================================================== */
 
 :root {
   /* Surfaces & Canvas */
-  --color-bg-primary: #F4F6F8;
-  --color-bg-surface: #F7F9FB;
-  --color-bg-raised: #F4F6F8;
-  --color-bg-inset: #ECEFF3;
+  --bg-canvas: #F4F6F8;
+  --bg-surface: #F7F9FB;
+  --bg-raised: #F4F6F8;
+  --bg-inset: #EBEEF2;
 
-  /* Typography & High-Contrast Colors (WCAG 2.2 AA Compliant) */
-  --color-text-primary: #172233;     /* > 11:1 against #F4F6F8 */
-  --color-text-secondary: #475569;   /* > 5.5:1 against #F4F6F8 */
-  --color-text-muted: #64748B;       /* > 4.5:1 against #F4F6F8 */
-  --color-border-subtle: rgba(169, 180, 196, 0.35);
+  /* Typography & High-Contrast Colors (WCAG 2.1 AA Compliant) */
+  --text-heading: #172233;
+  --text-body: #475569;
+  --text-muted: #64748B;
+  --border-subtle: rgba(169, 180, 196, 0.32);
 
   /* Brand Accent */
-  --color-accent: #4567E8;
-  --color-accent-hover: #3354D4;
-  --color-accent-subtle: rgba(69, 103, 232, 0.12);
+  --accent-blue: #4567E8;
+  --accent-blue-hover: #3354D4;
 
-  /* Status Tokens */
-  --color-status-published: #0D9488;
-  --color-status-dev: #D97706;
-  --color-status-coming: #6366F1;
+  /* Neumorphic Lighting & Shadows */
+  --shadow-nav: -6px -6px 14px #FFFFFF, 6px 6px 16px rgba(169, 180, 196, 0.25);
+  --shadow-nav-mobile: -4px -4px 10px #FFFFFF, 4px 4px 12px rgba(169, 180, 196, 0.22);
+  --shadow-card: -8px -8px 20px #FFFFFF, 8px 8px 20px rgba(169, 180, 196, 0.26);
+  --shadow-card-mobile: -6px -6px 16px #FFFFFF, 6px 6px 16px rgba(169, 180, 196, 0.24);
+  --shadow-btn-primary: -4px -4px 10px #FFFFFF, 4px 4px 12px rgba(69, 103, 232, 0.32);
+  --shadow-btn-secondary: -4px -4px 10px #FFFFFF, 4px 4px 12px rgba(169, 180, 196, 0.24);
+  --shadow-inset-box: inset 3px 3px 7px rgba(169, 180, 196, 0.22), inset -3px -3px 7px #FFFFFF;
+  --shadow-inset-well: inset 5px 5px 12px rgba(169, 180, 196, 0.20), inset -5px -5px 12px #FFFFFF;
 
-  /* Neumorphic Lighting & Shadows (Preliminary Dual-Direction) */
-  --shadow-raised-sm: -4px -4px 10px rgba(255, 255, 255, 0.95), 4px 4px 12px rgba(169, 180, 196, 0.22);
-  --shadow-raised-md: -7px -7px 16px rgba(255, 255, 255, 0.95), 7px 7px 18px rgba(169, 180, 196, 0.28);
-  --shadow-raised-hover: -9px -9px 20px rgba(255, 255, 255, 1.0), 9px 9px 22px rgba(169, 180, 196, 0.35);
-  --shadow-inset-sm: inset 3px 3px 6px rgba(169, 180, 196, 0.20), inset -3px -3px 6px rgba(255, 255, 255, 0.90);
-  --shadow-inset-md: inset 4px 4px 9px rgba(169, 180, 196, 0.22), inset -4px -4px 9px rgba(255, 255, 255, 0.90);
-
-  /* Focus Indicator Token */
-  --focus-ring: 2px solid var(--color-accent);
+  /* Focus Indicator */
+  --focus-ring: 2px solid var(--accent-blue);
   --focus-ring-offset: 3px;
 
   /* Radii */
   --radius-sm: 8px;
   --radius-md: 14px;
-  --radius-lg: 22px;
+  --radius-lg: 24px;
   --radius-pill: 9999px;
 
   /* Typography Scale */
-  --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
   --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Transitions */
   --transition-fast: 150ms ease;
   --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Legacy Aliases for Gate 1 Backward Compatibility */
+  --color-bg-primary: var(--bg-canvas);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-raised: var(--bg-raised);
+  --color-bg-inset: var(--bg-inset);
+  --color-text-primary: var(--text-heading);
+  --color-text-secondary: var(--text-body);
+  --color-text-muted: var(--text-muted);
+  --color-border-subtle: var(--border-subtle);
+  --color-accent: var(--accent-blue);
+  --color-accent-hover: var(--accent-blue-hover);
+  --color-status-published: #0D9488;
+  --color-status-dev: #D97706;
+  --color-status-coming: var(--accent-blue);
+  --shadow-raised-sm: var(--shadow-btn-secondary);
+  --shadow-raised-md: var(--shadow-card);
 }
 
 @media (prefers-reduced-motion: reduce) {

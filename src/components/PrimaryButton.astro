@@ -1,0 +1,60 @@
+---
+interface Props {
+  href?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+  ariaLabel?: string;
+  disabled?: boolean;
+}
+
+const { href, type = 'button', class: className = '', ariaLabel, disabled = false } = Astro.props;
+---
+
+{href && !disabled ? (
+  <a href={href} class={`btn-primary ${className}`} aria-label={ariaLabel}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class={`btn-primary ${className}`} aria-label={ariaLabel} disabled={disabled}>
+    <slot />
+  </button>
+)}
+
+<style>
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--accent-blue);
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px 24px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-btn-primary);
+    text-decoration: none;
+    transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: var(--accent-blue-hover);
+    transform: translateY(-1px);
+    box-shadow: -4px -4px 12px #FFFFFF, 4px 6px 16px rgba(69, 103, 232, 0.40);
+  }
+
+  .btn-primary:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.25);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+</style>

@@ -1,0 +1,283 @@
+---
+import StatusBadge from './StatusBadge.astro';
+import PlatformBadge from './PlatformBadge.astro';
+
+interface Props {
+  app: {
+    slug: string;
+    name: string;
+    category: string;
+    description: string;
+    status: 'published' | 'coming-soon' | 'in-development' | 'unconfirmed' | string;
+    availablePlatforms?: string[];
+    plannedPlatforms?: string[];
+  };
+  highlightMl?: boolean;
+}
+
+const { app, highlightMl = false } = Astro.props;
+const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'unconfirmed';
+---
+
+<article class={`app-card ${isMl ? 'highlight-ml' : ''}`}>
+  <div class="card-top">
+    <div class="icon-capsule">
+      {app.slug === 'signmint' && (
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9" />
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+        </svg>
+      )}
+      {app.slug === 'ehub' && (
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+        </svg>
+      )}
+      {app.slug === 'pylab' && (
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="4 17 10 11 4 5" />
+          <line x1="12" y1="19" x2="20" y2="19" />
+        </svg>
+      )}
+      {app.slug === 'modelpath-ml' && (
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3" />
+          <circle cx="19" cy="6" r="2" />
+          <circle cx="5" cy="6" r="2" />
+          <circle cx="19" cy="18" r="2" />
+          <circle cx="5" cy="18" r="2" />
+          <line x1="7" y1="7" x2="10" y2="10" />
+          <line x1="17" y1="7" x2="14" y2="10" />
+          <line x1="7" y1="17" x2="10" y2="14" />
+          <line x1="17" y1="17" x2="14" y2="14" />
+        </svg>
+      )}
+      {!['signmint', 'ehub', 'pylab', 'modelpath-ml'].includes(app.slug) && (
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+          <line x1="8" y1="21" x2="16" y2="21" />
+          <line x1="12" y1="17" x2="12" y2="21" />
+        </svg>
+      )}
+    </div>
+    <StatusBadge status={app.status} />
+  </div>
+
+  <div class="card-meta">
+    <span class="app-category">{app.category}</span>
+    <h3 class="app-name">
+      <a href={`/apps/${app.slug}/`}>{app.name}</a>
+    </h3>
+  </div>
+
+  <p class="app-description">{app.description}</p>
+
+  <div class="card-bottom">
+    <div class="platform-row">
+      <PlatformBadge
+        availablePlatforms={app.availablePlatforms}
+        plannedPlatforms={app.plannedPlatforms}
+      />
+    </div>
+
+    <div class="actions-row">
+      <div class="sublinks-group">
+        <a href={`/apps/${app.slug}/privacy/`} class="card-sublink">Privacy</a>
+        <a href={`/apps/${app.slug}/support/`} class="card-sublink">Support</a>
+      </div>
+      <a href={`/apps/${app.slug}/`} class="btn-explore-app">
+        <span>Explore App</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .app-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    position: relative;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .app-card.highlight-ml {
+    border-left: 3px solid var(--accent-blue);
+  }
+
+  .app-card:hover {
+    transform: translateY(-2px);
+    box-shadow: -10px -10px 24px #FFFFFF, 10px 10px 24px rgba(169, 180, 196, 0.32);
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .icon-capsule {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-inset-box);
+    background: var(--bg-raised);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .icon-capsule svg {
+    width: 26px;
+    height: 26px;
+    stroke: var(--accent-blue);
+  }
+
+  .card-meta {
+    margin-bottom: 8px;
+  }
+
+  .app-category {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .app-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  .app-name a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .app-name a:hover {
+    color: var(--accent-blue);
+  }
+
+  .app-description {
+    font-size: 0.975rem;
+    color: var(--text-body);
+    line-height: 1.6;
+    margin-bottom: 24px;
+    flex: 1;
+  }
+
+  .card-bottom {
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .platform-row {
+    display: flex;
+    align-items: center;
+  }
+
+  .actions-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .sublinks-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .card-sublink {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+  }
+
+  .card-sublink:hover {
+    color: var(--accent-blue);
+    text-decoration: underline;
+  }
+
+  .btn-explore-app {
+    background: var(--bg-raised);
+    color: var(--accent-blue);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-btn-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .btn-explore-app:hover {
+    transform: translateY(-1px);
+    box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(169, 180, 196, 0.32);
+  }
+
+  @media (max-width: 600px) {
+    .app-card {
+      padding: 20px 16px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card-mobile);
+    }
+
+    .icon-capsule {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+    }
+
+    .icon-capsule svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .app-name {
+      font-size: 1.25rem;
+    }
+
+    .app-description {
+      font-size: 0.875rem;
+      margin-bottom: 16px;
+    }
+
+    .card-bottom {
+      padding-top: 14px;
+      gap: 12px;
+    }
+
+    .btn-explore-app {
+      font-size: 0.85rem;
+      padding: 8px 14px;
+    }
+  }
+</style>
