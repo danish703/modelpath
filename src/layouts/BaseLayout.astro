@@ -93,6 +93,14 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <!-- Google Fonts: Inter & Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
     {noindex ? (
       <meta name="robots" content="noindex, nofollow" />
     ) : (
@@ -119,13 +127,13 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     ))}
 
-    <!-- JS detection for no-JS progressive enhancement -->
+    <!-- JS detection for progressive enhancement -->
     <script is:inline>
       document.documentElement.classList.add('js');
     </script>
   </head>
   <body>
-    <div class="site-container">
+    <div class="site-wrapper">
       <SiteHeader />
       <main id="main-content" class="main-content">
         <slot />
@@ -166,24 +174,17 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
 </html>
 
 <style>
-  .site-container {
+  .site-wrapper {
     width: 100%;
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 32px 48px 48px;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    background-color: var(--c-midnight);
+    position: relative;
   }
 
   .main-content {
     flex: 1;
     width: 100%;
-  }
-
-  @media (max-width: 860px) {
-    .site-container {
-      padding: 16px 16px 36px;
-    }
   }
 </style>

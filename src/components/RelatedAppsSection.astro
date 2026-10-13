@@ -62,7 +62,7 @@ const relatedApps = apps.filter((app) => app.slug !== currentSlug).slice(0, 3);
 <style>
   .related-section {
     width: 100%;
-    margin-top: 48px;
+    margin-top: 56px;
     margin-bottom: 24px;
   }
 
@@ -71,20 +71,21 @@ const relatedApps = apps.filter((app) => app.slug !== currentSlug).slice(0, 3);
   }
 
   .section-label {
-    font-size: 0.8125rem;
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-blue);
+    letter-spacing: 0.08em;
+    color: var(--c-cobalt, #4F6BFF);
     display: block;
     margin-bottom: 4px;
   }
 
   .section-title {
-    font-size: clamp(1.5rem, 3vw, 1.85rem);
+    font-family: var(--font-display, inherit);
+    font-size: clamp(1.6rem, 3vw, 2rem);
     font-weight: 800;
-    color: var(--text-heading);
-    letter-spacing: -0.02em;
+    color: var(--c-text-dark, #0F172A);
+    letter-spacing: -0.025em;
     margin: 0;
   }
 
@@ -95,40 +96,35 @@ const relatedApps = apps.filter((app) => app.slug !== currentSlug).slice(0, 3);
   }
 
   .related-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.03);
     padding: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(203, 213, 225, 0.6);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     text-decoration: none;
-    transition:
-      transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   }
 
   .related-card:hover {
-    transform: translateY(-3px);
-    box-shadow: -8px -8px 22px #FFFFFF, 10px 12px 26px rgba(169, 180, 196, 0.34);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+    border-color: rgba(79, 107, 255, 0.4);
   }
 
   .related-card:active {
-    transform: translateY(-1px) scale(0.995);
-  }
-
-  .related-card:hover :global(.related-icon) {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
   }
 
   .explore-arrow {
     display: inline-block;
-    transition: transform var(--transition-normal);
+    transition: transform var(--transition-normal, 0.2s ease);
   }
 
   .related-card:hover .explore-arrow {
-    transform: translateX(2px);
+    transform: translateX(3px);
   }
 
   .related-card-top {
@@ -141,39 +137,41 @@ const relatedApps = apps.filter((app) => app.slug !== currentSlug).slice(0, 3);
   .related-category {
     font-size: 0.75rem;
     font-weight: 700;
-    color: var(--accent-blue);
+    color: var(--c-cobalt, #4F6BFF);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
   }
 
   .related-title {
+    font-family: var(--font-display, inherit);
     font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-heading);
+    font-weight: 800;
+    color: var(--c-text-dark, #0F172A);
     margin: 0;
+    letter-spacing: -0.01em;
   }
 
   .related-desc {
-    font-size: 0.875rem;
-    color: var(--text-body);
-    line-height: 1.5;
+    font-size: 0.88rem;
+    color: var(--c-text-dark-muted, #475569);
+    line-height: 1.55;
     flex: 1;
     margin: 0;
   }
 
   .related-footer {
     padding-top: 14px;
-    border-top: 1px solid var(--border-subtle);
+    border-top: 1px solid rgba(203, 213, 225, 0.5);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.8125rem;
-    color: var(--accent-blue);
+    font-size: 0.82rem;
+    color: var(--c-cobalt, #4F6BFF);
     font-weight: 600;
   }
 
   .platform-hint {
-    color: var(--text-muted);
+    color: var(--c-text-dark-muted, #64748B);
     font-weight: 500;
     font-size: 0.75rem;
   }
@@ -186,15 +184,13 @@ const relatedApps = apps.filter((app) => app.slug !== currentSlug).slice(0, 3);
 
     .related-card {
       padding: 18px 16px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-card-mobile);
+      border-radius: 14px;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .related-card:hover,
     .related-card:active,
-    .related-card:hover :global(.related-icon),
     .related-card:hover .explore-arrow {
       transform: none;
     }

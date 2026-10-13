@@ -58,213 +58,219 @@ const principles = [
   title="About ModelPath Studio"
   description="ModelPath Studio is an independent software studio focused on creating practical, thoughtfully designed applications that make digital experiences simpler and more enjoyable."
 >
-  <div class="about-container">
-    <!-- Hero Section -->
+  <div class="about-page">
+    <!-- Dark Atmospheric Hero -->
     <header class="about-hero">
-      <div class="hero-badge">
-        <span class="badge-dot" aria-hidden="true"></span>
-        <span>Independent Software Studio</span>
+      <div class="container">
+        <div class="hero-badge">
+          <span class="badge-dot" aria-hidden="true"></span>
+          <span>Independent Software Studio</span>
+        </div>
+        <h1 class="hero-title">About ModelPath Studio</h1>
+        <p class="hero-description">
+          ModelPath Studio is an independent software studio focused on creating practical, thoughtfully designed applications that make digital experiences simpler and more enjoyable.
+        </p>
       </div>
-      <h1 class="hero-title">About ModelPath Studio</h1>
-      <p class="hero-description">
-        ModelPath Studio is an independent software studio focused on creating practical, thoughtfully designed applications that make digital experiences simpler and more enjoyable.
-      </p>
     </header>
 
-    <!-- Studio Story Section -->
-    <section class="section-container" aria-labelledby="story-heading">
-      <div class="story-card">
-        <div class="story-header">
-          <span class="story-label">Our Story</span>
-          <h2 id="story-heading" class="story-title">Crafting Independent Digital Tools</h2>
-        </div>
-        <div class="story-body">
-          <p>
-            ModelPath Studio was established as an independent product studio dedicated to deliberate craftsmanship in modern software. We build focused digital tools prioritizing clean aesthetics, responsive ergonomics, and dependable utility.
-          </p>
-          <p>
-            We build software from first principles: clean design, responsive ergonomics, and thoughtful consideration for user workflows. By focusing on utility and clarity, we create focused mobile and digital applications that empower people in their day-to-day work, reading, learning, and productivity workflows.
-          </p>
-          <p>
-            As an independent studio, our roadmap is shaped purely by product quality and user benefit. We take pride in building software we genuinely rely on ourselves.
-          </p>
-        </div>
-      </div>
-    </section>
+    <!-- Editorial Canvas Section -->
+    <main class="editorial-canvas">
+      <div class="container">
+        <!-- Studio Story Section -->
+        <section class="section-container" aria-labelledby="story-heading">
+          <div class="story-card">
+            <div class="story-header">
+              <span class="story-label">Our Story</span>
+              <h2 id="story-heading" class="story-title">Crafting Independent Digital Tools</h2>
+            </div>
+            <div class="story-body">
+              <p>
+                ModelPath Studio was established as an independent product studio dedicated to deliberate craftsmanship in modern software. We build focused digital tools prioritizing clean aesthetics, responsive ergonomics, and dependable utility.
+              </p>
+              <p>
+                We build software from first principles: clean design, responsive ergonomics, and thoughtful consideration for user workflows. By focusing on utility and clarity, we create focused mobile and digital applications that empower people in their day-to-day work, reading, learning, and productivity workflows.
+              </p>
+              <p>
+                As an independent studio, our roadmap is shaped purely by product quality and user benefit. We take pride in building software we genuinely rely on ourselves.
+              </p>
+            </div>
+          </div>
+        </section>
 
-    <!-- Development Philosophy Section -->
-    <section class="section-container" aria-labelledby="philosophy-heading">
-      <SectionHeading
-        label="Guiding Principles"
-        title="Development Philosophy"
-        description="Our core values guide every architecture decision, interaction pattern, and product release."
-      />
+        <!-- Development Philosophy Section -->
+        <section class="section-container" aria-labelledby="philosophy-heading">
+          <SectionHeading
+            label="Guiding Principles"
+            title="Development Philosophy"
+            description="Our core values guide every architecture decision, interaction pattern, and product release."
+            theme="light"
+          />
 
-      <div class="principles-grid">
-        {principles.map((p) => (
-          <div class="principle-card">
-            <div class="principle-card-top">
-              <div class="principle-icon-well">
-                {p.icon === 'purpose' && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" />
-                    <circle cx="12" cy="12" r="6" />
-                    <circle cx="12" cy="12" r="2" />
-                  </svg>
-                )}
-                {p.icon === 'design' && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M12 19l7-7 3 3-7 7-3-3z" />
-                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
-                    <path d="M2 2l7.586 7.586" />
-                    <circle cx="11" cy="11" r="2" />
-                  </svg>
-                )}
-                {p.icon === 'engineering' && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                    <line x1="8" y1="21" x2="16" y2="21" />
-                    <line x1="12" y1="17" x2="12" y2="21" />
-                  </svg>
-                )}
-                {p.icon === 'improvement' && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                    <polyline points="17 6 23 6 23 12" />
-                  </svg>
-                )}
+          <div class="principles-grid">
+            {principles.map((p) => (
+              <div class="principle-card">
+                <div class="principle-card-top">
+                  <div class="principle-icon-well">
+                    {p.icon === 'purpose' && (
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" />
+                        <circle cx="12" cy="12" r="6" />
+                        <circle cx="12" cy="12" r="2" />
+                      </svg>
+                    )}
+                    {p.icon === 'design' && (
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                        <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                        <path d="M2 2l7.586 7.586" />
+                        <circle cx="11" cy="11" r="2" />
+                      </svg>
+                    )}
+                    {p.icon === 'engineering' && (
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                        <line x1="8" y1="21" x2="16" y2="21" />
+                        <line x1="12" y1="17" x2="12" y2="21" />
+                      </svg>
+                    )}
+                    {p.icon === 'improvement' && (
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                        <polyline points="17 6 23 6 23 12" />
+                      </svg>
+                    )}
+                  </div>
+                  <span class="principle-number">{p.number}</span>
+                </div>
+
+                <h3 class="principle-title">{p.title}</h3>
+                <div class="principle-summary">{p.summary}</div>
+                <p class="principle-desc">{p.description}</p>
               </div>
-              <span class="principle-number">{p.number}</span>
+            ))}
+          </div>
+        </section>
+
+        <!-- Our Applications Section -->
+        <section class="section-container" aria-labelledby="apps-heading">
+          <SectionHeading
+            label="Studio Portfolio"
+            title="Our Applications"
+            description="A concise overview of active and planned software crafted by ModelPath Studio."
+            theme="light"
+          />
+
+          <div class="portfolio-card">
+            <ul class="portfolio-list" role="list">
+              {apps.map((app) => (
+                <li class="portfolio-item">
+                  <div class="portfolio-item-content">
+                    <div class="portfolio-icon-well">
+                      {app.slug === 'signmint' && (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M12 20h9" />
+                          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                        </svg>
+                      )}
+                      {app.slug === 'ehub' && (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                        </svg>
+                      )}
+                      {app.slug === 'pylab' && (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <polyline points="4 17 10 11 4 5" />
+                          <line x1="12" y1="19" x2="20" y2="19" />
+                        </svg>
+                      )}
+                      {app.slug === 'modelpath-ml' && (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <circle cx="12" cy="12" r="3" />
+                          <circle cx="19" cy="6" r="2" />
+                          <circle cx="5" cy="6" r="2" />
+                          <circle cx="19" cy="18" r="2" />
+                          <circle cx="5" cy="18" r="2" />
+                        </svg>
+                      )}
+                    </div>
+
+                    <div class="portfolio-details">
+                      <div class="portfolio-meta">
+                        <span class="portfolio-category">{app.category}</span>
+                        <span class={`portfolio-status-chip ${app.status === 'unconfirmed' ? 'status-unconfirmed' : ''}`}>
+                          {app.status === 'unconfirmed' ? 'Unconfirmed' : 'In Development'}
+                        </span>
+                      </div>
+                      <h3 class="portfolio-name">
+                        <a href={`/apps/${app.slug}/`}>{app.name}</a>
+                      </h3>
+                      <p class="portfolio-desc">{app.description}</p>
+                    </div>
+                  </div>
+
+                  <div class="portfolio-action">
+                    <a href={`/apps/${app.slug}/`} class="portfolio-link-btn">
+                      <span>View Details</span>
+                      <span aria-hidden="true">&rarr;</span>
+                    </a>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <div class="portfolio-cta-row">
+              <PrimaryButton href="/apps/">
+                <span>Explore All Applications</span>
+                <span aria-hidden="true">&rarr;</span>
+              </PrimaryButton>
+            </div>
+          </div>
+        </section>
+
+        <!-- Contact CTA Section -->
+        <section class="section-container" aria-labelledby="contact-heading">
+          <div class="contact-cta-well">
+            <div class="contact-cta-content">
+              <span class="contact-label">Get In Touch</span>
+              <h2 id="contact-heading" class="contact-title">Have a Question?</h2>
+              <p class="contact-description">
+                For application support, feedback, or general inquiries, get in touch with ModelPath Studio.
+              </p>
             </div>
 
-            <h3 class="principle-title">{p.title}</h3>
-            <div class="principle-summary">{p.summary}</div>
-            <p class="principle-desc">{p.description}</p>
+            <div class="contact-cta-action">
+              <PrimaryButton href="/contact/">
+                <span>Contact Us</span>
+                <span aria-hidden="true">&rarr;</span>
+              </PrimaryButton>
+            </div>
           </div>
-        ))}
+        </section>
       </div>
-    </section>
-
-    <!-- Our Applications Section -->
-    <section class="section-container" aria-labelledby="apps-heading">
-      <SectionHeading
-        label="Studio Portfolio"
-        title="Our Applications"
-        description="A concise overview of active and planned software crafted by ModelPath Studio."
-      />
-
-      <div class="portfolio-card">
-        <ul class="portfolio-list" role="list">
-          {apps.map((app) => (
-            <li class="portfolio-item">
-              <div class="portfolio-item-content">
-                <div class="portfolio-icon-well">
-                  {app.slug === 'signmint' && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M12 20h9" />
-                      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                    </svg>
-                  )}
-                  {app.slug === 'ehub' && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-                    </svg>
-                  )}
-                  {app.slug === 'pylab' && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <polyline points="4 17 10 11 4 5" />
-                      <line x1="12" y1="19" x2="20" y2="19" />
-                    </svg>
-                  )}
-                  {app.slug === 'modelpath-ml' && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <circle cx="12" cy="12" r="3" />
-                      <circle cx="19" cy="6" r="2" />
-                      <circle cx="5" cy="6" r="2" />
-                      <circle cx="19" cy="18" r="2" />
-                      <circle cx="5" cy="18" r="2" />
-                      <line x1="7" y1="7" x2="10" y2="10" />
-                      <line x1="17" y1="7" x2="14" y2="10" />
-                      <line x1="7" y1="17" x2="10" y2="14" />
-                      <line x1="17" y1="17" x2="14" y2="14" />
-                    </svg>
-                  )}
-                  {!['signmint', 'ehub', 'pylab', 'modelpath-ml'].includes(app.slug) && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                      <line x1="8" y1="21" x2="16" y2="21" />
-                      <line x1="12" y1="17" x2="12" y2="21" />
-                    </svg>
-                  )}
-                </div>
-
-                <div class="portfolio-details">
-                  <div class="portfolio-meta">
-                    <span class="portfolio-category">{app.category}</span>
-                    <span class={`portfolio-status-chip ${app.status === 'unconfirmed' ? 'status-unconfirmed' : ''}`}>
-                      {app.status === 'unconfirmed' ? 'Unconfirmed' : 'In Development'}
-                    </span>
-                  </div>
-                  <h3 class="portfolio-name">
-                    <a href={`/apps/${app.slug}/`}>{app.name}</a>
-                  </h3>
-                  <p class="portfolio-desc">{app.description}</p>
-                </div>
-              </div>
-
-              <div class="portfolio-action">
-                <a href={`/apps/${app.slug}/`} class="portfolio-link-btn">
-                  <span>View Details</span>
-                  <span aria-hidden="true">&rarr;</span>
-                </a>
-              </div>
-            </li>
-          ))}
-        </ul>
-
-        <div class="portfolio-cta-row">
-          <PrimaryButton href="/apps/">
-            <span>Explore All Applications</span>
-            <span aria-hidden="true">&rarr;</span>
-          </PrimaryButton>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact CTA Section -->
-    <section class="section-container" aria-labelledby="contact-heading">
-      <div class="contact-cta-well">
-        <div class="contact-cta-content">
-          <span class="contact-label">Get In Touch</span>
-          <h2 id="contact-heading" class="contact-title">Have a Question?</h2>
-          <p class="contact-description">
-            For application support, feedback, or general inquiries, get in touch with ModelPath Studio.
-          </p>
-        </div>
-
-        <div class="contact-cta-action">
-          <PrimaryButton href="/contact/">
-            <span>Contact Us</span>
-            <span aria-hidden="true">&rarr;</span>
-          </PrimaryButton>
-        </div>
-      </div>
-    </section>
+    </main>
   </div>
 </BaseLayout>
 
 <style>
-  .about-container {
+  .about-page {
+    width: 100%;
+  }
+
+  .container {
     width: 100%;
     max-width: 1120px;
     margin: 0 auto;
+    padding: 0 32px;
   }
 
-  /* About Hero */
+  /* About Hero (Dark Atmospheric) */
   .about-hero {
-    margin-bottom: 56px;
-    max-width: 840px;
+    padding-top: 64px;
+    padding-bottom: 72px;
+    background: radial-gradient(circle at 50% 20%, rgba(79, 107, 255, 0.18) 0%, rgba(139, 92, 246, 0.08) 50%, transparent 75%), var(--c-midnight, #0B1225);
+    border-bottom: 1px solid rgba(79, 107, 255, 0.18);
+    text-align: center;
   }
 
   .hero-badge {
@@ -272,12 +278,12 @@ const principles = [
     align-items: center;
     gap: 8px;
     padding: 6px 16px;
-    background: var(--bg-surface);
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-inset-box);
+    background: rgba(23, 36, 65, 0.85);
+    border: 1px solid rgba(79, 107, 255, 0.25);
+    border-radius: var(--radius-pill, 9999px);
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--text-muted);
+    color: var(--c-cyan, #73DDE6);
     margin-bottom: 20px;
   }
 
@@ -285,27 +291,35 @@ const principles = [
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: var(--accent-blue);
-    flex-shrink: 0;
+    background: var(--c-cyan, #73DDE6);
   }
 
   .hero-title {
-    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    font-family: var(--font-display, inherit);
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
     font-weight: 800;
     line-height: 1.15;
     letter-spacing: -0.025em;
-    color: var(--text-heading);
-    margin: 0 0 18px 0;
+    color: #FFFFFF;
+    margin: 0 auto 18px;
+    max-width: 780px;
   }
 
   .hero-description {
     font-size: clamp(1.05rem, 2vw, 1.25rem);
-    color: var(--text-body);
+    color: var(--c-text-light-muted, #94A3B8);
     line-height: 1.6;
-    margin: 0;
+    margin: 0 auto;
+    max-width: 680px;
   }
 
-  /* Section Containers */
+  /* Editorial Canvas */
+  .editorial-canvas {
+    background: var(--c-offwhite, #F8FAFC);
+    color: var(--c-text-dark, #0F172A);
+    padding: 72px 0 88px;
+  }
+
   .section-container {
     margin-bottom: 64px;
     width: 100%;
@@ -313,11 +327,11 @@ const principles = [
 
   /* Story Card */
   .story-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     padding: 44px 40px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(203, 213, 225, 0.6);
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -330,17 +344,18 @@ const principles = [
   }
 
   .story-label {
-    font-size: 0.8125rem;
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-blue);
+    letter-spacing: 0.08em;
+    color: var(--c-cobalt, #4F6BFF);
   }
 
   .story-title {
-    font-size: clamp(1.6rem, 3vw, 2rem);
+    font-family: var(--font-display, inherit);
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
     font-weight: 800;
-    color: var(--text-heading);
+    color: var(--c-text-dark, #0F172A);
     letter-spacing: -0.02em;
     margin: 0;
   }
@@ -350,7 +365,7 @@ const principles = [
     flex-direction: column;
     gap: 16px;
     font-size: 1.05rem;
-    color: var(--text-body);
+    color: var(--c-text-dark-muted, #475569);
     line-height: 1.7;
   }
 
@@ -366,11 +381,11 @@ const principles = [
   }
 
   .principle-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     padding: 32px 28px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(203, 213, 225, 0.6);
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -386,33 +401,34 @@ const principles = [
   .principle-icon-well {
     width: 46px;
     height: 46px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-raised);
-    box-shadow: var(--shadow-inset-box);
+    border-radius: 12px;
+    background: rgba(79, 107, 255, 0.1);
+    border: 1px solid rgba(79, 107, 255, 0.22);
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    color: var(--c-cobalt, #4F6BFF);
   }
 
   .principle-icon-well svg {
     width: 24px;
     height: 24px;
-    stroke: var(--accent-blue);
   }
 
   .principle-number {
+    font-family: var(--font-mono, monospace);
     font-size: 1.25rem;
     font-weight: 800;
-    color: var(--text-muted);
+    color: var(--c-cobalt, #4F6BFF);
     letter-spacing: -0.02em;
-    opacity: 0.6;
+    opacity: 0.5;
   }
 
   .principle-title {
+    font-family: var(--font-display, inherit);
     font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--text-heading);
+    font-weight: 800;
+    color: var(--c-text-dark, #0F172A);
     letter-spacing: -0.015em;
     margin: 0;
   }
@@ -420,24 +436,24 @@ const principles = [
   .principle-summary {
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--accent-blue);
+    color: var(--c-cobalt, #4F6BFF);
     line-height: 1.4;
   }
 
   .principle-desc {
     font-size: 0.95rem;
-    color: var(--text-body);
+    color: var(--c-text-dark-muted, #475569);
     line-height: 1.6;
     margin: 0;
   }
 
   /* Studio Portfolio Summary */
   .portfolio-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    padding: 36px 36px 32px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    padding: 36px;
+    border: 1px solid rgba(203, 213, 225, 0.6);
     display: flex;
     flex-direction: column;
     gap: 28px;
@@ -456,48 +472,40 @@ const principles = [
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    padding: 20px 0;
-    border-bottom: 1px solid var(--border-subtle);
-  }
-
-  .portfolio-item:first-child {
-    padding-top: 0;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(203, 213, 225, 0.5);
   }
 
   .portfolio-item:last-child {
     border-bottom: none;
-    padding-bottom: 0;
   }
 
   .portfolio-item-content {
     display: flex;
     align-items: flex-start;
-    gap: 20px;
+    gap: 18px;
     flex: 1;
-    min-width: 0;
   }
 
   .portfolio-icon-well {
-    width: 48px;
-    height: 48px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-raised);
-    box-shadow: var(--shadow-inset-box);
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(79, 107, 255, 0.1);
+    border: 1px solid rgba(79, 107, 255, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--c-cobalt, #4F6BFF);
     flex-shrink: 0;
   }
 
   .portfolio-icon-well svg {
-    width: 24px;
-    height: 24px;
-    stroke: var(--accent-blue);
+    width: 22px;
+    height: 22px;
   }
 
   .portfolio-details {
-    flex: 1;
-    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -507,177 +515,136 @@ const principles = [
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-wrap: wrap;
   }
 
   .portfolio-category {
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-blue);
+    letter-spacing: 0.06em;
+    color: var(--c-cobalt, #4F6BFF);
   }
 
   .portfolio-status-chip {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 600;
     padding: 2px 8px;
-    border-radius: var(--radius-pill);
-    background: rgba(14, 116, 144, 0.08);
-    color: #0e7490;
-    border: 1px solid rgba(14, 116, 144, 0.2);
-  }
-
-  .portfolio-status-chip.status-unconfirmed {
-    background: rgba(100, 116, 139, 0.1);
-    color: var(--text-muted);
-    border-color: rgba(100, 116, 139, 0.2);
+    border-radius: var(--radius-pill, 9999px);
+    background: rgba(79, 107, 255, 0.1);
+    color: var(--c-cobalt, #4F6BFF);
+    border: 1px solid rgba(79, 107, 255, 0.25);
   }
 
   .portfolio-name {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--text-heading);
-    letter-spacing: -0.015em;
+    font-family: var(--font-display, inherit);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--c-text-dark, #0F172A);
     margin: 0;
-    line-height: 1.3;
   }
 
   .portfolio-name a {
     color: inherit;
     text-decoration: none;
-    transition: color var(--transition-fast);
   }
 
   .portfolio-name a:hover {
-    color: var(--accent-blue);
+    color: var(--c-cobalt, #4F6BFF);
   }
 
   .portfolio-desc {
-    font-size: 0.925rem;
-    color: var(--text-body);
-    line-height: 1.5;
+    font-size: 0.92rem;
+    color: var(--c-text-dark-muted, #475569);
     margin: 0;
   }
 
-  .portfolio-action {
-    flex-shrink: 0;
-  }
-
   .portfolio-link-btn {
-    background: var(--bg-raised);
-    color: var(--accent-blue);
-    font-size: 0.85rem;
-    font-weight: 600;
-    padding: 8px 16px;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-btn-secondary);
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    transition: all var(--transition-fast);
-    white-space: nowrap;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--c-cobalt, #4F6BFF);
     text-decoration: none;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill, 9999px);
+    background: rgba(79, 107, 255, 0.08);
+    border: 1px solid rgba(79, 107, 255, 0.2);
+    transition: background 0.15s ease, transform 0.15s ease;
   }
 
   .portfolio-link-btn:hover {
+    background: var(--c-cobalt, #4F6BFF);
+    color: #FFFFFF;
     transform: translateY(-1px);
-    box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(169, 180, 196, 0.32);
   }
 
   .portfolio-cta-row {
     display: flex;
     justify-content: center;
-    padding-top: 24px;
-    border-top: 1px solid var(--border-subtle);
+    padding-top: 16px;
   }
 
   /* Contact CTA Well */
   .contact-cta-well {
-    background: var(--bg-inset);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-inset-well);
-    padding: 40px 44px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    padding: 40px;
+    border: 1px solid rgba(203, 213, 225, 0.6);
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 32px;
   }
 
-  .contact-cta-content {
-    max-width: 600px;
-  }
-
   .contact-label {
-    font-size: 0.8125rem;
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-blue);
+    letter-spacing: 0.08em;
+    color: var(--c-cobalt, #4F6BFF);
     display: block;
     margin-bottom: 6px;
   }
 
   .contact-title {
+    font-family: var(--font-display, inherit);
     font-size: clamp(1.6rem, 3vw, 2rem);
     font-weight: 800;
-    color: var(--text-heading);
-    letter-spacing: -0.02em;
-    margin: 0 0 10px 0;
+    color: var(--c-text-dark, #0F172A);
+    margin: 0 0 8px 0;
   }
 
   .contact-description {
     font-size: 1.05rem;
-    color: var(--text-body);
-    line-height: 1.6;
+    color: var(--c-text-dark-muted, #475569);
     margin: 0;
   }
 
-  .contact-cta-action {
-    flex-shrink: 0;
-  }
-
-  /* Responsive Adjustments */
+  /* Responsive Rules */
   @media (max-width: 860px) {
+    .container {
+      padding: 0 20px;
+    }
+
     .about-hero {
-      margin-bottom: 40px;
+      padding-top: 40px;
+      padding-bottom: 48px;
     }
 
-    .section-container {
-      margin-bottom: 44px;
-    }
-
-    .story-card {
-      padding: 24px 20px;
-      border-radius: var(--radius-md);
-    }
-
-    .story-body {
-      font-size: 0.975rem;
+    .editorial-canvas {
+      padding: 44px 0 60px;
     }
 
     .principles-grid {
       grid-template-columns: 1fr;
-      gap: 16px;
-    }
-
-    .principle-card {
-      padding: 22px 18px;
-      border-radius: var(--radius-md);
-    }
-
-    .portfolio-card {
-      padding: 24px 20px 20px;
-      border-radius: var(--radius-md);
     }
 
     .portfolio-item {
       flex-direction: column;
       align-items: flex-start;
-      gap: 14px;
-      padding: 18px 0;
+      gap: 16px;
     }
 
     .portfolio-action {
@@ -689,37 +656,10 @@ const principles = [
       justify-content: center;
     }
 
-    .portfolio-cta-row :global(a),
-    .portfolio-cta-row :global(button) {
-      width: 100%;
-      justify-content: center;
-    }
-
     .contact-cta-well {
       flex-direction: column;
       align-items: flex-start;
       padding: 28px 20px;
-      gap: 20px;
-      border-radius: var(--radius-md);
-    }
-
-    .contact-cta-action {
-      width: 100%;
-    }
-
-    .contact-cta-action :global(a),
-    .contact-cta-action :global(button) {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .story-card {
-      padding: 20px 16px;
-    }
-
-    .contact-cta-well {
-      padding: 24px 16px;
     }
   }
 </style>

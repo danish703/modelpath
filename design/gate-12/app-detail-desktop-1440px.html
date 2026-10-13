@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SignMint — Application Detail | ModelPath Studio (1440px)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-display: 'Plus Jakarta Sans', var(--font-sans);
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --c-midnight: #0B1225;
+      --c-deep: #172441;
+      --c-surface-dark: #111A33;
+      --c-cobalt: #4F6BFF;
+      --c-cobalt-hover: #3D58E6;
+      --c-violet: #8B5CF6;
+      --c-cyan: #73DDE6;
+
+      --c-offwhite: #F8FAFC;
+      --c-card-light: #FFFFFF;
+      --c-text-dark: #0F172A;
+      --c-text-dark-muted: #475569;
+      --c-text-light: #F8FAFC;
+      --c-text-light-muted: #94A3B8;
+
+      --radius-pill: 9999px;
+      --radius-card: 20px;
+      --radius-inner: 12px;
+      --shadow-ambient-dark: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      --shadow-card-light: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.04);
+      --shadow-btn-cobalt: 0 8px 20px -4px rgba(79, 107, 255, 0.45);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background-color: var(--c-midnight);
+      color: var(--c-text-light);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .viewport-frame {
+      max-width: 1440px;
+      margin: 0 auto;
+      background: var(--c-midnight);
+      box-shadow: 0 0 80px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* Floating Nav */
+    .nav-wrapper {
+      position: sticky;
+      top: 20px;
+      z-index: 100;
+      padding: 0 32px;
+      margin-bottom: -84px;
+    }
+    .floating-nav {
+      max-width: 1140px;
+      margin: 0 auto;
+      height: 64px;
+      background: rgba(17, 26, 51, 0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(79, 107, 255, 0.22);
+      border-radius: var(--radius-pill);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #FFFFFF;
+    }
+    .brand-mark {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--c-cobalt), var(--c-violet));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-mark svg { width: 20px; height: 20px; fill: none; stroke: #FFFFFF; stroke-width: 2.2; }
+    .brand-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: var(--c-text-light-muted);
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover, .nav-link.active { color: #FFFFFF; }
+    .nav-cta {
+      background: var(--c-cobalt);
+      color: #FFFFFF;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+    }
+
+    /* Product Hero Dark Split-Layout */
+    .product-hero {
+      padding-top: 140px;
+      padding-bottom: 70px;
+      background: radial-gradient(circle at 65% 25%, rgba(79, 107, 255, 0.18) 0%, rgba(139, 92, 246, 0.09) 45%, transparent 72%), var(--c-midnight);
+      border-bottom: 1px solid rgba(79, 107, 255, 0.18);
+    }
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.84rem;
+      color: var(--c-text-light-muted);
+      margin-bottom: 24px;
+    }
+    .breadcrumbs a { color: var(--c-text-light-muted); text-decoration: none; }
+    .breadcrumbs a:hover { color: #FFFFFF; }
+    .breadcrumbs span.current { color: var(--c-cyan); font-weight: 600; }
+
+    .hero-split-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .app-icon-capsule {
+      width: 76px;
+      height: 76px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #172441, #0B1225);
+      border: 2px solid rgba(79, 107, 255, 0.35);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .app-icon-capsule svg {
+      width: 40px; height: 40px;
+      stroke: var(--c-cobalt);
+      fill: none;
+      stroke-width: 2;
+    }
+    .hero-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .category-chip {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--c-cyan);
+    }
+    .status-badge-hero {
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+      background: rgba(245, 158, 11, 0.15);
+      color: #FBBF24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+    .status-badge-hero::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%; background: #F59E0B;
+    }
+
+    .app-main-title {
+      font-family: var(--font-display);
+      font-size: 3.4rem;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      color: #FFFFFF;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--c-text-light-muted);
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .hero-platform-staging {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .platform-pill-staging {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(79, 107, 255, 0.12);
+      color: #93C5FD;
+      border: 1px solid rgba(79, 107, 255, 0.28);
+    }
+    .platform-pill-staging.not-planned {
+      background: rgba(255, 255, 255, 0.05);
+      color: #94A3B8;
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .hero-anchor-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .anchor-pill {
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      background: rgba(23, 36, 65, 0.85);
+      color: var(--c-text-light);
+      border: 1px solid rgba(79, 107, 255, 0.25);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .anchor-pill:hover {
+      background: var(--c-cobalt);
+      border-color: var(--c-cobalt);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+    .anchor-pill.primary-pill {
+      background: var(--c-cobalt);
+      border-color: var(--c-cobalt);
+      box-shadow: 0 4px 14px rgba(79, 107, 255, 0.35);
+    }
+
+    /* Hero Right Column: Conceptual Artwork Frame */
+    .hero-illustration-frame {
+      background: linear-gradient(145deg, rgba(23, 36, 65, 0.9), rgba(11, 18, 37, 0.95));
+      border: 1px solid rgba(79, 107, 255, 0.3);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+    .illustration-window-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(79, 107, 255, 0.15);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+    }
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .window-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+    }
+    .window-filename {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--c-text-light-muted);
+    }
+    .illustration-canvas {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 250px;
+    }
+    .illustration-footer-tag {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(79, 107, 255, 0.15);
+      font-size: 0.76rem;
+      color: var(--c-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Conceptual Media Showcase Section */
+    .showcase-section {
+      background: var(--c-offwhite);
+      color: var(--c-text-dark);
+      padding: 80px 0;
+    }
+    .section-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--c-cobalt);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--c-text-dark);
+      margin-bottom: 12px;
+    }
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--c-text-dark-muted);
+      max-width: 680px;
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    /* Structured Desktop Gallery */
+    .structured-gallery {
+      background: #0E162B;
+      border-radius: var(--radius-card);
+      border: 1px solid rgba(79, 107, 255, 0.25);
+      padding: 32px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    /* Large Featured Preview */
+    .featured-preview-card {
+      background: #141E38;
+      border-radius: 16px;
+      border: 1px solid rgba(79, 107, 255, 0.3);
+      padding: 36px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+    .featured-art-frame {
+      background: #0B1225;
+      border-radius: 12px;
+      border: 1px solid rgba(79, 107, 255, 0.25);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 290px;
+    }
+    .featured-info-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .featured-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(79, 107, 255, 0.2);
+      color: #93C5FD;
+      border: 1px solid rgba(79, 107, 255, 0.4);
+      width: fit-content;
+    }
+    .featured-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+    }
+    .featured-desc {
+      font-size: 0.94rem;
+      color: var(--c-text-light-muted);
+      line-height: 1.6;
+    }
+    .featured-annotation-badge {
+      font-size: 0.78rem;
+      color: var(--c-cyan);
+      font-family: var(--font-mono);
+      background: rgba(115, 221, 230, 0.1);
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(115, 221, 230, 0.25);
+      width: fit-content;
+      margin-top: 6px;
+    }
+
+    /* Secondary Preview Thumbnails Row */
+    .thumbnails-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .thumbnail-card {
+      background: #111A33;
+      border-radius: 14px;
+      border: 1px solid rgba(79, 107, 255, 0.22);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .thumbnail-card.active-thumb {
+      border-color: var(--c-cobalt);
+      background: #152042;
+      box-shadow: 0 0 0 1px var(--c-cobalt), 0 8px 20px rgba(79, 107, 255, 0.2);
+    }
+    .thumbnail-thumb-art {
+      height: 110px;
+      background: #0B1225;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(79, 107, 255, 0.18);
+    }
+    .thumbnail-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .thumbnail-title {
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+    .thumbnail-badge {
+      font-size: 0.74rem;
+      color: var(--c-text-light-muted);
+    }
+
+    /* Gallery Caption & Navigation Bar */
+    .gallery-nav-bar {
+      padding: 14px 20px;
+      background: rgba(23, 36, 65, 0.85);
+      border: 1px solid rgba(79, 107, 255, 0.25);
+      border-radius: var(--radius-inner);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .gallery-label {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .gallery-label::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--c-cyan);
+    }
+    .gallery-nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .gallery-counter {
+      font-size: 0.82rem;
+      color: var(--c-text-light-muted);
+      font-family: var(--font-mono);
+    }
+    .carousel-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .carousel-btn:hover {
+      background: var(--c-cobalt);
+      border-color: var(--c-cobalt);
+    }
+    .carousel-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .carousel-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .carousel-dot.active {
+      background: var(--c-cyan);
+      width: 20px;
+      border-radius: 4px;
+    }
+
+    /* Capabilities Section */
+    .capabilities-section {
+      background: #F1F5F9;
+      padding: 80px 0;
+      border-top: 1px solid rgba(203, 213, 225, 0.7);
+    }
+    .cap-grid-desktop {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .cap-card {
+      background: #FFFFFF;
+      padding: 32px;
+      border-radius: 16px;
+      border: 1px solid rgba(203, 213, 225, 0.7);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .cap-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cap-icon-box {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: rgba(79, 107, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--c-cobalt);
+    }
+    .cap-status-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+    }
+    .cap-status-pill.core {
+      background: #EFF6FF;
+      color: #1E40AF;
+      border: 1px solid #BFDBFE;
+    }
+    .cap-status-pill.verification {
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+    .cap-status-pill.principle {
+      background: #F5F3FF;
+      color: #5B21B6;
+      border: 1px solid #DDD6FE;
+    }
+    .cap-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--c-text-dark);
+    }
+    .cap-desc {
+      font-size: 0.94rem;
+      color: var(--c-text-dark-muted);
+      line-height: 1.6;
+    }
+
+    /* Store Download Section */
+    .download-section {
+      background: var(--c-offwhite);
+      padding: 80px 0;
+    }
+    .store-platform-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      max-width: 980px;
+      margin: 0 auto 56px auto;
+    }
+    .platform-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-card);
+      border: 1px solid rgba(203, 213, 225, 0.8);
+      padding: 36px 32px;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .platform-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .platform-brand-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .platform-icon-frame {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .platform-icon-frame.android {
+      background: #EFF6FF;
+      color: var(--c-cobalt);
+    }
+    .platform-icon-frame.apple {
+      background: #F1F5F9;
+      color: #475569;
+    }
+    .platform-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--c-text-dark);
+    }
+    .platform-status-badge {
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+    }
+    .platform-status-badge.coming-soon {
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+    .platform-status-badge.not-planned {
+      background: #F1F5F9;
+      color: #64748B;
+      border: 1px solid #CBD5E1;
+    }
+    .platform-body-text {
+      font-size: 0.94rem;
+      color: var(--c-text-dark-muted);
+      line-height: 1.6;
+    }
+    .platform-btn-container {
+      margin-top: 8px;
+    }
+
+    /* Disabled Store Buttons */
+    .store-btn-disabled-block {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 14px 20px;
+      border-radius: 12px;
+      cursor: not-allowed;
+      user-select: none;
+    }
+    .store-btn-disabled-block.coming-soon {
+      background: #111A33;
+      color: #CBD5E1;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+    .store-btn-disabled-block.not-planned {
+      background: #F8FAFC;
+      color: #94A3B8;
+      border: 1px solid #CBD5E1;
+    }
+    .btn-text-col {
+      text-align: left;
+    }
+    .btn-sub-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: block;
+    }
+    .btn-main-label {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .platform-link-note {
+      font-size: 0.78rem;
+      color: #64748B;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    /* Privacy & Support Cohesive Cards */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .resource-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(203, 213, 225, 0.8);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .resource-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .resource-icon-box {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(79, 107, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--c-cobalt);
+    }
+    .resource-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+    }
+    .resource-badge.draft {
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+    .resource-badge.direct {
+      background: #EFF6FF;
+      color: #1E40AF;
+      border: 1px solid #BFDBFE;
+    }
+    .resource-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--c-text-dark);
+      margin-top: 4px;
+    }
+    .resource-card p {
+      font-size: 0.92rem;
+      color: var(--c-text-dark-muted);
+      line-height: 1.55;
+    }
+    .resource-link-btn {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--c-cobalt);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.15s ease;
+    }
+    .resource-link-btn:hover {
+      gap: 10px;
+      color: var(--c-cobalt-hover);
+    }
+
+    /* Footer */
+    .footer-dark {
+      background: var(--c-midnight);
+      border-top: 1px solid rgba(79, 107, 255, 0.2);
+      padding: 60px 0 32px 0;
+      color: var(--c-text-light);
+    }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.84rem;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body>
+<div class="viewport-frame">
+
+  <!-- Floating Nav -->
+  <div class="nav-wrapper">
+    <nav class="floating-nav">
+      <a href="/" class="nav-brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <span class="brand-title">ModelPath Studio</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/apps/" class="nav-link active">Apps</a></li>
+        <li><a href="/about/" class="nav-link">About</a></li>
+        <li><a href="/contact/" class="nav-link">Contact</a></li>
+      </ul>
+      <a href="/apps/" class="nav-cta">All Apps</a>
+    </nav>
+  </div>
+
+  <!-- Hero Header (Split Layout with Conceptual Art) -->
+  <header class="product-hero">
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="/">Home</a> &gt;
+        <a href="/apps/">Applications</a> &gt;
+        <span class="current">SignMint</span>
+      </nav>
+
+      <div class="hero-split-grid">
+        <!-- Left: Product Identity & Actions -->
+        <div>
+          <div class="hero-meta-row">
+            <div class="app-icon-capsule">
+              <!-- SignMint Bespoke Vector Icon -->
+              <svg viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <path d="M9 15h6"/>
+                <path d="M9 18h4"/>
+                <path d="M12 12l3-3"/>
+              </svg>
+            </div>
+            <div class="hero-title-group">
+              <span class="category-chip">Productivity &amp; Utilities</span>
+              <span class="status-badge-hero">Coming Soon</span>
+            </div>
+          </div>
+
+          <h1 class="app-main-title">SignMint</h1>
+          <p class="hero-subtitle">
+            Streamlined PDF signing, digital signature placement, and clean document annotation utilities designed for clarity and ease of use.
+          </p>
+
+          <div class="hero-platform-staging">
+            <span class="platform-pill-staging">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9992.4482.9992.9993 0 .5511-.4482.9997-.9992.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.996-3.4572c.1147-.1994.0463-.4548-.1532-.5697-.1994-.1149-.4548-.0465-.5697.1532l-2.0287 3.5138C15.5398 8.4288 13.8236 8.12 12 8.12c-1.8236 0-3.5398.3088-5.1259.8415L4.8454 5.4477c-.1149-.1997-.3703-.2681-.5697-.1532-.1995.1149-.2679.3703-.1532.5697l1.996 3.4572C2.6889 11.2867.3466 14.7335 0 18.8242h24c-.3466-4.0907-2.6889-7.5375-6.1185-9.5028"/></svg>
+              Target: Android (In Preparation)
+            </span>
+            <span class="platform-pill-staging not-planned">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 0.91-2.87-.93.04-2.02.63-2.68 1.4-.59.68-1.11 1.76-.97 2.8 1.03.08 2.08-.54 2.74-1.33z"/></svg>
+              iOS: Not Currently Planned
+            </span>
+          </div>
+
+          <div class="hero-anchor-pills">
+            <a href="#showcase" class="anchor-pill primary-pill">Interface Motifs &darr;</a>
+            <a href="#capabilities" class="anchor-pill">Capabilities &darr;</a>
+            <a href="#download" class="anchor-pill">Store Availability &darr;</a>
+            <a href="/apps/signmint/privacy/" class="anchor-pill">Privacy (Draft)</a>
+            <a href="/apps/signmint/support/" class="anchor-pill">Support</a>
+          </div>
+        </div>
+
+        <!-- Right: Attractive Conceptual Document Illustration -->
+        <div class="hero-illustration-frame">
+          <div class="illustration-window-bar">
+            <div class="window-dots">
+              <span class="window-dot" style="background:#EF4444;"></span>
+              <span class="window-dot" style="background:#F59E0B;"></span>
+              <span class="window-dot" style="background:#10B981;"></span>
+            </div>
+            <span class="window-filename">document_signing_preview.pdf</span>
+            <span style="color:var(--c-cyan); font-size:0.75rem; font-weight:600;">100% Vector</span>
+          </div>
+
+          <div class="illustration-canvas">
+            <svg viewBox="0 0 380 230" width="100%" height="220" fill="none">
+              <!-- Background Document Sheet -->
+              <rect x="50" y="15" width="280" height="200" rx="10" fill="#141E38" stroke="rgba(79, 107, 255, 0.45)" stroke-width="1.6"/>
+              <!-- Document Header Rule -->
+              <line x1="80" y1="42" x2="220" y2="42" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+              <line x1="80" y1="62" x2="160" y2="62" stroke="rgba(255, 255, 255, 0.3)" stroke-width="2" stroke-linecap="round"/>
+              <!-- Text Lines -->
+              <line x1="80" y1="90" x2="300" y2="90" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="80" y1="110" x2="280" y2="110" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="80" y1="130" x2="260" y2="130" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2" stroke-linecap="round"/>
+              <!-- Active Signature Placement Box -->
+              <rect x="80" y="150" width="220" height="48" rx="6" fill="#0B1225" stroke="#73DDE6" stroke-width="1.5" stroke-dasharray="4 4"/>
+              <!-- Fluid Signature Spline -->
+              <path d="M 98 178 Q 120 162 140 174 T 175 168 T 210 176" stroke="#4F6BFF" stroke-width="3" stroke-linecap="round" fill="none"/>
+              <!-- Wax Seal Motif -->
+              <circle cx="275" cy="174" r="14" fill="rgba(79, 107, 255, 0.25)" stroke="#73DDE6" stroke-width="2"/>
+              <path d="M 271 174 L 274 177 L 280 171" stroke="#73DDE6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Floating Stylus Tool -->
+              <g transform="translate(195, 120) rotate(-40)">
+                <rect x="0" y="0" width="10" height="50" rx="3" fill="#1E293B" stroke="#4F6BFF" stroke-width="1.5"/>
+                <polygon points="0,50 10,50 5,60" fill="#73DDE6"/>
+              </g>
+            </svg>
+          </div>
+
+          <div class="illustration-footer-tag">
+            <span>Conceptual Preview • Document Interaction Model</span>
+            <span style="color:var(--c-text-light-muted);">SignMint Vector Lab</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Showcase Section: Structured Desktop Gallery -->
+  <section class="showcase-section" id="showcase">
+    <div class="container">
+      <div class="section-eyebrow">Conceptual Previews</div>
+      <h2 class="section-title">Interface Illustrations &amp; Motifs</h2>
+      <p class="section-subtitle">
+        Conceptual layout abstractions and interface motifs. Authentic application screenshots will be published upon production release.
+      </p>
+
+      <div class="structured-gallery">
+        <!-- Large Featured Preview Display -->
+        <div class="featured-preview-card">
+          <div class="featured-art-frame">
+            <svg viewBox="0 0 340 240" width="100%" height="220" fill="none">
+              <!-- Window outline -->
+              <rect x="20" y="10" width="300" height="220" rx="10" fill="#0B1225" stroke="rgba(79, 107, 255, 0.45)" stroke-width="1.6"/>
+              <!-- Toolbar -->
+              <rect x="30" y="22" width="280" height="28" rx="6" fill="#141E38"/>
+              <circle cx="45" cy="36" r="5" fill="#4F6BFF"/>
+              <circle cx="62" cy="36" r="5" fill="#8B5CF6"/>
+              <circle cx="79" cy="36" r="5" fill="#73DDE6"/>
+              <line x1="110" y1="36" x2="200" y2="36" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2"/>
+              <!-- Document Sheet -->
+              <rect x="45" y="60" width="250" height="155" rx="6" fill="#172441"/>
+              <line x1="65" y1="80" x2="180" y2="80" stroke="#FFFFFF" stroke-width="2.5"/>
+              <line x1="65" y1="100" x2="240" y2="100" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1.8"/>
+              <line x1="65" y1="120" x2="220" y2="120" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1.8"/>
+              <!-- Signature Area -->
+              <rect x="65" y="145" width="210" height="48" rx="6" fill="#0B1225" stroke="#4F6BFF" stroke-width="1.4"/>
+              <path d="M 85 174 Q 115 152 145 168 T 205 162" stroke="#73DDE6" stroke-width="3" stroke-linecap="round" fill="none"/>
+              <circle cx="250" cy="169" r="12" fill="rgba(79, 107, 255, 0.2)" stroke="#73DDE6" stroke-width="1.8"/>
+            </svg>
+          </div>
+
+          <div class="featured-info-panel">
+            <span class="featured-pill-badge">Primary Display Motif</span>
+            <h3 class="featured-title">PDF Signing Canvas</h3>
+            <p class="featured-desc">
+              Conceptual visualization of stylus and touch signature positioning on document page targets, featuring responsive coordinate alignment and seal verification motifs.
+            </p>
+            <div class="featured-annotation-badge">
+              [Conceptual Preview: Pen input and signature placement motif]
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary Preview Thumbnails -->
+        <div class="thumbnails-row">
+          <!-- Thumbnail 1 (Active) -->
+          <div class="thumbnail-card active-thumb">
+            <div class="thumbnail-thumb-art">
+              <svg viewBox="0 0 160 80" width="130" height="65" fill="none">
+                <rect x="20" y="10" width="120" height="60" rx="6" fill="#141E38" stroke="#4F6BFF" stroke-width="1.5"/>
+                <line x1="35" y1="25" x2="90" y2="25" stroke="#FFFFFF" stroke-width="2"/>
+                <path d="M 45 52 Q 65 38 85 48 T 115 44" stroke="#73DDE6" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
+            <div class="thumbnail-meta">
+              <div class="thumbnail-title">01. PDF Signing Canvas</div>
+              <div class="thumbnail-badge" style="color:var(--c-cyan);">Featured Display View</div>
+            </div>
+          </div>
+
+          <!-- Thumbnail 2 -->
+          <div class="thumbnail-card">
+            <div class="thumbnail-thumb-art">
+              <svg viewBox="0 0 160 80" width="130" height="65" fill="none">
+                <rect x="20" y="10" width="120" height="60" rx="6" fill="#141E38" stroke="rgba(79, 107, 255, 0.3)" stroke-width="1.2"/>
+                <!-- Page Grid -->
+                <rect x="32" y="20" width="24" height="30" rx="3" fill="#1F2E54" stroke="#4F6BFF" stroke-width="1"/>
+                <rect x="68" y="20" width="24" height="30" rx="3" fill="#17223D"/>
+                <rect x="104" y="20" width="24" height="30" rx="3" fill="#17223D"/>
+              </svg>
+            </div>
+            <div class="thumbnail-meta">
+              <div class="thumbnail-title">02. Multi-Page Navigation</div>
+              <div class="thumbnail-badge">[Screenshot Pending]</div>
+            </div>
+          </div>
+
+          <!-- Thumbnail 3 -->
+          <div class="thumbnail-card">
+            <div class="thumbnail-thumb-art">
+              <svg viewBox="0 0 160 80" width="130" height="65" fill="none">
+                <rect x="20" y="10" width="120" height="60" rx="6" fill="#141E38" stroke="rgba(79, 107, 255, 0.3)" stroke-width="1.2"/>
+                <rect x="30" y="20" width="100" height="20" rx="4" fill="#172441" stroke="#73DDE6" stroke-width="1"/>
+                <path d="M 40 30 Q 55 24 70 28" stroke="#73DDE6" stroke-width="1.8" fill="none"/>
+                <rect x="30" y="46" width="100" height="20" rx="4" fill="#172441"/>
+              </svg>
+            </div>
+            <div class="thumbnail-meta">
+              <div class="thumbnail-title">03. Signature Profiles</div>
+              <div class="thumbnail-badge">[Interface Illustration]</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gallery Navigation & Caption Bar -->
+        <div class="gallery-nav-bar">
+          <div class="gallery-label">
+            <span>Conceptual Preview &bull; Document Navigation &amp; Review</span>
+          </div>
+          <div class="gallery-nav-controls">
+            <span class="gallery-counter">Slide 1 of 3</span>
+            <button class="carousel-btn" aria-label="Previous preview">&larr;</button>
+            <div class="carousel-dots">
+              <span class="carousel-dot active"></span>
+              <span class="carousel-dot"></span>
+              <span class="carousel-dot"></span>
+            </div>
+            <button class="carousel-btn" aria-label="Next preview">&rarr;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities Section (Two-Column Desktop Grid) -->
+  <section class="capabilities-section" id="capabilities">
+    <div class="container">
+      <div class="section-eyebrow">Feature Scope</div>
+      <h2 class="section-title">Application Capabilities</h2>
+      <p class="section-subtitle">
+        Core functionality currently planned or under verification for upcoming releases.
+      </p>
+
+      <div class="cap-grid-desktop">
+        <!-- 1. PDF Signing -->
+        <div class="cap-card">
+          <div class="cap-card-header">
+            <div class="cap-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <span class="cap-status-pill core">Planned Feature</span>
+          </div>
+          <div>
+            <h3 class="cap-title">PDF Signing</h3>
+            <p class="cap-desc">
+              A document signing experience focused on placing signatures on PDF pages.
+            </p>
+          </div>
+        </div>
+
+        <!-- 2. Signature Placement -->
+        <div class="cap-card">
+          <div class="cap-card-header">
+            <div class="cap-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+            </div>
+            <span class="cap-status-pill core">Planned Feature</span>
+          </div>
+          <div>
+            <h3 class="cap-title">Signature Placement</h3>
+            <p class="cap-desc">
+              Designed for flexible signature positioning within documents.
+            </p>
+          </div>
+        </div>
+
+        <!-- 3. Document Annotation -->
+        <div class="cap-card">
+          <div class="cap-card-header">
+            <div class="cap-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <span class="cap-status-pill verification">Under Verification</span>
+          </div>
+          <div>
+            <h3 class="cap-title">Document Annotation</h3>
+            <p class="cap-desc">
+              Document review and annotation functionality under verification.
+            </p>
+          </div>
+        </div>
+
+        <!-- 4. Privacy-Conscious Utility -->
+        <div class="cap-card">
+          <div class="cap-card-header">
+            <div class="cap-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <span class="cap-status-pill principle">Design Principle</span>
+          </div>
+          <div>
+            <h3 class="cap-title">Privacy-Conscious Utility</h3>
+            <p class="cap-desc">
+              Designed with consideration for user privacy and straightforward document workflows.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Store Download & Platform Availability Section -->
+  <section class="download-section" id="download">
+    <div class="container">
+      <div class="section-eyebrow" style="text-align:center;">Platform Distribution</div>
+      <h2 class="section-title" style="text-align:center;">Store Availability &amp; Access</h2>
+      <p class="section-subtitle" style="text-align:center; margin:0 auto 48px auto;">
+        Distribution status across verified platform stores. Download buttons are activated only upon official store publication.
+      </p>
+
+      <div class="store-platform-grid">
+        <!-- Card 1: Android / Google Play -->
+        <div class="platform-card">
+          <div>
+            <div class="platform-card-header">
+              <div class="platform-brand-badge">
+                <div class="platform-icon-frame android">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9992.4482.9992.9993 0 .5511-.4482.9997-.9992.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.996-3.4572c.1147-.1994.0463-.4548-.1532-.5697-.1994-.1149-.4548-.0465-.5697.1532l-2.0287 3.5138C15.5398 8.4288 13.8236 8.12 12 8.12c-1.8236 0-3.5398.3088-5.1259.8415L4.8454 5.4477c-.1149-.1997-.3703-.2681-.5697-.1532-.1995.1149-.2679.3703-.1532.5697l1.996 3.4572C2.6889 11.2867.3466 14.7335 0 18.8242h24c-.3466-4.0907-2.6889-7.5375-6.1185-9.5028"/></svg>
+                </div>
+                <div>
+                  <h3 class="platform-name">Google Play</h3>
+                  <span style="font-size:0.78rem; color:#64748B;">Android Operating System</span>
+                </div>
+              </div>
+              <span class="platform-status-badge coming-soon">Coming Soon</span>
+            </div>
+            <p class="platform-body-text" style="margin-top:16px;">
+              SignMint is currently in preparation for distribution on Google Play. Direct store installation controls will be enabled once the verified store listing is published.
+            </p>
+          </div>
+
+          <div class="platform-btn-container">
+            <div class="store-btn-disabled-block coming-soon" aria-disabled="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path d="M3.6 2.4l12.7 12.7-3.7 3.7L2.4 3.6c.4-.6 1.2-1.2 1.2-1.2z" fill="#4F6BFF"/>
+                <path d="M16.3 15.1l3.5-3.5c.8-.8.8-2 0-2.8l-3.5-3.5-3.7 3.7 3.7 3.7z" fill="#73DDE6"/>
+                <path d="M2.4 20.4l10.2-10.2 3.7 3.7L3.6 21.6c-.4 0-.8-.4-1.2-1.2z" fill="#8B5CF6"/>
+              </svg>
+              <div class="btn-text-col">
+                <span class="btn-sub-label">Release Pending</span>
+                <span class="btn-main-label">Google Play &bull; Coming Soon</span>
+              </div>
+            </div>
+            <div class="platform-link-note">Official Store Link Pending Review</div>
+          </div>
+        </div>
+
+        <!-- Card 2: iOS / Apple App Store -->
+        <div class="platform-card">
+          <div>
+            <div class="platform-card-header">
+              <div class="platform-brand-badge">
+                <div class="platform-icon-frame apple">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 0.91-2.87-.93.04-2.02.63-2.68 1.4-.59.68-1.11 1.76-.97 2.8 1.03.08 2.08-.54 2.74-1.33z"/></svg>
+                </div>
+                <div>
+                  <h3 class="platform-name">Apple App Store</h3>
+                  <span style="font-size:0.78rem; color:#64748B;">iOS Operating System</span>
+                </div>
+              </div>
+              <span class="platform-status-badge not-planned">Not Currently Planned</span>
+            </div>
+            <p class="platform-body-text" style="margin-top:16px;">
+              An iOS release is not currently planned for SignMint. Engineering efforts remain focused on the primary Android target architecture.
+            </p>
+          </div>
+
+          <div class="platform-btn-container">
+            <div class="store-btn-disabled-block not-planned" aria-disabled="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16.37 12.6c-.02-2.1 1.72-3.12 1.8-3.17-.98-1.43-2.5-1.63-3.04-1.65-1.29-.13-2.52.76-3.18.76-.66 0-1.67-.74-2.75-.72-1.41.02-2.72.82-3.45 2.09-1.47 2.55-.38 6.33 1.06 8.4.7 1.01 1.53 2.15 2.62 2.11 1.05-.04 1.45-.68 2.72-.68 1.27 0 1.63.68 2.74.66 1.13-.02 1.85-1.03 2.54-2.05.8-1.17 1.13-2.31 1.15-2.37-.03-.01-2.2-.85-2.21-3.38zM14.3 6.43c.58-.7.97-1.68.86-2.65-.83.03-1.84.55-2.44 1.25-.53.62-1 1.61-.88 2.56.93.07 1.88-.47 2.46-1.16z"/>
+              </svg>
+              <div class="btn-text-col">
+                <span class="btn-sub-label">No Active Roadmap</span>
+                <span class="btn-main-label">App Store &bull; Not Planned</span>
+              </div>
+            </div>
+            <div class="platform-link-note">No iOS Release Scheduled</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cohesive Resources: Privacy & Support -->
+      <div class="resources-grid">
+        <!-- Resource Card 1: Privacy Disclosures (Draft) -->
+        <div class="resource-card">
+          <div>
+            <div class="resource-card-header">
+              <div class="resource-icon-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <span class="resource-badge draft">Draft Disclosure</span>
+            </div>
+            <h3>Privacy Disclosures (Draft)</h3>
+            <p>
+              Preliminary overview of planned local data handling and offline privacy principles for SignMint.
+            </p>
+          </div>
+          <a href="/apps/signmint/privacy/" class="resource-link-btn">
+            View Draft Disclosures &rarr;
+          </a>
+        </div>
+
+        <!-- Resource Card 2: Product Support -->
+        <div class="resource-card">
+          <div>
+            <div class="resource-card-header">
+              <div class="resource-icon-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <span class="resource-badge direct">Direct Channel</span>
+            </div>
+            <h3>Product Support</h3>
+            <p>
+              Direct contact channel for questions, technical inquiries, and verified assistance regarding SignMint.
+            </p>
+          </div>
+          <a href="/apps/signmint/support/" class="resource-link-btn">
+            Contact Support &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-dark">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>&copy; 2026 ModelPath Studio. All rights reserved.</span>
+        <span>SignMint &bull; Application Detail Specification (1440px)</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

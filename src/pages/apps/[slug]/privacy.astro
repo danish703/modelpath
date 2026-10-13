@@ -45,287 +45,315 @@ const disclosures = app.data.privacyDisclosures || {
   description={`Privacy practices, data handling disclosures, and compliance review status for ${app.data.name} by ModelPath Studio.`}
   noindex={!isVerified}
 >
-  <div class="policy-page-container">
-    <!-- Breadcrumb -->
-    <nav class="breadcrumb-bar" aria-label="Breadcrumb">
-      <a href="/apps/">Applications</a>
-      <span aria-hidden="true">/</span>
-      <a href={`/apps/${app.data.slug}/`}>{app.data.name}</a>
-      <span aria-hidden="true">/</span>
-      <span aria-current="page">Privacy Policy</span>
-    </nav>
+  <div class="app-privacy-page">
+    <!-- Dark Atmospheric Header -->
+    <header class="app-privacy-hero">
+      <div class="container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/apps/">Applications</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={`/apps/${app.data.slug}/`}>{app.data.name}</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span class="current">Privacy</span>
+        </nav>
 
-    <!-- Header -->
-    <header class="app-privacy-header">
-      <div class="header-left">
-        <div class="app-icon-frame" aria-hidden="true">
-          {app.data.slug === 'signmint' && (
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 20h9" />
-              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-            </svg>
-          )}
-          {app.data.slug === 'ehub' && (
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-            </svg>
-          )}
-          {app.data.slug === 'pylab' && (
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="4 17 10 11 4 5" />
-              <line x1="12" y1="19" x2="20" y2="19" />
-            </svg>
-          )}
-          {app.data.slug === 'modelpath-ml' && (
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3" />
-              <circle cx="19" cy="6" r="2" />
-              <circle cx="5" cy="6" r="2" />
-              <circle cx="19" cy="18" r="2" />
-              <circle cx="5" cy="18" r="2" />
-            </svg>
-          )}
-        </div>
-        <div class="header-titles">
-          <div class="header-status-row">
-            <span class="app-cat-label">{app.data.category}</span>
-            <span class={`status-pill pill-${app.data.privacyPolicyStatus}`}>
-              {isVerified ? 'Policy Verified' : isPending ? 'Pending Legal Audit' : isDraft ? 'Draft Policy' : 'Unverified'}
-            </span>
-          </div>
-          <h1 class="policy-main-title">Privacy Policy — {app.data.name}</h1>
-          <p class="policy-meta-line">
-            {isVerified ? (
-              <span>Effective: {app.data.privacyPolicyEffectiveDate || 'Verified'} &bull; Last Updated: {app.data.privacyPolicyLastUpdated || 'Verified'}</span>
-            ) : (
-              <span>Pre-Release Application &bull; Status: Legal Verification In Progress</span>
+        <div class="header-main-row">
+          <div class="app-icon-frame" aria-hidden="true">
+            {app.data.slug === 'signmint' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9" />
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+              </svg>
             )}
-          </p>
+            {app.data.slug === 'ehub' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
+            )}
+            {app.data.slug === 'pylab' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="4 17 10 11 4 5" />
+                <line x1="12" y1="19" x2="20" y2="19" />
+              </svg>
+            )}
+            {app.data.slug === 'modelpath-ml' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3" />
+                <circle cx="19" cy="6" r="2" />
+                <circle cx="5" cy="6" r="2" />
+                <circle cx="19" cy="18" r="2" />
+                <circle cx="5" cy="18" r="2" />
+              </svg>
+            )}
+          </div>
+          <div class="header-titles">
+            <div class="header-status-row">
+              <span class="app-cat-label">{app.data.category}</span>
+              <span class={`status-pill pill-${app.data.privacyPolicyStatus}`}>
+                {isVerified ? 'Policy Verified' : isPending ? 'Pending Legal Audit' : isDraft ? 'Draft Policy' : 'Unverified'}
+              </span>
+            </div>
+            <h1 class="policy-main-title">Privacy Policy — {app.data.name}</h1>
+            <p class="policy-meta-line">
+              {isVerified ? (
+                <span>Effective: {app.data.privacyPolicyEffectiveDate || 'Verified'} &bull; Last Updated: {app.data.privacyPolicyLastUpdated || 'Verified'}</span>
+              ) : (
+                <span>Pre-Release Application &bull; Status: Legal Verification In Progress</span>
+              )}
+            </p>
+          </div>
         </div>
       </div>
     </header>
 
-    {!isVerified ? (
-      <div class="unverified-state-wrapper">
-        <section class="unverified-banner-card" aria-labelledby="banner-heading">
-          <div class="banner-icon-well" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-            </svg>
+    <!-- Editorial Canvas Section -->
+    <main class="editorial-canvas">
+      <div class="container policy-body-container">
+        {!isVerified ? (
+          <div class="unverified-state-wrapper">
+            <section class="unverified-banner-card" aria-labelledby="banner-heading">
+              <div class="banner-icon-well" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+              <div class="banner-body">
+                <span class="banner-eyebrow">Pre-Release Status Notice</span>
+                <h2 id="banner-heading" class="banner-title">Privacy Policy Not Yet Published</h2>
+                <p class="banner-desc">
+                  <strong>{app.data.name}</strong> is currently in pre-release development. A finalized, legally binding public privacy policy has not yet been audited or published for this application.
+                </p>
+                <div class="readiness-lock-well">
+                  <strong class="lock-title">Production Readiness Gate</strong>
+                  <p class="lock-text">
+                    Under ModelPath Studio publication safeguards, no application may be released to public app distribution channels until its complete data governance audit is signed off and this policy is transitioned to Verified status.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section class="evidence-checklist-card" aria-labelledby="checklist-heading">
+              <div class="card-header">
+                <span class="card-label">Empirical Codebase Audit</span>
+                <h2 id="checklist-heading" class="card-title">Pre-Release Technical Findings</h2>
+                <p class="card-subtext">
+                  The following table records verified technical facts and pending audit items identified from accessible repository configurations for {app.data.name}:
+                </p>
+              </div>
+
+              <div class="checklist-items">
+                {evidenceProfile.checklist.map((item: any) => (
+                  <div class="checklist-row">
+                    <div class="checklist-main">
+                      <span class="checklist-category">{item.category}</span>
+                      <h3 class="checklist-name">{item.item}</h3>
+                      <p class="checklist-detail">{item.finding}</p>
+                    </div>
+                    <div class="checklist-badge-col">
+                      <span class={`status-chip chip-${item.status}`}>
+                        {item.status === 'confirmed' ? 'Audit Verified' : item.status === 'planned' ? 'Planned Spec' : 'Unconfirmed'}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div class="evidence-footnote">
+                <p>
+                  * Findings derived solely from inspected codebase trees and application manifests. No marketing assertions have been included without empirical verification.
+                </p>
+              </div>
+            </section>
           </div>
-          <div class="banner-body">
-            <span class="banner-eyebrow">Pre-Release Status Notice</span>
-            <h2 id="banner-heading" class="banner-title">Privacy Policy Not Yet Published</h2>
-            <p class="banner-desc">
-              <strong>{app.data.name}</strong> is currently in pre-release development. A finalized, legally binding public privacy policy has not yet been audited or published for this application.
-            </p>
-            <div class="readiness-lock-well">
-              <strong class="lock-title">Production Readiness Gate</strong>
-              <p class="lock-text">
-                Under ModelPath Studio publication safeguards, no application may be released to public app distribution channels until its complete data governance audit is signed off and this policy is transitioned to Verified status.
+        ) : (
+          <div class="verified-document-card">
+            <div class="policy-block">
+              <h2>1. Overview and Core Scope</h2>
+              <p>
+                This Privacy Policy applies specifically to the mobile application <strong>{app.data.name}</strong> developed and published by ModelPath Studio. We are committed to transparency regarding how data is processed, stored, and protected during your use of our software.
+              </p>
+            </div>
+
+            <div class="policy-block">
+              <h2>2. Information Collection and Processing</h2>
+              <p>
+                ModelPath Studio adheres to strict data minimization principles. Below is an exhaustive description of data categories associated with {app.data.name}:
+              </p>
+              <ul>
+                {disclosures.dataCollection && disclosures.dataCollection.length > 0 ? (
+                  disclosures.dataCollection.map((item: string) => <li>{item}</li>)
+                ) : (
+                  <li>No personal identifying information is collected, processed, or logged by default.</li>
+                )}
+              </ul>
+            </div>
+
+            <div class="policy-block">
+              <h2>3. Purpose and Utilization of Data</h2>
+              <ul>
+                {disclosures.dataUsage && disclosures.dataUsage.length > 0 ? (
+                  disclosures.dataUsage.map((item: string) => <li>{item}</li>)
+                ) : (
+                  <li>Local application functionality, offline document manipulation, and device-bound feature state preservation.</li>
+                )}
+              </ul>
+            </div>
+
+            <div class="policy-block">
+              <h2>4. Storage, Retention, and Offline Processing</h2>
+              <p>
+                {disclosures.storageAndRetention ||
+                  `${app.data.name} processes data entirely on your device local storage. We maintain no cloud database, user accounts, or external storage mechanisms for your content.`}
+              </p>
+            </div>
+
+            <div class="policy-block">
+              <h2>5. Third-Party Services and Analytics</h2>
+              <p>
+                {disclosures.analytics || 'No third-party tracking, profiling, or analytical SDKs are integrated into this release build.'}
+              </p>
+              <p>
+                {disclosures.advertising || 'No third-party behavioral advertising networks operate within this application.'}
+              </p>
+            </div>
+
+            <div class="policy-block">
+              <h2>6. Device Permissions Requested</h2>
+              <ul>
+                {disclosures.permissions && disclosures.permissions.length > 0 ? (
+                  disclosures.permissions.map((item: string) => <li>{item}</li>)
+                ) : (
+                  <li>No non-standard sensitive device runtime permissions are required for core execution.</li>
+                )}
+              </ul>
+            </div>
+
+            <div class="policy-block">
+              <h2>7. Security Safeguards and Practices</h2>
+              <p>
+                {disclosures.securityPractices ||
+                  'All processed documents, files, and user inputs remain segregated within your mobile operating system application sandbox.'}
+              </p>
+            </div>
+
+            <div class="policy-block">
+              <h2>8. User Rights and Data Deletion</h2>
+              <p>
+                {disclosures.dataDeletion ||
+                  'Because ModelPath Studio does not transmit or store your files on external servers, you retain complete authority over your data. Uninstalling the application or clearing local application storage immediately purges all application data.'}
               </p>
             </div>
           </div>
-        </section>
+        )}
 
-        <section class="evidence-checklist-card" aria-labelledby="checklist-heading">
-          <div class="card-header">
-            <span class="card-label">Empirical Codebase Audit</span>
-            <h2 id="checklist-heading" class="card-title">Pre-Release Technical Findings</h2>
-            <p class="card-subtext">
-              The following table records verified technical facts and pending audit items identified from accessible repository configurations for {app.data.name}:
+        <!-- Policy Footer Well -->
+        <footer class="policy-footer-well">
+          <div class="footer-well-content">
+            <h3 class="footer-well-title">Data Protection &amp; Privacy Contact</h3>
+            <p class="footer-well-text">
+              Direct inquiries, deletion verifications, or technical questions concerning this privacy disclosure to our engineering team:
             </p>
+            <a href={`mailto:${disclosures.contactEmail || privacyEmail}`} class="footer-email-link">
+              {disclosures.contactEmail || privacyEmail}
+            </a>
           </div>
 
-          <div class="checklist-items">
-            {evidenceProfile.checklist.map((item) => (
-              <div class="checklist-row">
-                <div class="checklist-main">
-                  <div class="checklist-category">{item.category}</div>
-                  <h3 class="checklist-name">{item.item}</h3>
-                  <p class="checklist-detail">{item.findingDetails}</p>
-                </div>
-                <div class="checklist-badge-col">
-                  {item.status === 'confirmed' && (
-                    <span class="status-chip chip-confirmed">Confirmed In Code</span>
-                  )}
-                  {item.status === 'planned' && (
-                    <span class="status-chip chip-planned">Planned Integration</span>
-                  )}
-                  {item.status === 'requires-confirmation' && (
-                    <span class="status-chip chip-unconfirmed">Requires Confirmation</span>
-                  )}
-                </div>
-              </div>
-            ))}
+          <div class="footer-nav-links">
+            <a href={`/apps/${app.data.slug}/`} class="nav-chip-btn">
+              <span>Back to {app.data.name}</span>
+            </a>
+            <a href={`/apps/${app.data.slug}/support/`} class="nav-chip-btn">
+              <span>Product Support</span>
+            </a>
+            <a href="/privacy/" class="website-policy-link">
+              Studio Website Privacy Policy &rarr;
+            </a>
           </div>
-
-          <div class="evidence-footnote">
-            <p>
-              * Note: Presence or absence of dependencies reflects current development state and does not constitute finalized legal disclosures. Final audited disclosures will specify exact data retention periods, advertising network IDs, and deletion procedures prior to public store availability.
-            </p>
-          </div>
-        </section>
+        </footer>
       </div>
-    ) : (
-      <article class="verified-document-card">
-        <section class="policy-block">
-          <h2>1. Data Collection</h2>
-          {disclosures.dataCollection && disclosures.dataCollection.length > 0 ? (
-            <ul>
-              {disclosures.dataCollection.map((item) => <li>{item}</li>)}
-            </ul>
-          ) : (
-            <p>This application does not collect personal identifiers or telemetry.</p>
-          )}
-        </section>
-
-        <section class="policy-block">
-          <h2>2. Data Usage</h2>
-          {disclosures.dataUsage && disclosures.dataUsage.length > 0 ? (
-            <ul>
-              {disclosures.dataUsage.map((item) => <li>{item}</li>)}
-            </ul>
-          ) : (
-            <p>Processed data is used solely to execute the requested on-device application workflows.</p>
-          )}
-        </section>
-
-        <section class="policy-block">
-          <h2>3. Storage and Retention</h2>
-          <p>{disclosures.storageAndRetention || 'All application data is retained locally on the user device and is deleted when the application is uninstalled.'}</p>
-        </section>
-
-        <section class="policy-block">
-          <h2>4. Sharing and Third-Party SDKs</h2>
-          {disclosures.sharingAndThirdParties && disclosures.sharingAndThirdParties.length > 0 ? (
-            <ul>
-              {disclosures.sharingAndThirdParties.map((item) => <li>{item}</li>)}
-            </ul>
-          ) : (
-            <p>No third-party data broker or advertising sharing integrations are active.</p>
-          )}
-        </section>
-
-        <section class="policy-block">
-          <h2>5. Advertising &amp; Analytics Disclosures</h2>
-          <p><strong>Advertising:</strong> {disclosures.advertising || 'None.'}</p>
-          <p><strong>Analytics:</strong> {disclosures.analytics || 'None.'}</p>
-        </section>
-
-        <section class="policy-block">
-          <h2>6. Device Permissions</h2>
-          {disclosures.permissions && disclosures.permissions.length > 0 ? (
-            <ul>
-              {disclosures.permissions.map((item) => <li>{item}</li>)}
-            </ul>
-          ) : (
-            <p>No non-standard runtime device permissions are requested.</p>
-          )}
-        </section>
-
-        <section class="policy-block">
-          <h2>7. Security Practices &amp; Data Deletion</h2>
-          <p>{disclosures.securityPractices || 'Standard operating system sandboxing and application storage isolation are enforced.'}</p>
-          <p>{disclosures.dataDeletion || 'Users may delete all application data at any time through standard operating system settings or app uninstallation.'}</p>
-        </section>
-      </article>
-    )}
-
-    <!-- Inquiries & Cross-Navigation -->
-    <section class="policy-footer-well">
-      <div class="footer-well-content">
-        <h2 class="footer-well-title">Data Protection &amp; Support Inquiries</h2>
-        <p class="footer-well-text">
-          Direct all privacy questions, data handling clarifications, or pre-release governance inquiries for <strong>{app.data.name}</strong> to:
-        </p>
-        <a href={`mailto:${privacyEmail}?subject=[Privacy] ${app.data.name}`} class="footer-email-link">
-          {privacyEmail}
-        </a>
-      </div>
-
-      <div class="footer-nav-links">
-        <a href={`/apps/${app.data.slug}/`} class="nav-chip-btn">
-          <span>&larr; {app.data.name} Details</span>
-        </a>
-        <a href={`/apps/${app.data.slug}/support/`} class="nav-chip-btn">
-          <span>Support &amp; FAQ &rarr;</span>
-        </a>
-        <a href="/privacy/" class="website-policy-link">
-          <span>Website Privacy Policy</span>
-        </a>
-      </div>
-    </section>
+    </main>
   </div>
 </BaseLayout>
 
 <style>
-  .policy-page-container {
+  .app-privacy-page {
     width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
   }
 
-  /* Breadcrumb */
+  .container {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .policy-body-container {
+    max-width: 920px;
+  }
+
+  /* App Privacy Hero (Dark Atmospheric) */
+  .app-privacy-hero {
+    padding-top: 56px;
+    padding-bottom: 64px;
+    background: radial-gradient(circle at 65% 25%, rgba(79, 107, 255, 0.18) 0%, rgba(139, 92, 246, 0.09) 45%, transparent 72%), var(--c-midnight, #0B1225);
+    border-bottom: 1px solid rgba(79, 107, 255, 0.18);
+  }
+
   .breadcrumb-bar {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--text-muted);
+    font-size: 0.84rem;
+    color: var(--c-text-light-muted, #94A3B8);
     margin-bottom: 24px;
   }
 
   .breadcrumb-bar a {
-    color: inherit;
+    color: var(--c-text-light-muted, #94A3B8);
     text-decoration: none;
-    transition: color var(--transition-fast);
+    transition: color 0.15s ease;
   }
 
   .breadcrumb-bar a:hover {
-    color: var(--accent-blue);
+    color: #FFFFFF;
   }
 
-  /* App Privacy Header */
-  .app-privacy-header {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    padding: 36px 36px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    margin-bottom: 32px;
+  .breadcrumb-bar span.current {
+    color: var(--c-cyan, #73DDE6);
+    font-weight: 600;
   }
 
-  .header-left {
+  .header-main-row {
     display: flex;
     align-items: center;
     gap: 24px;
   }
 
   .app-icon-frame {
-    width: 72px;
-    height: 72px;
+    width: 68px;
+    height: 68px;
     border-radius: 18px;
-    background: var(--bg-raised);
-    box-shadow: var(--shadow-card);
+    background: linear-gradient(135deg, #172441, #0B1225);
+    border: 2px solid rgba(79, 107, 255, 0.35);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--c-cobalt, #4F6BFF);
     flex-shrink: 0;
   }
 
   .app-icon-frame svg {
     width: 34px;
     height: 34px;
-    stroke: var(--accent-blue);
   }
 
   .header-titles {
     flex: 1;
-    min-width: 0;
   }
 
   .header-status-row {
@@ -337,55 +365,54 @@ const disclosures = app.data.privacyDisclosures || {
   }
 
   .app-cat-label {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-blue);
+    letter-spacing: 0.08em;
+    color: var(--c-cyan, #73DDE6);
   }
 
   .status-pill {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    font-size: 0.72rem;
+    font-weight: 600;
     padding: 3px 10px;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-inset-box);
+    border-radius: var(--radius-pill, 9999px);
   }
 
   .status-pill.pill-verified {
-    background: rgba(14, 116, 144, 0.1);
-    color: #0e7490;
-    border: 1px solid rgba(14, 116, 144, 0.3);
+    background: rgba(16, 185, 129, 0.15);
+    color: #34D399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
   }
 
-  .status-pill.pill-pending-review {
-    background: rgba(245, 158, 11, 0.1);
-    color: #92400e;
-    border: 1px solid rgba(217, 119, 6, 0.3);
-  }
-
+  .status-pill.pill-pending-review,
   .status-pill.pill-draft {
-    background: rgba(100, 116, 139, 0.1);
-    color: var(--text-muted);
-    border: 1px solid rgba(100, 116, 139, 0.3);
+    background: rgba(245, 158, 11, 0.15);
+    color: #FBBF24;
+    border: 1px solid rgba(245, 158, 11, 0.35);
   }
 
   .policy-main-title {
-    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-family: var(--font-display, inherit);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
     font-weight: 800;
-    color: var(--text-heading);
-    letter-spacing: -0.02em;
+    color: #FFFFFF;
+    letter-spacing: -0.025em;
     margin: 0 0 6px 0;
-    line-height: 1.2;
+    line-height: 1.15;
   }
 
   .policy-meta-line {
-    font-size: 0.875rem;
-    color: var(--text-muted);
+    font-size: 0.88rem;
+    color: var(--c-text-light-muted, #94A3B8);
     margin: 0;
-    font-weight: 500;
+  }
+
+  /* Editorial Canvas */
+  .editorial-canvas {
+    background: var(--c-offwhite, #F8FAFC);
+    color: var(--c-text-dark, #0F172A);
+    padding: 64px 0 88px;
   }
 
   /* Unverified State Elements */
@@ -396,95 +423,92 @@ const disclosures = app.data.privacyDisclosures || {
   }
 
   .unverified-banner-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     padding: 36px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(203, 213, 225, 0.6);
     display: flex;
     align-items: flex-start;
     gap: 24px;
-    border-left: 4px solid #d97706;
+    border-left: 5px solid #F59E0B;
   }
 
   .banner-icon-well {
     width: 48px;
     height: 48px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-raised);
-    box-shadow: var(--shadow-inset-box);
+    border-radius: 12px;
+    background: rgba(245, 158, 11, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #D97706;
     flex-shrink: 0;
   }
 
   .banner-icon-well svg {
     width: 24px;
     height: 24px;
-    stroke: #d97706;
   }
 
   .banner-body {
     flex: 1;
-    min-width: 0;
   }
 
   .banner-eyebrow {
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #b45309;
+    letter-spacing: 0.08em;
+    color: #D97706;
     display: block;
     margin-bottom: 4px;
   }
 
   .banner-title {
-    font-size: clamp(1.35rem, 2.5vw, 1.7rem);
+    font-family: var(--font-display, inherit);
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
     font-weight: 800;
-    color: var(--text-heading);
+    color: var(--c-text-dark, #0F172A);
     margin: 0 0 10px 0;
-    line-height: 1.25;
   }
 
   .banner-desc {
-    font-size: 0.95rem;
-    color: var(--text-body);
+    font-size: 0.98rem;
+    color: var(--c-text-dark-muted, #475569);
     line-height: 1.6;
     margin: 0 0 18px 0;
   }
 
   .readiness-lock-well {
-    background: var(--bg-inset);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-inset-well);
+    background: #FFFBEB;
+    border-radius: 10px;
     padding: 16px 20px;
-    border: 1px solid rgba(217, 119, 6, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.25);
   }
 
   .lock-title {
-    font-size: 0.875rem;
+    font-size: 0.88rem;
     font-weight: 700;
-    color: var(--text-heading);
+    color: #92400E;
     display: block;
     margin-bottom: 4px;
   }
 
   .lock-text {
-    font-size: 0.875rem;
-    color: var(--text-body);
+    font-size: 0.88rem;
+    color: #B45309;
     line-height: 1.55;
     margin: 0;
   }
 
   /* Technical Evidence Checklist */
   .evidence-checklist-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     padding: 36px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(203, 213, 225, 0.6);
   }
 
   .card-header {
@@ -492,25 +516,26 @@ const disclosures = app.data.privacyDisclosures || {
   }
 
   .card-label {
-    font-size: 0.8125rem;
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-blue);
+    letter-spacing: 0.08em;
+    color: var(--c-cobalt, #4F6BFF);
     display: block;
     margin-bottom: 4px;
   }
 
   .card-title {
-    font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+    font-family: var(--font-display, inherit);
+    font-size: clamp(1.4rem, 2.5vw, 1.75rem);
     font-weight: 800;
-    color: var(--text-heading);
+    color: var(--c-text-dark, #0F172A);
     margin: 0 0 6px 0;
   }
 
   .card-subtext {
-    font-size: 0.925rem;
-    color: var(--text-body);
+    font-size: 0.95rem;
+    color: var(--c-text-dark-muted, #475569);
     line-height: 1.55;
     margin: 0;
   }
@@ -518,7 +543,6 @@ const disclosures = app.data.privacyDisclosures || {
   .checklist-items {
     display: flex;
     flex-direction: column;
-    divide-y: 1px solid var(--border-subtle);
   }
 
   .checklist-row {
@@ -527,11 +551,7 @@ const disclosures = app.data.privacyDisclosures || {
     justify-content: space-between;
     align-items: flex-start;
     gap: 20px;
-    border-bottom: 1px solid var(--border-subtle);
-  }
-
-  .checklist-row:first-child {
-    padding-top: 4px;
+    border-bottom: 1px solid rgba(203, 213, 225, 0.5);
   }
 
   .checklist-row:last-child {
@@ -541,29 +561,29 @@ const disclosures = app.data.privacyDisclosures || {
 
   .checklist-main {
     flex: 1;
-    min-width: 0;
   }
 
   .checklist-category {
-    font-size: 0.725rem;
+    font-size: 0.74rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-blue);
+    letter-spacing: 0.06em;
+    color: var(--c-cobalt, #4F6BFF);
+    display: block;
     margin-bottom: 2px;
   }
 
   .checklist-name {
+    font-family: var(--font-display, inherit);
     font-size: 1.05rem;
     font-weight: 700;
-    color: var(--text-heading);
+    color: var(--c-text-dark, #0F172A);
     margin: 0 0 4px 0;
-    line-height: 1.3;
   }
 
   .checklist-detail {
-    font-size: 0.875rem;
-    color: var(--text-body);
+    font-size: 0.9rem;
+    color: var(--c-text-dark-muted, #475569);
     line-height: 1.5;
     margin: 0;
   }
@@ -573,55 +593,53 @@ const disclosures = app.data.privacyDisclosures || {
   }
 
   .status-chip {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     padding: 3px 10px;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-inset-box);
+    border-radius: var(--radius-pill, 9999px);
     white-space: nowrap;
-    display: inline-block;
   }
 
   .status-chip.chip-confirmed {
-    background: rgba(14, 116, 144, 0.08);
-    color: #0e7490;
-    border: 1px solid rgba(14, 116, 144, 0.25);
+    background: rgba(16, 185, 129, 0.1);
+    color: #047857;
+    border: 1px solid rgba(16, 185, 129, 0.25);
   }
 
   .status-chip.chip-planned {
-    background: rgba(100, 116, 139, 0.08);
-    color: var(--text-muted);
-    border: 1px solid rgba(100, 116, 139, 0.25);
+    background: rgba(79, 107, 255, 0.1);
+    color: var(--c-cobalt, #4F6BFF);
+    border: 1px solid rgba(79, 107, 255, 0.25);
   }
 
   .status-chip.chip-unconfirmed {
-    background: rgba(245, 158, 11, 0.08);
-    color: #b45309;
-    border: 1px solid rgba(217, 119, 6, 0.25);
+    background: rgba(245, 158, 11, 0.1);
+    color: #B45309;
+    border: 1px solid rgba(245, 158, 11, 0.25);
   }
 
   .evidence-footnote {
     margin-top: 24px;
     padding-top: 16px;
-    border-top: 1px solid var(--border-subtle);
+    border-top: 1px solid rgba(203, 213, 225, 0.5);
   }
 
   .evidence-footnote p {
-    font-size: 0.8rem;
-    color: var(--text-muted);
+    font-size: 0.82rem;
+    color: var(--c-text-dark-muted, #64748B);
     line-height: 1.55;
     margin: 0;
   }
 
   /* Verified Document Card */
   .verified-document-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     padding: 44px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(203, 213, 225, 0.6);
     display: flex;
     flex-direction: column;
     gap: 32px;
@@ -632,7 +650,7 @@ const disclosures = app.data.privacyDisclosures || {
     flex-direction: column;
     gap: 10px;
     padding-bottom: 24px;
-    border-bottom: 1px solid var(--border-subtle);
+    border-bottom: 1px solid rgba(203, 213, 225, 0.5);
   }
 
   .policy-block:last-child {
@@ -641,15 +659,16 @@ const disclosures = app.data.privacyDisclosures || {
   }
 
   .policy-block h2 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-heading);
+    font-family: var(--font-display, inherit);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--c-text-dark, #0F172A);
     margin: 0;
   }
 
   .policy-block p {
-    font-size: 0.95rem;
-    color: var(--text-body);
+    font-size: 0.98rem;
+    color: var(--c-text-dark-muted, #475569);
     line-height: 1.65;
     margin: 0;
   }
@@ -657,19 +676,19 @@ const disclosures = app.data.privacyDisclosures || {
   .policy-block ul {
     margin: 0;
     padding-left: 20px;
-    color: var(--text-body);
-    font-size: 0.95rem;
+    color: var(--c-text-dark-muted, #475569);
+    font-size: 0.98rem;
     line-height: 1.65;
   }
 
   /* Policy Footer Well */
   .policy-footer-well {
-    background: var(--bg-inset);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-inset-well);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     padding: 28px 32px;
     margin-top: 36px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(203, 213, 225, 0.6);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -682,15 +701,16 @@ const disclosures = app.data.privacyDisclosures || {
   }
 
   .footer-well-title {
+    font-family: var(--font-display, inherit);
     font-size: 1.15rem;
     font-weight: 700;
-    color: var(--text-heading);
+    color: var(--c-text-dark, #0F172A);
     margin: 0 0 6px 0;
   }
 
   .footer-well-text {
-    font-size: 0.9rem;
-    color: var(--text-body);
+    font-size: 0.92rem;
+    color: var(--c-text-dark-muted, #475569);
     line-height: 1.5;
     margin: 0 0 10px 0;
   }
@@ -698,7 +718,7 @@ const disclosures = app.data.privacyDisclosures || {
   .footer-email-link {
     font-size: 0.95rem;
     font-weight: 700;
-    color: var(--accent-blue);
+    color: var(--c-cobalt, #4F6BFF);
     text-decoration: underline;
   }
 
@@ -710,66 +730,69 @@ const disclosures = app.data.privacyDisclosures || {
   }
 
   .nav-chip-btn {
-    background: var(--bg-raised);
-    color: var(--accent-blue);
+    background: var(--c-cobalt, #4F6BFF);
+    color: #FFFFFF;
     font-size: 0.85rem;
     font-weight: 600;
     padding: 8px 16px;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-btn-secondary);
+    border-radius: var(--radius-pill, 9999px);
     display: inline-flex;
     align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.85);
     text-decoration: none;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 10px rgba(79, 107, 255, 0.25);
+    transition: background 0.15s ease, transform 0.15s ease;
   }
 
   .nav-chip-btn:hover {
+    background: var(--c-cobalt-hover, #3D58E6);
     transform: translateY(-1px);
-    box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(169, 180, 196, 0.32);
   }
 
   .website-policy-link {
     font-size: 0.85rem;
     font-weight: 500;
-    color: var(--text-muted);
+    color: var(--c-text-dark-muted, #64748B);
     text-decoration: none;
-    transition: color var(--transition-fast);
   }
 
   .website-policy-link:hover {
-    color: var(--accent-blue);
+    color: var(--c-cobalt, #4F6BFF);
     text-decoration: underline;
   }
 
-  /* Responsive Adjustments */
+  /* Responsive Rules */
   @media (max-width: 768px) {
-    .app-privacy-header {
-      padding: 24px 20px;
-      border-radius: var(--radius-md);
+    .container {
+      padding: 0 20px;
     }
 
-    .header-left {
+    .app-privacy-hero {
+      padding-top: 36px;
+      padding-bottom: 44px;
+    }
+
+    .header-main-row {
       flex-direction: column;
       align-items: flex-start;
       gap: 16px;
+    }
+
+    .editorial-canvas {
+      padding: 44px 0 60px;
     }
 
     .unverified-banner-card {
       flex-direction: column;
       padding: 24px 20px;
       gap: 16px;
-      border-radius: var(--radius-md);
     }
 
     .evidence-checklist-card {
       padding: 24px 20px;
-      border-radius: var(--radius-md);
     }
 
     .checklist-row {
       flex-direction: column;
-      align-items: flex-start;
       gap: 10px;
     }
 
@@ -777,8 +800,6 @@ const disclosures = app.data.privacyDisclosures || {
       flex-direction: column;
       align-items: flex-start;
       padding: 20px 18px;
-      gap: 20px;
-      border-radius: var(--radius-md);
     }
 
     .footer-nav-links {

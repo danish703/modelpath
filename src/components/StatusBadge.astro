@@ -2,9 +2,10 @@
 interface Props {
   status: 'published' | 'coming-soon' | 'in-development' | 'unconfirmed' | string;
   size?: 'sm' | 'md';
+  theme?: 'light' | 'dark';
 }
 
-const { status, size = 'sm' } = Astro.props;
+const { status, size = 'sm', theme = 'light' } = Astro.props;
 
 const labelMap: Record<string, string> = {
   'coming-soon': 'Coming Soon',
@@ -16,47 +17,95 @@ const labelMap: Record<string, string> = {
 const displayLabel = labelMap[status] || status;
 ---
 
-<span class={`status-badge size-${size} status-${status}`}>
-  {displayLabel}
+<span class={`status-badge size-${size} status-${status} theme-${theme}`}>
+  <span class="status-dot" aria-hidden="true"></span>
+  <span>{displayLabel}</span>
 </span>
 
 <style>
   .status-badge {
     display: inline-flex;
     align-items: center;
+    gap: 6px;
     border-radius: var(--radius-pill);
-    background: var(--bg-inset);
-    color: var(--text-muted);
-    box-shadow: var(--shadow-inset-box);
     font-weight: 600;
     white-space: nowrap;
     letter-spacing: 0.02em;
     flex-shrink: 0;
   }
 
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
   .size-sm {
-    font-size: 0.725rem;
-    padding: 4px 10px;
+    font-size: 0.74rem;
+    padding: 3px 10px;
   }
 
   .size-md {
     font-size: 0.8rem;
-    padding: 6px 14px;
+    padding: 5px 14px;
   }
 
-  .status-coming-soon {
-    color: var(--accent-blue);
+  /* Light Theme (on editorial cards / white backgrounds) */
+  .theme-light.status-coming-soon {
+    background: #FEF3C7;
+    color: #92400E;
+    border: 1px solid #FDE68A;
   }
+  .theme-light.status-coming-soon .status-dot { background: #D97706; }
 
-  .status-published {
-    color: var(--color-status-published, #0D9488);
+  .theme-light.status-published {
+    background: #ECFDF5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
   }
+  .theme-light.status-published .status-dot { background: #059669; }
 
-  .status-in-development {
-    color: var(--text-muted);
+  .theme-light.status-in-development {
+    background: #EFF6FF;
+    color: #1E40AF;
+    border: 1px solid #BFDBFE;
   }
+  .theme-light.status-in-development .status-dot { background: #3B82F6; }
 
-  .status-unconfirmed {
-    color: var(--text-muted);
+  .theme-light.status-unconfirmed {
+    background: #F1F5F9;
+    color: #475569;
+    border: 1px solid #CBD5E1;
   }
+  .theme-light.status-unconfirmed .status-dot { background: #94A3B8; }
+
+  /* Dark Theme (on hero / dark wells) */
+  .theme-dark.status-coming-soon {
+    background: rgba(245, 158, 11, 0.15);
+    color: #FBBF24;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+  }
+  .theme-dark.status-coming-soon .status-dot { background: #F59E0B; }
+
+  .theme-dark.status-published {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34D399;
+    border: 1px solid rgba(16, 185, 129, 0.35);
+  }
+  .theme-dark.status-published .status-dot { background: #10B981; }
+
+  .theme-dark.status-in-development {
+    background: rgba(79, 107, 255, 0.15);
+    color: #93C5FD;
+    border: 1px solid rgba(79, 107, 255, 0.35);
+  }
+  .theme-dark.status-in-development .status-dot { background: #60A5FA; }
+
+  .theme-dark.status-unconfirmed {
+    background: rgba(241, 245, 249, 0.1);
+    color: #94A3B8;
+    border: 1px solid rgba(203, 213, 225, 0.25);
+  }
+  .theme-dark.status-unconfirmed .status-dot { background: #94A3B8; }
 </style>

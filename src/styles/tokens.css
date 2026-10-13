@@ -1,73 +1,118 @@
 /* ==========================================================================
-   ModelPath Design Tokens — Approved Premium White Neumorphic System (Gate 2/3)
+   ModelPath Design Tokens — Midnight Aurora System (Gate 12B)
    ========================================================================== */
 
 :root {
-  /* Surfaces & Canvas */
-  --bg-canvas: #F4F6F8;
-  --bg-surface: #F7F9FB;
-  --bg-raised: #F4F6F8;
-  --bg-inset: #EBEEF2;
+  /* ------------------------------------------------------------------------
+     Primary Midnight Aurora Palette
+     ------------------------------------------------------------------------ */
+  --c-midnight: #0B1225;            /* Canvas background, hero base, dark footer */
+  --c-deep: #172441;                /* Elevated dark containers, nav backdrop, card frames */
+  --c-surface-dark: #111A33;        /* Secondary dark well, recessed showcase frame */
+  --c-cobalt: #4F6BFF;              /* Electric Cobalt: primary active accent, CTAs */
+  --c-cobalt-hover: #3D58E6;        /* Electric Cobalt interactive hover */
+  --c-violet: #8B5CF6;              /* Aurora Violet: secondary accent, gradient stop */
+  --c-cyan: #73DDE6;                /* Soft Cyan: high-contrast detail, status spark */
 
-  /* Typography & High-Contrast Colors (WCAG 2.1 AA Compliant) */
-  --text-heading: #172233;
-  --text-body: #475569;
-  --text-muted: #64748B;
-  --border-subtle: rgba(169, 180, 196, 0.32);
+  /* ------------------------------------------------------------------------
+     Editorial Rhythm & Light Surfaces
+     ------------------------------------------------------------------------ */
+  --c-offwhite: #F8FAFC;            /* Editorial Canvas: light section backdrops */
+  --c-card-light: #FFFFFF;          /* Elevated light application cards, feature tiles */
+  --c-text-dark: #0F172A;           /* Primary heading text in light sections (15.4:1 AAA) */
+  --c-text-dark-muted: #475569;     /* Body text in light sections (7.2:1 AAA) */
+  --c-text-light: #F8FAFC;          /* Primary heading text in dark sections (16.5:1 AAA) */
+  --c-text-light-muted: #94A3B8;    /* Body text in dark sections (6.8:1 AAA) */
 
-  /* Brand Accent */
-  --accent-blue: #4567E8;
-  --accent-blue-hover: #3354D4;
+  /* ------------------------------------------------------------------------
+     Borders & Separators
+     ------------------------------------------------------------------------ */
+  --c-border-dark: rgba(79, 107, 255, 0.22);
+  --c-border-dark-highlight: rgba(79, 107, 255, 0.40);
+  --c-border-light: rgba(203, 213, 225, 0.70);
+  --c-border-light-subtle: rgba(226, 232, 240, 0.80);
 
-  /* Neumorphic Lighting & Shadows */
-  --shadow-nav: -6px -6px 14px #FFFFFF, 6px 6px 16px rgba(169, 180, 196, 0.25);
-  --shadow-nav-mobile: -4px -4px 10px #FFFFFF, 4px 4px 12px rgba(169, 180, 196, 0.22);
-  --shadow-card: -8px -8px 20px #FFFFFF, 8px 8px 20px rgba(169, 180, 196, 0.26);
-  --shadow-card-mobile: -6px -6px 16px #FFFFFF, 6px 6px 16px rgba(169, 180, 196, 0.24);
-  --shadow-btn-primary: -4px -4px 10px #FFFFFF, 4px 4px 12px rgba(69, 103, 232, 0.32);
-  --shadow-btn-secondary: -4px -4px 10px #FFFFFF, 4px 4px 12px rgba(169, 180, 196, 0.24);
-  --shadow-inset-box: inset 3px 3px 7px rgba(169, 180, 196, 0.22), inset -3px -3px 7px #FFFFFF;
-  --shadow-inset-well: inset 5px 5px 12px rgba(169, 180, 196, 0.20), inset -5px -5px 12px #FFFFFF;
+  /* ------------------------------------------------------------------------
+     Status Badges & Chips
+     ------------------------------------------------------------------------ */
+  --status-published-bg: rgba(16, 185, 129, 0.15);
+  --status-published-text: #10B981;
+  --status-published-border: rgba(16, 185, 129, 0.35);
 
-  /* Focus Indicator */
-  --focus-ring: 2px solid var(--accent-blue);
-  --focus-ring-offset: 3px;
+  --status-coming-bg: rgba(245, 158, 11, 0.15);
+  --status-coming-text: #FBBF24;
+  --status-coming-border: rgba(245, 158, 11, 0.35);
 
-  /* Radii */
+  --status-dev-bg: rgba(79, 107, 255, 0.15);
+  --status-dev-text: #93C5FD;
+  --status-dev-border: rgba(79, 107, 255, 0.35);
+
+  --status-unconfirmed-bg: rgba(241, 245, 249, 0.12);
+  --status-unconfirmed-text: #94A3B8;
+  --status-unconfirmed-border: rgba(203, 213, 225, 0.30);
+
+  /* ------------------------------------------------------------------------
+     Radii Architecture
+     ------------------------------------------------------------------------ */
   --radius-sm: 8px;
   --radius-md: 14px;
-  --radius-lg: 24px;
+  --radius-inner: 12px;
+  --radius-card: 20px;
+  --radius-card-mobile: 16px;
   --radius-pill: 9999px;
 
-  /* Typography Scale */
-  --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
-  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* ------------------------------------------------------------------------
+     Atmospheric Shadows & Depth
+     ------------------------------------------------------------------------ */
+  --shadow-nav: 0 12px 32px rgba(0, 0, 0, 0.45);
+  --shadow-card-dark: 0 16px 40px rgba(0, 0, 0, 0.5);
+  --shadow-card-light: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.04);
+  --shadow-btn-cobalt: 0 8px 20px -4px rgba(79, 107, 255, 0.45);
+  --shadow-glow-cyan: 0 0 20px rgba(115, 221, 230, 0.3);
 
-  /* Transitions */
+  /* ------------------------------------------------------------------------
+     Typography Hierarchy
+     ------------------------------------------------------------------------ */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: 'Plus Jakarta Sans', var(--font-sans);
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* ------------------------------------------------------------------------
+     Focus & Accessibility
+     ------------------------------------------------------------------------ */
+  --focus-ring: 2px solid var(--c-cyan);
+  --focus-ring-offset: 3px;
+
+  /* ------------------------------------------------------------------------
+     Transitions
+     ------------------------------------------------------------------------ */
   --transition-fast: 150ms ease;
   --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 450ms cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Legacy Aliases for Gate 1 Backward Compatibility */
-  --color-bg-primary: var(--bg-canvas);
-  --color-bg-surface: var(--bg-surface);
-  --color-bg-raised: var(--bg-raised);
-  --color-bg-inset: var(--bg-inset);
-  --color-text-primary: var(--text-heading);
-  --color-text-secondary: var(--text-body);
-  --color-text-muted: var(--text-muted);
-  --color-border-subtle: var(--border-subtle);
-  --color-accent: var(--accent-blue);
-  --color-accent-hover: var(--accent-blue-hover);
-  --color-status-published: #0D9488;
-  --color-status-dev: #D97706;
-  --color-status-coming: var(--accent-blue);
-  --shadow-raised-sm: var(--shadow-btn-secondary);
-  --shadow-raised-md: var(--shadow-card);
+  /* ------------------------------------------------------------------------
+     Backward Compatibility Aliases
+     ------------------------------------------------------------------------ */
+  --bg-canvas: var(--c-midnight);
+  --bg-surface: var(--c-deep);
+  --bg-raised: var(--c-deep);
+  --bg-inset: var(--c-surface-dark);
+  --text-heading: var(--c-text-light);
+  --text-body: var(--c-text-light-muted);
+  --text-muted: var(--c-text-light-muted);
+  --border-subtle: var(--c-border-dark);
+  --accent-blue: var(--c-cobalt);
+  --accent-blue-hover: var(--c-cobalt-hover);
+  --font-stack: var(--font-sans);
+  --font-family-mono: var(--font-mono);
+  --shadow-card: var(--shadow-card-dark);
+  --shadow-btn-primary: var(--shadow-btn-cobalt);
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
     --transition-fast: 0ms;
     --transition-normal: 0ms;
+    --transition-smooth: 0ms;
   }
 }

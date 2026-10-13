@@ -9,17 +9,17 @@ interface Props {
 const { title, description, iconType = 'document', status } = Astro.props;
 ---
 
-<div class="feature-card" data-reveal>
-  <div class="feature-header">
-    <div class="feature-icon-well">
+<div class="cap-card" data-reveal>
+  <div class="cap-card-header">
+    <div class="cap-icon-box">
       {iconType === 'pen' && (
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M12 20h9" />
           <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
         </svg>
       )}
       {iconType === 'document' && (
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
           <polyline points="14 2 14 8 20 8" />
           <line x1="16" y1="13" x2="8" y2="13" />
@@ -27,133 +27,115 @@ const { title, description, iconType = 'document', status } = Astro.props;
         </svg>
       )}
       {iconType === 'privacy' && (
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
           <path d="M7 11V7a5 5 0 0 1 10 0v4" />
         </svg>
       )}
       {iconType === 'performance' && (
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
         </svg>
       )}
       {!['pen', 'document', 'privacy', 'performance'].includes(iconType) && (
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="10" />
           <polyline points="12 6 12 12 14 14" />
         </svg>
       )}
     </div>
-    <h3 class="feature-title">
-      <span>{title}</span>
-      {status === 'planned' && <span class="feature-status-chip chip-planned">Planned</span>}
-      {status === 'verification-pending' && <span class="feature-status-chip chip-pending">Verification Pending</span>}
-    </h3>
+
+    {status === 'planned' && <span class="cap-status-pill core">Planned Feature</span>}
+    {status === 'verification-pending' && <span class="cap-status-pill verification">Under Verification</span>}
+    {status === 'available' && <span class="cap-status-pill core">Core Feature</span>}
   </div>
-  <p class="feature-desc">{description}</p>
+
+  <div>
+    <h3 class="cap-title">{title}</h3>
+    <p class="cap-desc">{description}</p>
+  </div>
 </div>
 
 <style>
-  .feature-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    padding: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+  .cap-card {
+    background: #FFFFFF;
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(203, 213, 225, 0.7);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   }
 
-  .feature-header {
+  .cap-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  .cap-card-header {
     display: flex;
     align-items: center;
-    gap: 14px;
+    justify-content: space-between;
   }
 
-  .feature-icon-well {
+  .cap-icon-box {
     width: 44px;
     height: 44px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-raised);
-    box-shadow: var(--shadow-inset-box);
+    border-radius: 12px;
+    background: rgba(79, 107, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--c-cobalt);
     flex-shrink: 0;
   }
 
-  .feature-icon-well svg {
+  .cap-icon-box svg {
     width: 22px;
     height: 22px;
-    stroke: var(--accent-blue);
   }
 
-  .feature-title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--text-heading);
-    line-height: 1.3;
-    margin: 0;
-    display: inline-flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .feature-status-chip {
-    font-size: 0.6875rem;
+  .cap-status-pill {
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    padding: 2px 8px;
+    letter-spacing: 0.06em;
+    padding: 3px 10px;
     border-radius: var(--radius-pill);
-    background: var(--bg-inset);
-    color: var(--text-muted);
-    box-shadow: var(--shadow-inset-box);
-    border: 1px solid rgba(169, 180, 196, 0.35);
   }
 
-  .feature-status-chip.chip-planned {
-    color: var(--text-muted);
+  .cap-status-pill.core {
+    background: #EFF6FF;
+    color: #1E40AF;
+    border: 1px solid #BFDBFE;
   }
 
-  .feature-status-chip.chip-pending {
-    color: #92400e;
-    background: rgba(245, 158, 11, 0.08);
-    border-color: rgba(217, 119, 6, 0.28);
+  .cap-status-pill.verification {
+    background: #FEF3C7;
+    color: #92400E;
+    border: 1px solid #FDE68A;
   }
 
-  .feature-desc {
-    font-size: 0.95rem;
-    color: var(--text-body);
+  .cap-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--c-text-dark);
+    margin-bottom: 6px;
+  }
+
+  .cap-desc {
+    font-size: 0.94rem;
+    color: var(--c-text-dark-muted);
     line-height: 1.6;
     margin: 0;
   }
 
   @media (max-width: 600px) {
-    .feature-card {
-      padding: 18px 16px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-card-mobile);
-    }
-
-    .feature-icon-well {
-      width: 38px;
-      height: 38px;
-    }
-
-    .feature-icon-well svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .feature-title {
-      font-size: 1.05rem;
-    }
-
-    .feature-desc {
-      font-size: 0.875rem;
+    .cap-card {
+      padding: 20px;
     }
   }
 </style>

@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import StatusBadge from '../../../components/StatusBadge.astro';
-import PlatformBadge from '../../../components/PlatformBadge.astro';
 import FeatureCard from '../../../components/FeatureCard.astro';
 import RelatedAppsSection from '../../../components/RelatedAppsSection.astro';
 import AppIcon from '../../../components/AppIcon.astro';
@@ -59,7 +58,7 @@ const featuresList: FeatureItem[] = (data.features || []).map((f) => {
   };
 });
 
-// Gate 11 media (genuine assets or honest placeholders)
+// Gate 11/12 media
 const icon = resolveIcon(data);
 const cover = resolveCover(data);
 const video = resolveVideo(data);
@@ -96,6 +95,19 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
         '@id': 'https://modelpath.app/#website',
       },
     };
+
+// Platform helper tags for hero staging
+const androidStaging = data.availablePlatforms?.includes('android')
+  ? 'Android • Live'
+  : data.plannedPlatforms?.includes('android')
+  ? 'Android • Coming Soon'
+  : 'Android • Not Planned';
+
+const iosStaging = data.availablePlatforms?.includes('ios')
+  ? 'iOS • Live'
+  : data.plannedPlatforms?.includes('ios')
+  ? 'iOS • In Development'
+  : 'iOS • Not Currently Planned';
 ---
 
 <BaseLayout
@@ -104,325 +116,484 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
   ogImage={cover?.src ?? icon?.src}
   jsonLd={pageSchema}
 >
-  <article class="detail-container">
-    <!-- Product Hero -->
+  <div class="app-detail-page">
+    <!-- Product Hero (Dark Atmospheric Midnight Navy Split-Layout) -->
     <header class="product-hero">
-      <div class="product-hero-body">
-        <div class="hero-identity">
-          <AppIcon slug={data.slug} name={data.name} icon={icon} size="lg" decorative={false} class="hero-app-icon" />
-          <div class="hero-meta-row">
-            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <div class="container hero-container">
+        <div class="hero-split-grid">
+          <!-- Left Column: Identity & Meta -->
+          <div class="hero-left-column">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+              <a href="/">Home</a>
+              <span aria-hidden="true">&rsaquo;</span>
               <a href="/apps/">Applications</a>
-              <span aria-hidden="true">/</span>
-              <span>{data.category}</span>
+              <span aria-hidden="true">&rsaquo;</span>
+              <span class="current">{data.name}</span>
             </nav>
-            <StatusBadge status={data.status} size="sm" />
+
+            <div class="hero-meta-row">
+              <div class="app-icon-capsule">
+                <AppIcon slug={data.slug} name={data.name} icon={icon} size="md" decorative={false} />
+              </div>
+              <div class="hero-title-group">
+                <span class="category-chip">{data.category}</span>
+                <StatusBadge status={data.status} size="sm" />
+              </div>
+            </div>
+
+            <h1 class="app-main-title">{data.name}</h1>
+            <p class="hero-subtitle">{data.tagline || data.description}</p>
+
+            <div class="hero-platform-staging">
+              <span class:list={['platform-pill-staging', { 'not-planned': !data.plannedPlatforms?.includes('android') && !data.availablePlatforms?.includes('android') }]}>
+                {androidStaging}
+              </span>
+              <span class:list={['platform-pill-staging', { 'not-planned': !data.plannedPlatforms?.includes('ios') && !data.availablePlatforms?.includes('ios') }]}>
+                {iosStaging}
+              </span>
+            </div>
+
+            <div class="hero-anchor-pills">
+              <a href="#screenshots" class="anchor-pill primary-pill">Screenshots</a>
+              <a href="#features" class="anchor-pill">Capabilities</a>
+              <a href="#download" class="anchor-pill">Store Access</a>
+              <a href={`/apps/${data.slug}/privacy/`} class="anchor-pill">
+                {data.privacyPolicyStatus === 'verified' ? 'Privacy Policy' : 'Privacy (Draft)'}
+              </a>
+              <a href={`/apps/${data.slug}/support/`} class="anchor-pill">Support</a>
+            </div>
+          </div>
+
+          <!-- Right Column: Conceptual Artwork Frame -->
+          <div class="hero-right-column">
+            <div class="hero-illustration-frame">
+              <div class="illustration-window-bar">
+                <div class="window-dots" aria-hidden="true">
+                  <span class="window-dot" style="background: #EF4444;"></span>
+                  <span class="window-dot" style="background: #F59E0B;"></span>
+                  <span class="window-dot" style="background: #10B981;"></span>
+                </div>
+                <span class="window-filename">{data.slug}-blueprint.v1</span>
+                <span class="window-status-chip">OFFLINE SPEC</span>
+              </div>
+
+              <div class="illustration-canvas">
+                <AppCover slug={data.slug} name={data.name} cover={cover} variant="hero" eager />
+              </div>
+
+              <div class="illustration-footer-tag">
+                <span>[{data.name}] &bull; Conceptual Preview</span>
+                <span>{data.status === 'published' ? 'Status: Production Release' : 'Status: Pre-Release Blueprint'}</span>
+              </div>
+            </div>
           </div>
         </div>
-
-        <h1 class="product-name">{data.name}</h1>
-        <div class="product-headline">{data.tagline}</div>
-        <p class="product-summary">{data.description}</p>
-
-        <div class="product-actions-bar">
-          <PlatformBadge
-            availablePlatforms={data.availablePlatforms}
-            plannedPlatforms={data.plannedPlatforms}
-          />
-          <a href="#screenshots" class="action-link-btn">Screenshots</a>
-          <a href="#features" class="action-link-btn">Features</a>
-          <a href="#download" class="action-link-btn">Download</a>
-          <a href={`/apps/${data.slug}/privacy/`} class="action-link-btn">
-            {data.privacyPolicyStatus === 'verified' ? 'Privacy Policy' : 'Privacy (Draft)'}
-          </a>
-          <a href={`/apps/${data.slug}/support/`} class="action-link-btn">Support</a>
-        </div>
-      </div>
-
-      <div class="product-hero-media">
-        <AppCover slug={data.slug} name={data.name} cover={cover} variant="hero" eager />
       </div>
     </header>
 
-    <!-- Screenshot Carousel (genuine images or clearly labelled placeholders) -->
-    <section id="screenshots" class="section-wrap" aria-labelledby="screenshots-heading" data-reveal>
-      <div class="section-header">
-        <span class="section-label">Visual Interface</span>
-        <h2 class="section-title" id="screenshots-heading">Application Screenshots</h2>
-        {!hasGenuineScreens && (
-          <p class="section-note">
-            Authentic screenshots of {data.name} have not been published yet. The panels below are labelled placeholders, not product imagery.
-          </p>
+    <!-- Main Content on Light Editorial Canvas -->
+    <main class="editorial-canvas">
+      <div class="container">
+        <!-- Visual Interface / Conceptual Media Showcase -->
+        <section id="screenshots" class="detail-section" aria-labelledby="screenshots-heading">
+          <div class="section-heading-block">
+            <span class="section-eyebrow">VISUAL INTERFACE</span>
+            <h2 class="section-title" id="screenshots-heading">Conceptual Media Showcase</h2>
+            <p class="section-subtitle">
+              {hasGenuineScreens
+                ? `Official interface captures from ${data.name}.`
+                : `Visual design blueprints and interface concepts for ${data.name}. Authentic production screenshots will be published upon release.`}
+            </p>
+          </div>
+
+          <ScreenshotCarousel appName={data.name} slides={slides} id={`${data.slug}-screenshots`} />
+        </section>
+
+        <!-- Optional verified demonstration video -->
+        {video && (
+          <section id="demo" class="detail-section" aria-labelledby="demo-heading">
+            <div class="section-heading-block">
+              <span class="section-eyebrow">IN MOTION</span>
+              <h2 class="section-title" id="demo-heading">{video.title}</h2>
+            </div>
+            <div class="video-card">
+              <video
+                class="demo-video"
+                controls
+                playsinline
+                preload="none"
+                poster={video.poster}
+                aria-describedby="demo-description"
+              >
+                <source src={video.src} type={video.type} />
+                Your browser does not support embedded video. <a href={video.src}>Download the demonstration video</a>.
+              </video>
+              <p id="demo-description" class="video-desc">{video.description}</p>
+            </div>
+          </section>
         )}
-      </div>
-      <ScreenshotCarousel appName={data.name} slides={slides} id={`${data.slug}-screenshots`} />
-    </section>
 
-    <!-- Optional verified demonstration video (rendered only when genuinely supplied) -->
-    {video && (
-      <section id="demo" class="section-wrap" aria-labelledby="demo-heading" data-reveal>
-        <div class="section-header">
-          <span class="section-label">In Motion</span>
-          <h2 class="section-title" id="demo-heading">{video.title}</h2>
-        </div>
-        <div class="video-card">
-          <video
-            class="demo-video"
-            controls
-            playsinline
-            preload="none"
-            poster={video.poster}
-            aria-describedby="demo-description"
-          >
-            <source src={video.src} type={video.type} />
-            Your browser does not support embedded video. <a href={video.src}>Download the demonstration video</a>.
-          </video>
-          <p id="demo-description" class="video-desc">{video.description}</p>
-        </div>
-      </section>
-    )}
-
-    <!-- Main Features Section -->
-    <section id="features" class="section-wrap" aria-labelledby="features-heading">
-      <div class="section-header" data-reveal>
-        <span class="section-label">Core Capabilities</span>
-        <h2 class="section-title" id="features-heading">Application Capabilities &amp; Features</h2>
-      </div>
-
-      <div class="features-grid">
-        {featuresList.map((feat) => (
-          <FeatureCard
-            title={feat.title}
-            description={feat.description}
-            iconType={feat.icon}
-            status={feat.status}
-          />
-        ))}
-      </div>
-    </section>
-
-    <!-- Application Narrative / Content Section -->
-    <section class="section-wrap narrative-card" aria-labelledby="about-heading" data-reveal>
-      <div class="section-header">
-        <span class="section-label">Product Overview</span>
-        <h2 class="section-title" id="about-heading">About {data.name}</h2>
-      </div>
-      <div class="prose-content">
-        <Content />
-      </div>
-    </section>
-
-    <!-- Platform Availability & Download -->
-    <section id="download" class="section-wrap" aria-labelledby="download-heading">
-      <div class="section-header" data-reveal>
-        <span class="section-label">Platform Availability</span>
-        <h2 class="section-title" id="download-heading">Download {data.name}</h2>
-        <p class="section-note">
-          {anyStoreEnabled
-            ? `Official store listings for ${data.name}. Links open the verified store page in a new tab.`
-            : `${data.name} has no public store listing yet. Store buttons activate only once a verified listing is live.`}
-        </p>
-      </div>
-      <PlatformDownloads appName={data.name} platforms={platforms} />
-    </section>
-
-    <!-- Privacy & Support Capsules -->
-    <section class="section-wrap" aria-label="Privacy and support">
-      <div class="resources-grid">
-        <div class="resource-card" data-reveal>
-          <div class="resource-content">
-            <h3 class="resource-title">
-              {data.privacyPolicyStatus === 'verified' ? 'Privacy Policy' : 'Privacy Disclosures (Draft)'}
-            </h3>
-            <p class="resource-desc">
-              {data.privacyPolicyStatus === 'verified'
-                ? `Review data practices, security disclosures, and user rights for ${data.name}.`
-                : `Review pre-release privacy disclosures and data handling specifications for ${data.name} (compliance review pending).`}
+        <!-- Core Capabilities Section -->
+        <section id="features" class="detail-section" aria-labelledby="features-heading">
+          <div class="section-heading-block">
+            <span class="section-eyebrow">CORE CAPABILITIES</span>
+            <h2 class="section-title" id="features-heading">Engineered for Performance</h2>
+            <p class="section-subtitle">
+              Key architectural capabilities designed for offline reliability, performance, and respectful user privacy.
             </p>
           </div>
-          <a href={`/apps/${data.slug}/privacy/`} class="action-link-btn">
-            {data.privacyPolicyStatus === 'verified' ? 'View Policy \u2192' : 'View Draft Disclosures \u2192'}
-          </a>
-        </div>
 
-        <div class="resource-card" data-reveal>
-          <div class="resource-content">
-            <h3 class="resource-title">Product Support</h3>
-            <p class="resource-desc">
-              Encountering questions or early feedback? Reach our engineering team directly via email.
+          <div class="features-grid">
+            {featuresList.map((feat) => (
+              <FeatureCard
+                title={feat.title}
+                description={feat.description}
+                iconType={feat.icon}
+                status={feat.status}
+              />
+            ))}
+          </div>
+        </section>
+
+        <!-- Application Narrative / Content Section -->
+        <section id="about" class="detail-section" aria-labelledby="about-heading">
+          <div class="section-heading-block">
+            <span class="section-eyebrow">PRODUCT OVERVIEW</span>
+            <h2 class="section-title" id="about-heading">About {data.name}</h2>
+          </div>
+          <div class="narrative-card">
+            <div class="prose-content">
+              <Content />
+            </div>
+          </div>
+        </section>
+
+        <!-- Platform Availability & Download -->
+        <section id="download" class="detail-section" aria-labelledby="download-heading">
+          <div class="section-heading-block">
+            <span class="section-eyebrow">DISTRIBUTION</span>
+            <h2 class="section-title" id="download-heading">Platform Availability &amp; Store Access</h2>
+            <p class="section-subtitle">
+              {anyStoreEnabled
+                ? `Official store listings for ${data.name}. Direct download controls connect to verified platform listings.`
+                : `${data.name} is currently in pre-release development. Public store controls activate immediately upon live store listing.`}
             </p>
           </div>
-          <a href={`/apps/${data.slug}/support/`} class="action-link-btn">
-            Get Support &rarr;
-          </a>
-        </div>
-      </div>
-    </section>
+          <PlatformDownloads appName={data.name} platforms={platforms} />
+        </section>
 
-    <!-- Related Applications -->
-    <RelatedAppsSection currentSlug={data.slug} apps={allApps} />
-  </article>
+        <!-- Privacy & Support Capsules -->
+        <section class="detail-section" aria-label="Privacy and support resources">
+          <div class="resources-grid">
+            <div class="resource-card">
+              <div class="resource-content">
+                <span class="resource-tag">SECURITY &amp; COMPLIANCE</span>
+                <h3 class="resource-title">
+                  {data.privacyPolicyStatus === 'verified' ? 'Privacy Policy' : 'Privacy Disclosures (Draft)'}
+                </h3>
+                <p class="resource-desc">
+                  {data.privacyPolicyStatus === 'verified'
+                    ? `Review verified data practices, security disclosures, and user rights for ${data.name}.`
+                    : `Review pre-release privacy disclosures and data handling specifications for ${data.name} (compliance review pending).`}
+                </p>
+              </div>
+              <a href={`/apps/${data.slug}/privacy/`} class="resource-action-btn">
+                {data.privacyPolicyStatus === 'verified' ? 'View Policy \u2192' : 'View Draft Disclosures \u2192'}
+              </a>
+            </div>
+
+            <div class="resource-card">
+              <div class="resource-content">
+                <span class="resource-tag">DIRECT ASSISTANCE</span>
+                <h3 class="resource-title">Product Support &amp; Feedback</h3>
+                <p class="resource-desc">
+                  Encountering questions, bugs, or early feedback? Reach our engineering team directly via verified support channels.
+                </p>
+              </div>
+              <a href={`/apps/${data.slug}/support/`} class="resource-action-btn">
+                Get Support &rarr;
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Related Applications -->
+        <RelatedAppsSection currentSlug={data.slug} apps={allApps} />
+      </div>
+    </main>
+  </div>
 </BaseLayout>
 
 <style>
-  .detail-container {
+  .app-detail-page {
     width: 100%;
-    max-width: 1120px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 0 32px;
   }
 
-  /* Product Hero */
+  /* Product Hero (Dark Atmospheric Midnight Navy Split-Layout) */
   .product-hero {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    padding: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    padding-top: 64px;
+    padding-bottom: 72px;
+    background: radial-gradient(circle at 65% 25%, rgba(79, 107, 255, 0.18) 0%, rgba(139, 92, 246, 0.09) 45%, transparent 72%), var(--c-midnight, #0B1225);
+    border-bottom: 1px solid rgba(79, 107, 255, 0.18);
+  }
+
+  .hero-split-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 400px);
-    gap: 40px;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
     align-items: center;
-    margin-bottom: 56px;
-    animation: detail-rise 640ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  @keyframes detail-rise {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: none; }
-  }
-
-  .product-hero-body {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .hero-identity {
+  .breadcrumbs {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 18px;
+    gap: 8px;
+    font-size: 0.84rem;
+    color: var(--c-text-light-muted, #94A3B8);
+    margin-bottom: 20px;
+  }
+
+  .breadcrumbs a {
+    color: var(--c-text-light-muted, #94A3B8);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .breadcrumbs a:hover {
+    color: #FFFFFF;
+  }
+
+  .breadcrumbs span.current {
+    color: var(--c-cyan, #73DDE6);
+    font-weight: 600;
   }
 
   .hero-meta-row {
     display: flex;
     align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 16px;
   }
 
-  .breadcrumb-nav {
-    display: inline-flex;
+  .app-icon-capsule {
+    width: 68px;
+    height: 68px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #172441, #0B1225);
+    border: 2px solid rgba(79, 107, 255, 0.35);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+    display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--text-muted);
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .hero-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .category-chip {
+    font-size: 0.78rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
+    color: var(--c-cyan, #73DDE6);
   }
 
-  .breadcrumb-nav a {
-    color: var(--text-muted);
-    text-decoration: none;
-  }
-
-  .breadcrumb-nav a:hover {
-    color: var(--accent-blue);
-  }
-
-  .product-name {
-    font-size: clamp(2rem, 4vw, 2.75rem);
+  .app-main-title {
+    font-family: var(--font-display, inherit);
+    font-size: clamp(2.4rem, 4.2vw, 3.4rem);
     font-weight: 800;
-    color: var(--text-heading);
-    letter-spacing: -0.025em;
-    line-height: 1.15;
-    margin: 0 0 8px 0;
+    letter-spacing: -0.035em;
+    color: #FFFFFF;
+    line-height: 1.1;
+    margin: 0 0 14px 0;
   }
 
-  .product-headline {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--accent-blue);
-    margin-bottom: 12px;
-  }
-
-  .product-summary {
-    font-size: 1.05rem;
-    color: var(--text-body);
+  .hero-subtitle {
+    font-size: 1.125rem;
+    color: var(--c-text-light-muted, #94A3B8);
     line-height: 1.6;
-    max-width: 640px;
-    margin: 0 0 24px 0;
+    margin: 0 0 22px 0;
+    max-width: 580px;
   }
 
-  .product-actions-bar {
+  .hero-platform-staging {
     display: flex;
     align-items: center;
     gap: 12px;
+    margin-bottom: 28px;
     flex-wrap: wrap;
   }
 
-  .action-link-btn {
-    background: var(--bg-raised);
-    color: var(--text-heading);
-    font-size: 0.875rem;
+  .platform-pill-staging {
+    font-size: 0.78rem;
     font-weight: 600;
-    padding: 9px 18px;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-btn-secondary);
-    text-decoration: none;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill, 9999px);
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
-    white-space: nowrap;
+    background: rgba(79, 107, 255, 0.12);
+    color: #93C5FD;
+    border: 1px solid rgba(79, 107, 255, 0.28);
   }
 
-  .action-link-btn:hover {
-    color: var(--accent-blue);
+  .platform-pill-staging.not-planned {
+    background: rgba(255, 255, 255, 0.05);
+    color: #94A3B8;
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .hero-anchor-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .anchor-pill {
+    font-size: 0.84rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill, 9999px);
+    background: rgba(23, 36, 65, 0.85);
+    color: var(--c-text-light, #F8FAFC);
+    border: 1px solid rgba(79, 107, 255, 0.25);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .anchor-pill:hover {
+    background: var(--c-cobalt, #4F6BFF);
+    border-color: var(--c-cobalt, #4F6BFF);
+    color: #FFFFFF;
     transform: translateY(-1px);
-    box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(169, 180, 196, 0.32);
   }
 
-  .action-link-btn:active {
-    transform: translateY(0) scale(0.98);
-    box-shadow: var(--shadow-inset-box);
+  .anchor-pill.primary-pill {
+    background: var(--c-cobalt, #4F6BFF);
+    border-color: var(--c-cobalt, #4F6BFF);
+    box-shadow: 0 4px 14px rgba(79, 107, 255, 0.35);
   }
 
-  /* Section Common */
-  .section-wrap {
-    margin-bottom: 56px;
-    scroll-margin-top: 24px;
+  /* Hero Right Column: Conceptual Artwork Frame */
+  .hero-illustration-frame {
+    background: linear-gradient(145deg, rgba(23, 36, 65, 0.9), rgba(11, 18, 37, 0.95));
+    border: 1px solid rgba(79, 107, 255, 0.3);
+    border-radius: var(--radius-card, 20px);
+    padding: 24px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
   }
 
-  .section-header {
-    margin-bottom: 24px;
+  .illustration-window-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(79, 107, 255, 0.15);
+    padding-bottom: 12px;
+    margin-bottom: 18px;
   }
 
-  .section-label {
-    font-size: 0.8125rem;
+  .window-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .window-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+
+  .window-filename {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.76rem;
+    color: var(--c-text-light-muted, #94A3B8);
+  }
+
+  .window-status-chip {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(115, 221, 230, 0.12);
+    color: var(--c-cyan, #73DDE6);
+    border: 1px solid rgba(115, 221, 230, 0.25);
+  }
+
+  .illustration-canvas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+  }
+
+  .illustration-footer-tag {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(79, 107, 255, 0.15);
+    font-size: 0.76rem;
+    color: var(--c-cyan, #73DDE6);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono, monospace);
+  }
+
+  /* Light Editorial Canvas */
+  .editorial-canvas {
+    background: var(--c-offwhite, #F8FAFC);
+    color: var(--c-text-dark, #0F172A);
+    padding: 72px 0 88px;
+  }
+
+  .detail-section {
+    margin-bottom: 64px;
+    scroll-margin-top: 96px;
+  }
+
+  .section-heading-block {
+    margin-bottom: 28px;
+  }
+
+  .section-eyebrow {
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-blue);
+    letter-spacing: 0.12em;
+    color: var(--c-cobalt, #4F6BFF);
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
   .section-title {
-    font-size: clamp(1.5rem, 3vw, 1.85rem);
+    font-family: var(--font-display, inherit);
+    font-size: 2.2rem;
     font-weight: 800;
-    color: var(--text-heading);
-    letter-spacing: -0.02em;
-    margin: 0;
+    letter-spacing: -0.025em;
+    color: var(--c-text-dark, #0F172A);
+    margin: 0 0 10px 0;
   }
 
-  .section-note {
-    font-size: 0.925rem;
-    color: var(--text-muted);
-    line-height: 1.55;
-    margin: 8px 0 0;
-    max-width: 720px;
+  .section-subtitle {
+    font-size: 1.05rem;
+    color: var(--c-text-dark-muted, #475569);
+    max-width: 680px;
+    margin: 0;
+    line-height: 1.6;
   }
 
   /* Features Grid */
@@ -434,40 +605,60 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
 
   /* Narrative Card */
   .narrative-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     padding: 36px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(203, 213, 225, 0.6);
   }
 
   .prose-content {
-    font-size: 1.05rem;
-    color: var(--text-body);
+    font-size: 1.025rem;
+    color: var(--c-text-dark, #0F172A);
     line-height: 1.7;
   }
 
-  /* Demo video */
+  .prose-content :global(h2),
+  .prose-content :global(h3) {
+    font-family: var(--font-display, inherit);
+    color: var(--c-text-dark, #0F172A);
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .prose-content :global(p) {
+    margin-bottom: 1em;
+    color: var(--c-text-dark-muted, #475569);
+  }
+
+  .prose-content :global(ul),
+  .prose-content :global(ol) {
+    padding-left: 1.5em;
+    margin-bottom: 1em;
+    color: var(--c-text-dark-muted, #475569);
+  }
+
+  /* Video demo */
   .video-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    padding: 16px;
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    border: 1px solid rgba(203, 213, 225, 0.6);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    padding: 20px;
   }
 
   .demo-video {
     display: block;
     width: 100%;
-    max-height: 640px;
-    border-radius: var(--radius-md);
-    background: var(--bg-inset);
+    max-height: 600px;
+    border-radius: 12px;
+    background: #0B1225;
   }
 
   .video-desc {
     font-size: 0.9rem;
-    color: var(--text-body);
-    margin: 12px 4px 4px;
+    color: var(--c-text-dark-muted, #475569);
+    margin: 14px 4px 4px;
   }
 
   /* Resources Capsules */
@@ -478,113 +669,123 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
   }
 
   .resource-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    padding: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    padding: 32px;
+    border: 1px solid rgba(203, 213, 225, 0.6);
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    gap: 20px;
+    gap: 24px;
   }
 
   .resource-content {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
+  }
+
+  .resource-tag {
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--c-cobalt, #4F6BFF);
+    font-family: var(--font-mono, monospace);
   }
 
   .resource-title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--text-heading);
+    font-family: var(--font-display, inherit);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--c-text-dark, #0F172A);
     margin: 0;
   }
 
   .resource-desc {
-    font-size: 0.9rem;
-    color: var(--text-body);
-    line-height: 1.5;
+    font-size: 0.92rem;
+    color: var(--c-text-dark-muted, #475569);
+    line-height: 1.55;
     margin: 0;
   }
 
-  @media (max-width: 960px) {
-    .product-hero {
-      grid-template-columns: 1fr;
-    }
-
-    .product-hero-media {
-      max-width: 520px;
-    }
+  .resource-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: var(--radius-pill, 9999px);
+    background: var(--c-cobalt, #4F6BFF);
+    color: #FFFFFF;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    width: fit-content;
+    box-shadow: 0 4px 12px rgba(79, 107, 255, 0.3);
+    transition: background 0.15s ease, transform 0.15s ease;
   }
 
-  @media (max-width: 860px) {
-    .product-hero {
-      padding: 22px 16px;
-      gap: 22px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-card-mobile);
-      margin-bottom: 36px;
-    }
+  .resource-action-btn:hover {
+    background: var(--c-cobalt-hover, #3D58E6);
+    transform: translateY(-1px);
+  }
 
-    .hero-identity {
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .product-headline {
-      font-size: 1rem;
-    }
-
-    .product-summary {
-      font-size: 0.875rem;
-      margin-bottom: 16px;
-    }
-
-    .product-actions-bar {
-      gap: 10px;
-    }
-
-    .action-link-btn {
-      font-size: 0.8125rem;
-      padding: 8px 14px;
-    }
-
-    .section-wrap {
-      margin-bottom: 36px;
+  /* Responsive Rules */
+  @media (max-width: 960px) {
+    .hero-split-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
     }
 
     .features-grid {
       grid-template-columns: 1fr;
-      gap: 16px;
-    }
-
-    .narrative-card {
-      padding: 20px 16px;
-      border-radius: var(--radius-md);
     }
 
     .resources-grid {
       grid-template-columns: 1fr;
-      gap: 16px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .container {
+      padding: 0 20px;
     }
 
+    .product-hero {
+      padding-top: 36px;
+      padding-bottom: 44px;
+    }
+
+    .app-main-title {
+      font-size: 2.2rem;
+    }
+
+    .hero-illustration-frame {
+      padding: 16px;
+    }
+
+    .editorial-canvas {
+      padding: 44px 0 60px;
+    }
+
+    .detail-section {
+      margin-bottom: 44px;
+    }
+
+    .section-title {
+      font-size: 1.7rem;
+    }
+
+    .narrative-card,
     .resource-card {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 20px 16px;
-      border-radius: var(--radius-md);
+      padding: 24px 18px;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .product-hero {
-      animation: none;
-    }
-
-    .action-link-btn:hover,
-    .action-link-btn:active {
+    .anchor-pill:hover,
+    .resource-action-btn:hover {
       transform: none;
     }
   }

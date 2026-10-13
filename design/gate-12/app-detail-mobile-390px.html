@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SignMint — Mobile Detail (390px)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-display: 'Plus Jakarta Sans', var(--font-sans);
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --c-midnight: #0B1225;
+      --c-deep: #172441;
+      --c-cobalt: #4F6BFF;
+      --c-violet: #8B5CF6;
+      --c-cyan: #73DDE6;
+
+      --c-offwhite: #F8FAFC;
+      --c-card-light: #FFFFFF;
+      --c-text-dark: #0F172A;
+      --c-text-dark-muted: #475569;
+      --c-text-light: #F8FAFC;
+      --c-text-light-muted: #94A3B8;
+
+      --radius-pill: 9999px;
+      --radius-card: 16px;
+      --radius-inner: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background-color: #070C1A;
+      color: var(--c-text-light);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      display: flex;
+      justify-content: center;
+      padding: 20px 0;
+    }
+
+    .mobile-frame {
+      width: 390px;
+      min-height: 844px;
+      background: var(--c-midnight);
+      border-radius: 40px;
+      border: 8px solid #1E293B;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      position: relative;
+    }
+    .container { padding: 0 20px; }
+
+    /* Nav */
+    .mobile-nav-wrap {
+      position: sticky;
+      top: 14px;
+      z-index: 50;
+      padding: 0 16px;
+      margin-bottom: -68px;
+    }
+    .mobile-nav {
+      height: 54px;
+      background: rgba(17, 26, 51, 0.88);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(79, 107, 255, 0.22);
+      border-radius: var(--radius-pill);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #FFFFFF;
+    }
+    .brand-mark {
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, var(--c-cobalt), var(--c-violet));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-mark svg { width: 16px; height: 16px; fill: none; stroke: #FFFFFF; stroke-width: 2.2; }
+    .brand-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    /* Product Hero Mobile */
+    .hero-mobile {
+      padding-top: 96px;
+      padding-bottom: 28px;
+      background: radial-gradient(circle at 50% 20%, rgba(79, 107, 255, 0.18) 0%, rgba(139, 92, 246, 0.08) 50%, transparent 72%), var(--c-midnight);
+      border-bottom: 1px solid rgba(79, 107, 255, 0.18);
+    }
+    .breadcrumbs {
+      font-size: 0.74rem;
+      color: var(--c-text-light-muted);
+      margin-bottom: 14px;
+    }
+    .breadcrumbs a { color: var(--c-text-light-muted); text-decoration: none; }
+    .breadcrumbs span.current { color: var(--c-cyan); font-weight: 600; }
+
+    .hero-app-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+    .app-icon-sm {
+      width: 60px; height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #172441, #0B1225);
+      border: 1.5px solid rgba(79, 107, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .app-icon-sm svg { width: 30px; height: 30px; stroke: var(--c-cobalt); fill: none; stroke-width: 2; }
+    .app-title-sm {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.1;
+    }
+    .badge-coming-soon {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: rgba(245, 158, 11, 0.15);
+      color: #FBBF24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+    }
+    .badge-coming-soon::before {
+      content: ''; width: 5px; height: 5px; border-radius: 50%; background: #F59E0B;
+    }
+    .hero-desc-sm {
+      font-size: 0.88rem;
+      color: var(--c-text-light-muted);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+    .hero-platform-row-sm {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .platform-tag-sm {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(79, 107, 255, 0.12);
+      color: #93C5FD;
+      border: 1px solid rgba(79, 107, 255, 0.28);
+    }
+    .platform-tag-sm.not-planned {
+      background: rgba(255, 255, 255, 0.05);
+      color: #94A3B8;
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+    .hero-anchors-sm {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .anchor-chip-sm {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(23, 36, 65, 0.85);
+      color: var(--c-text-light);
+      border: 1px solid rgba(79, 107, 255, 0.25);
+      text-decoration: none;
+    }
+
+    /* Showcase Mobile */
+    .showcase-mobile {
+      background: var(--c-offwhite);
+      color: var(--c-text-dark);
+      padding: 36px 0;
+    }
+    .section-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--c-cobalt);
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--c-text-dark);
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    /* Mock Carousel Mobile */
+    .carousel-mobile-box {
+      background: #0E162B;
+      border-radius: var(--radius-card);
+      border: 1px solid rgba(79, 107, 255, 0.25);
+      padding: 18px;
+    }
+    .mock-screenshot-frame-sm {
+      background: #141E38;
+      border-radius: 12px;
+      border: 1px solid rgba(79, 107, 255, 0.3);
+      padding: 16px;
+      text-align: center;
+    }
+    .neutral-caption-sm {
+      margin-top: 14px;
+      padding: 10px 14px;
+      background: rgba(23, 36, 65, 0.85);
+      border-radius: var(--radius-inner);
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .carousel-dots-sm { display: flex; gap: 4px; }
+    .dot-sm { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); }
+    .dot-sm.active { width: 14px; border-radius: 3px; background: var(--c-cyan); }
+
+    /* Capabilities Mobile */
+    .caps-mobile {
+      background: #F1F5F9;
+      padding: 36px 0;
+      border-top: 1px solid rgba(203, 213, 225, 0.7);
+    }
+    .caps-stack { display: flex; flex-direction: column; gap: 14px; }
+    .cap-item-sm {
+      background: #FFFFFF;
+      padding: 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(203, 213, 225, 0.6);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+    }
+    .cap-header-sm {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .cap-title-sm {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--c-text-dark);
+    }
+    .cap-pill-sm {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+    }
+    .cap-pill-sm.core { background: #EFF6FF; color: #1E40AF; }
+    .cap-pill-sm.verification { background: #FEF3C7; color: #92400E; }
+    .cap-pill-sm.principle { background: #F5F3FF; color: #5B21B6; }
+    .cap-desc-sm { font-size: 0.84rem; color: var(--c-text-dark-muted); line-height: 1.5; }
+
+    /* Store Mobile */
+    .store-mobile {
+      background: var(--c-offwhite);
+      padding: 36px 0 44px 0;
+    }
+    .store-box-sm {
+      background: #FFFFFF;
+      border-radius: var(--radius-card);
+      border: 1px solid rgba(203, 213, 225, 0.8);
+      padding: 22px;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+      margin-bottom: 24px;
+    }
+    .store-btns-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .store-btn-coming-soon-sm {
+      background: #111A33;
+      color: #CBD5E1;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .store-btn-disabled-sm {
+      background: #F8FAFC;
+      color: #94A3B8;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      border: 1px solid #CBD5E1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Cohesive Mobile Resources */
+    .resources-stack-sm {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .resource-card-sm {
+      background: #FFFFFF;
+      border: 1px solid rgba(203, 213, 225, 0.7);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .resource-title-sm {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--c-text-dark);
+    }
+    .resource-sub-sm {
+      font-size: 0.76rem;
+      color: var(--c-text-dark-muted);
+    }
+    .resource-link-sm {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--c-cobalt);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    /* Footer Mobile */
+    .footer-mobile {
+      background: var(--c-midnight);
+      border-top: 1px solid rgba(79, 107, 255, 0.2);
+      padding: 28px 0;
+      color: #64748B;
+      text-align: center;
+      font-size: 0.76rem;
+    }
+  </style>
+</head>
+<body>
+<div class="mobile-frame">
+
+  <!-- Nav -->
+  <div class="mobile-nav-wrap">
+    <nav class="mobile-nav">
+      <a href="/" class="nav-brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <span class="brand-title">ModelPath</span>
+      </a>
+      <a href="/apps/" style="color:#73DDE6; font-size:0.82rem; font-weight:600; text-decoration:none;">All Apps &rarr;</a>
+    </nav>
+  </div>
+
+  <!-- Hero Header -->
+  <header class="hero-mobile">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="/">Home</a> &gt; <a href="/apps/">Apps</a> &gt; <span class="current">SignMint</span>
+      </div>
+
+      <div class="hero-app-top">
+        <div class="app-icon-sm">
+          <svg viewBox="0 0 24 24">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <path d="M9 15h6"/>
+            <path d="M9 18h4"/>
+            <path d="M12 12l3-3"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="app-title-sm">SignMint</h1>
+          <span class="badge-coming-soon">Coming Soon</span>
+        </div>
+      </div>
+
+      <p class="hero-desc-sm">
+        Streamlined PDF signing, digital signature placement, and clean document annotation utilities designed for clarity and ease of use.
+      </p>
+
+      <div class="hero-platform-row-sm">
+        <span class="platform-tag-sm">Target: Android (In Prep)</span>
+        <span class="platform-tag-sm not-planned">iOS: Not Planned</span>
+      </div>
+
+      <div class="hero-anchors-sm">
+        <a href="#showcase" class="anchor-chip-sm">Motifs &darr;</a>
+        <a href="#capabilities" class="anchor-chip-sm">Capabilities &darr;</a>
+        <a href="#download" class="anchor-chip-sm">Store &darr;</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Media Showcase -->
+  <section class="showcase-mobile" id="showcase">
+    <div class="container">
+      <div class="section-eyebrow">Conceptual Preview</div>
+      <h2 class="section-title">Interface Motifs</h2>
+
+      <div class="carousel-mobile-box">
+        <div class="mock-screenshot-frame-sm">
+          <svg viewBox="0 0 240 220" width="100%" height="160" fill="none">
+            <rect x="25" y="10" width="190" height="200" rx="10" fill="#0B1225" stroke="rgba(79, 107, 255, 0.4)" stroke-width="1.5"/>
+            <rect x="40" y="25" width="160" height="150" rx="6" fill="#141E38"/>
+            <line x1="55" y1="50" x2="155" y2="50" stroke="rgba(255, 255, 255, 0.4)" stroke-width="2.5"/>
+            <line x1="55" y1="70" x2="135" y2="70" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2"/>
+            <path d="M 60 135 Q 90 115 110 130 T 150 124" stroke="#4F6BFF" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="160" cy="130" r="10" fill="rgba(79, 107, 255, 0.2)" stroke="#73DDE6" stroke-width="1.8"/>
+          </svg>
+          <div style="color:#FFF; font-weight:700; font-size:0.88rem; margin-top:8px;">PDF Signing Canvas</div>
+          <div style="color:#94A3B8; font-size:0.72rem; margin-top:2px;">[Conceptual Preview: Pen input and signature placement motif]</div>
+        </div>
+
+        <div class="neutral-caption-sm">
+          <span>Conceptual Preview &bull; Document Navigation</span>
+          <div class="carousel-dots-sm">
+            <span class="dot-sm active"></span>
+            <span class="dot-sm"></span>
+            <span class="dot-sm"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities Mobile -->
+  <section class="caps-mobile" id="capabilities">
+    <div class="container">
+      <div class="section-eyebrow">Features</div>
+      <h2 class="section-title">Core Capabilities</h2>
+
+      <div class="caps-stack">
+        <!-- 1. PDF Signing -->
+        <div class="cap-item-sm">
+          <div class="cap-header-sm">
+            <h3 class="cap-title-sm">PDF Signing</h3>
+            <span class="cap-pill-sm core">Planned</span>
+          </div>
+          <p class="cap-desc-sm">
+            A document signing experience focused on placing signatures on PDF pages.
+          </p>
+        </div>
+
+        <!-- 2. Signature Placement -->
+        <div class="cap-item-sm">
+          <div class="cap-header-sm">
+            <h3 class="cap-title-sm">Signature Placement</h3>
+            <span class="cap-pill-sm core">Planned</span>
+          </div>
+          <p class="cap-desc-sm">
+            Designed for flexible signature positioning within documents.
+          </p>
+        </div>
+
+        <!-- 3. Document Annotation -->
+        <div class="cap-item-sm">
+          <div class="cap-header-sm">
+            <h3 class="cap-title-sm">Document Annotation</h3>
+            <span class="cap-pill-sm verification">Verification</span>
+          </div>
+          <p class="cap-desc-sm">
+            Document review and annotation functionality under verification.
+          </p>
+        </div>
+
+        <!-- 4. Privacy-Conscious Utility -->
+        <div class="cap-item-sm">
+          <div class="cap-header-sm">
+            <h3 class="cap-title-sm">Privacy-Conscious Utility</h3>
+            <span class="cap-pill-sm principle">Principle</span>
+          </div>
+          <p class="cap-desc-sm">
+            Designed with consideration for user privacy and straightforward document workflows.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Store Mobile -->
+  <section class="store-mobile" id="download">
+    <div class="container">
+      <div class="store-box-sm">
+        <div class="section-eyebrow">Distribution</div>
+        <h2 class="section-title" style="margin-bottom:6px;">Store Availability</h2>
+        <p style="font-size:0.8rem; color:#64748B; margin-bottom:12px;">
+          Controls activate upon official store verification.
+        </p>
+        <div class="store-btns-stack">
+          <div class="store-btn-coming-soon-sm" aria-disabled="true">
+            <span>Google Play &bull; Coming Soon</span>
+          </div>
+          <div class="store-btn-disabled-sm" aria-disabled="true">
+            <span>App Store &bull; Not Planned</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cohesive Resources: Privacy & Support -->
+      <div class="resources-stack-sm">
+        <div class="resource-card-sm">
+          <div>
+            <div class="resource-title-sm">Privacy Disclosures (Draft)</div>
+            <div class="resource-sub-sm">Preliminary offline data policy</div>
+          </div>
+          <a href="/apps/signmint/privacy/" class="resource-link-sm">View &rarr;</a>
+        </div>
+        <div class="resource-card-sm">
+          <div>
+            <div class="resource-title-sm">Product Support</div>
+            <div class="resource-sub-sm">Direct engineer inquiries</div>
+          </div>
+          <a href="/apps/signmint/support/" class="resource-link-sm">Contact &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-mobile">
+    <div class="container">
+      &copy; 2026 ModelPath Studio &bull; SignMint Detail (390px)
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

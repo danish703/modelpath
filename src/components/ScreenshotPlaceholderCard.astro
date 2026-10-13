@@ -47,38 +47,39 @@ const { title, placeholderNote, footerLabel, iconType = 'canvas' } = Astro.props
 
 <style>
   .screenshot-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+    background: #141E38;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
     padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(79, 107, 255, 0.25);
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100%;
   }
 
   .screenshot-frame {
     width: 100%;
     min-height: 380px;
-    background: var(--bg-inset);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-inset-well);
+    background: #0B1225;
+    border-radius: var(--radius-inner, 12px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 24px 16px;
     text-align: center;
-    border: 1px dashed rgba(169, 180, 196, 0.6);
+    border: 1px dashed rgba(79, 107, 255, 0.35);
     margin-bottom: 16px;
+    flex: 1;
   }
 
   .screenshot-icon-well {
     width: 54px;
     height: 54px;
-    border-radius: var(--radius-md);
-    background: var(--bg-surface);
-    box-shadow: var(--shadow-card);
+    border-radius: 12px;
+    background: #172441;
+    border: 1px solid rgba(79, 107, 255, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,28 +89,30 @@ const { title, placeholderNote, footerLabel, iconType = 'canvas' } = Astro.props
   .screenshot-icon-well svg {
     width: 26px;
     height: 26px;
-    stroke: var(--text-muted);
+    stroke: var(--c-cyan, #73DDE6);
   }
 
   .placeholder-tag {
     font-size: 0.75rem;
     font-weight: 700;
-    color: var(--text-muted);
+    color: var(--c-cyan, #73DDE6);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
+    font-family: var(--font-mono, monospace);
     margin-bottom: 6px;
   }
 
   .placeholder-title {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     font-weight: 700;
-    color: var(--text-heading);
+    color: #FFFFFF;
+    font-family: var(--font-display, inherit);
     margin-bottom: 6px;
   }
 
   .placeholder-note {
     font-size: 0.8125rem;
-    color: var(--text-muted);
+    color: var(--c-text-light-muted, #94A3B8);
     max-width: 240px;
     line-height: 1.45;
     margin: 0;
@@ -119,15 +122,13 @@ const { title, placeholderNote, footerLabel, iconType = 'canvas' } = Astro.props
     width: 100%;
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--text-heading);
+    color: #FFFFFF;
     text-align: center;
   }
 
   @media (max-width: 860px) {
     .screenshot-card {
       padding: 16px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-card-mobile);
     }
 
     .screenshot-frame {
@@ -148,7 +149,7 @@ const { title, placeholderNote, footerLabel, iconType = 'canvas' } = Astro.props
     }
 
     .placeholder-title {
-      font-size: 0.875rem;
+      font-size: 0.92rem;
     }
 
     .placeholder-note {

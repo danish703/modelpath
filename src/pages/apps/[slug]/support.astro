@@ -20,243 +20,261 @@ const supportEmail = studioContactConfig.emails.support || app.data.supportEmail
   title={`${app.data.name} Support & FAQ`}
   description={`Technical support contact, verified FAQs, and troubleshooting guidance for ${app.data.name}.`}
 >
-  <div class="support-page-container">
-    <!-- Breadcrumb -->
-    <nav class="breadcrumb-bar" aria-label="Breadcrumb">
-      <a href="/apps/">Applications</a>
-      <span aria-hidden="true">/</span>
-      <a href={`/apps/${app.data.slug}/`}>{app.data.name}</a>
-      <span aria-hidden="true">/</span>
-      <span aria-current="page">Support &amp; FAQ</span>
-    </nav>
+  <div class="app-support-page">
+    <!-- Dark Atmospheric Header -->
+    <header class="app-support-hero">
+      <div class="container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href="/apps/">Applications</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <a href={`/apps/${app.data.slug}/`}>{app.data.name}</a>
+          <span aria-hidden="true">&rsaquo;</span>
+          <span class="current">Support &amp; FAQ</span>
+        </nav>
 
-    <!-- Header -->
-    <header class="support-header">
-      <div class="header-left">
-        <div class="app-icon-frame" aria-hidden="true">
-          {app.data.slug === 'signmint' && (
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 20h9" />
-              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-            </svg>
-          )}
-          {app.data.slug === 'ehub' && (
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-            </svg>
-          )}
-          {app.data.slug === 'pylab' && (
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="4 17 10 11 4 5" />
-              <line x1="12" y1="19" x2="20" y2="19" />
-            </svg>
-          )}
-          {app.data.slug === 'modelpath-ml' && (
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3" />
-              <circle cx="19" cy="6" r="2" />
-              <circle cx="5" cy="6" r="2" />
-              <circle cx="19" cy="18" r="2" />
-              <circle cx="5" cy="18" r="2" />
-            </svg>
-          )}
-        </div>
-        <div class="header-titles">
-          <div class="header-meta-row">
-            <span class="app-category">{app.data.category}</span>
-            <StatusBadge status={app.data.status} size="sm" />
+        <div class="header-main-row">
+          <div class="app-icon-frame" aria-hidden="true">
+            {app.data.slug === 'signmint' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9" />
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+              </svg>
+            )}
+            {app.data.slug === 'ehub' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
+            )}
+            {app.data.slug === 'pylab' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="4 17 10 11 4 5" />
+                <line x1="12" y1="19" x2="20" y2="19" />
+              </svg>
+            )}
+            {app.data.slug === 'modelpath-ml' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3" />
+                <circle cx="19" cy="6" r="2" />
+                <circle cx="5" cy="6" r="2" />
+                <circle cx="19" cy="18" r="2" />
+                <circle cx="5" cy="18" r="2" />
+              </svg>
+            )}
           </div>
-          <h1 class="support-title">Support &amp; FAQ — {app.data.name}</h1>
-          <p class="support-subtitle">
-            Direct developer assistance, verified answers, and troubleshooting guidance for {app.data.name}.
-          </p>
+          <div class="header-titles">
+            <div class="header-meta-row">
+              <span class="app-category">{app.data.category}</span>
+              <StatusBadge status={app.data.status} size="sm" />
+            </div>
+            <h1 class="support-title">Support &amp; FAQ — {app.data.name}</h1>
+            <p class="support-subtitle">
+              Direct developer assistance, verified answers, and troubleshooting guidance for {app.data.name}.
+            </p>
+          </div>
         </div>
       </div>
     </header>
 
-    <!-- Direct Support Contact Card -->
-    <section class="support-contact-card" aria-labelledby="contact-support-heading">
-      <div class="contact-card-top">
-        <div class="contact-icon-well" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-            <line x1="12" y1="17" x2="12.01" y2="17" />
-          </svg>
-        </div>
-        <div>
-          <span class="contact-label">Direct Communication</span>
-          <h2 id="contact-support-heading" class="contact-title">Contact Product Engineering</h2>
-        </div>
-      </div>
-
-      <p class="contact-desc">
-        Have questions about {app.data.name}, an issue report, or early feedback? Reach our core development team directly via email:
-      </p>
-
-      <div class="contact-action-box">
-        <a
-          href={`mailto:${supportEmail}?subject=[Support] ${app.data.name}`}
-          class="support-email-btn"
-          aria-label={`Send support email to ${supportEmail}`}
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-            <polyline points="22,6 12,13 2,6" />
-          </svg>
-          <span>{supportEmail}</span>
-        </a>
-        <span class="response-note">Incoming messages routed via Cloudflare Email Routing directly to our engineering team</span>
-      </div>
-    </section>
-
-    <!-- Verified FAQs -->
-    <section class="support-faq-section" aria-labelledby="faq-heading">
-      <div class="section-header">
-        <span class="section-label">Knowledge Base</span>
-        <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
-      </div>
-
-      {app.data.supportFaqs && app.data.supportFaqs.length > 0 ? (
-        <div class="faq-list">
-          {app.data.supportFaqs.map((faq) => (
-            <div class="faq-card">
-              <h3 class="faq-question">{faq.question}</h3>
-              <p class="faq-answer">{faq.answer}</p>
+    <!-- Editorial Canvas Section -->
+    <main class="editorial-canvas">
+      <div class="container support-body-container">
+        <!-- Direct Support Contact Card -->
+        <section class="support-contact-card" aria-labelledby="contact-support-heading">
+          <div class="contact-card-top">
+            <div class="contact-icon-well" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
             </div>
-          ))}
-        </div>
-      ) : (
-        <div class="no-faq-well">
-          <p>No verified public FAQs published for this pre-release application yet.</p>
-        </div>
-      )}
-    </section>
-
-    <!-- Pre-Release Troubleshooting Guidance -->
-    <section class="troubleshooting-card" aria-labelledby="troubleshoot-heading">
-      <div class="section-header">
-        <span class="section-label">Diagnostic Assistance</span>
-        <h2 id="troubleshoot-heading" class="section-title">Pre-Release Troubleshooting Guidance</h2>
-      </div>
-
-      <div class="troubleshoot-content">
-        <p>
-          Because <strong>{app.data.name}</strong> is currently in development and pre-release preparation, diagnostic telemetry is handled locally in test harnesses.
-        </p>
-        <div class="guidance-steps">
-          <div class="step-item">
-            <div class="step-num">1</div>
-            <div class="step-text">
-              <strong>Check Platform Version:</strong> Ensure your test device meets the minimum operating system requirements for our planned target platforms.
+            <div>
+              <span class="contact-label">Direct Communication</span>
+              <h2 id="contact-support-heading" class="contact-card-title">Contact Product Engineering</h2>
             </div>
           </div>
-          <div class="step-item">
-            <div class="step-num">2</div>
-            <div class="step-text">
-              <strong>Include Build Information:</strong> When submitting an issue report via email, please include your device model, OS version, and any reproduction steps.
+
+          <p class="contact-desc">
+            Have questions about {app.data.name}, an issue report, or early feedback? Reach our core development team directly via email:
+          </p>
+
+          <div class="contact-action-box">
+            <a
+              href={`mailto:${supportEmail}?subject=[Support] ${app.data.name}`}
+              class="support-email-btn"
+              aria-label={`Send support email to ${supportEmail}`}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              <span>{supportEmail}</span>
+            </a>
+            <span class="response-note">Incoming messages routed via Cloudflare Email Routing directly to our engineering team</span>
+          </div>
+        </section>
+
+        <!-- Verified FAQs -->
+        <section class="support-faq-section" aria-labelledby="faq-heading">
+          <div class="section-header">
+            <span class="section-label">Knowledge Base</span>
+            <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
+          </div>
+
+          {app.data.supportFaqs && app.data.supportFaqs.length > 0 ? (
+            <div class="faq-list">
+              {app.data.supportFaqs.map((faq: any) => (
+                <div class="faq-card">
+                  <h3 class="faq-question">{faq.question}</h3>
+                  <p class="faq-answer">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div class="no-faq-well">
+              <p>No verified public FAQs published for this pre-release application yet.</p>
+            </div>
+          )}
+        </section>
+
+        <!-- Pre-Release Troubleshooting Guidance -->
+        <section class="troubleshooting-card" aria-labelledby="troubleshoot-heading">
+          <div class="section-header">
+            <span class="section-label">Diagnostic Assistance</span>
+            <h2 id="troubleshoot-heading" class="section-title">Pre-Release Troubleshooting Guidance</h2>
+          </div>
+
+          <div class="troubleshoot-content">
+            <p>
+              Because <strong>{app.data.name}</strong> is currently in development and pre-release preparation, diagnostic telemetry is handled locally in test harnesses.
+            </p>
+            <div class="guidance-steps">
+              <div class="step-item">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                  <strong>Check Platform Version:</strong> Ensure your test device meets the minimum operating system requirements for our planned target platforms.
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                  <strong>Include Build Information:</strong> When submitting an issue report via email, please include your device model, OS version, and any reproduction steps.
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                  <strong>Data Safety:</strong> We will never ask you to provide private documents, passwords, or personal credentials when assisting with technical inquiries.
+                </div>
+              </div>
             </div>
           </div>
-          <div class="step-item">
-            <div class="step-num">3</div>
-            <div class="step-text">
-              <strong>Data Safety:</strong> We will never ask you to provide private documents, passwords, or personal credentials when assisting with technical inquiries.
-            </div>
+        </section>
+
+        <!-- Cross-Navigation Footer Well -->
+        <section class="support-footer-well">
+          <div class="footer-well-content">
+            <h2 class="footer-well-title">Related Application Resources</h2>
+            <p class="footer-well-text">
+              Review application specifications or pre-release privacy disclosures for {app.data.name}:
+            </p>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Cross-Navigation Footer Well -->
-    <section class="support-footer-well">
-      <div class="footer-well-content">
-        <h2 class="footer-well-title">Related Application Resources</h2>
-        <p class="footer-well-text">
-          Review application specifications or pre-release privacy disclosures for {app.data.name}:
-        </p>
+          <div class="footer-nav-links">
+            <a href={`/apps/${app.data.slug}/`} class="nav-chip-btn">
+              <span>&larr; {app.data.name} Details</span>
+            </a>
+            <a href={`/apps/${app.data.slug}/privacy/`} class="nav-chip-btn">
+              <span>{app.data.privacyPolicyStatus === 'verified' ? 'Privacy Policy \u2192' : 'Privacy Disclosures (Draft) \u2192'}</span>
+            </a>
+            <a href="/contact/" class="general-contact-link">
+              <span>General Studio Contact</span>
+            </a>
+          </div>
+        </section>
       </div>
-
-      <div class="footer-nav-links">
-        <a href={`/apps/${app.data.slug}/`} class="nav-chip-btn">
-          <span>&larr; {app.data.name} Details</span>
-        </a>
-        <a href={`/apps/${app.data.slug}/privacy/`} class="nav-chip-btn">
-          <span>{app.data.privacyPolicyStatus === 'verified' ? 'Privacy Policy \u2192' : 'Privacy Disclosures (Draft) \u2192'}</span>
-        </a>
-        <a href="/contact/" class="general-contact-link">
-          <span>General Studio Contact</span>
-        </a>
-      </div>
-    </section>
+    </main>
   </div>
 </BaseLayout>
 
 <style>
-  .support-page-container {
+  .app-support-page {
     width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
   }
 
-  /* Breadcrumb */
+  .container {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .support-body-container {
+    max-width: 920px;
+  }
+
+  /* Header (Dark Atmospheric) */
+  .app-support-hero {
+    padding-top: 56px;
+    padding-bottom: 64px;
+    background: radial-gradient(circle at 65% 25%, rgba(79, 107, 255, 0.18) 0%, rgba(139, 92, 246, 0.09) 45%, transparent 72%), var(--c-midnight, #0B1225);
+    border-bottom: 1px solid rgba(79, 107, 255, 0.18);
+  }
+
   .breadcrumb-bar {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--text-muted);
+    font-size: 0.84rem;
+    color: var(--c-text-light-muted, #94A3B8);
     margin-bottom: 24px;
   }
 
   .breadcrumb-bar a {
-    color: inherit;
+    color: var(--c-text-light-muted, #94A3B8);
     text-decoration: none;
-    transition: color var(--transition-fast);
+    transition: color 0.15s ease;
   }
 
   .breadcrumb-bar a:hover {
-    color: var(--accent-blue);
+    color: #FFFFFF;
   }
 
-  /* Header */
-  .support-header {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    padding: 36px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    margin-bottom: 32px;
+  .breadcrumb-bar span.current {
+    color: var(--c-cyan, #73DDE6);
+    font-weight: 600;
   }
 
-  .header-left {
+  .header-main-row {
     display: flex;
     align-items: center;
     gap: 24px;
   }
 
   .app-icon-frame {
-    width: 72px;
-    height: 72px;
+    width: 68px;
+    height: 68px;
     border-radius: 18px;
-    background: var(--bg-raised);
-    box-shadow: var(--shadow-card);
+    background: linear-gradient(135deg, #172441, #0B1225);
+    border: 2px solid rgba(79, 107, 255, 0.35);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--c-cobalt, #4F6BFF);
     flex-shrink: 0;
   }
 
   .app-icon-frame svg {
     width: 34px;
     height: 34px;
-    stroke: var(--accent-blue);
   }
 
   .header-titles {
     flex: 1;
-    min-width: 0;
   }
 
   .header-meta-row {
@@ -267,37 +285,45 @@ const supportEmail = studioContactConfig.emails.support || app.data.supportEmail
   }
 
   .app-category {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-blue);
+    letter-spacing: 0.08em;
+    color: var(--c-cyan, #73DDE6);
   }
 
   .support-title {
-    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-family: var(--font-display, inherit);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
     font-weight: 800;
-    color: var(--text-heading);
-    letter-spacing: -0.02em;
+    color: #FFFFFF;
+    letter-spacing: -0.025em;
     margin: 0 0 6px 0;
-    line-height: 1.2;
+    line-height: 1.15;
   }
 
   .support-subtitle {
     font-size: 0.95rem;
-    color: var(--text-body);
+    color: var(--c-text-light-muted, #94A3B8);
     margin: 0;
     line-height: 1.5;
   }
 
+  /* Editorial Canvas */
+  .editorial-canvas {
+    background: var(--c-offwhite, #F8FAFC);
+    color: var(--c-text-dark, #0F172A);
+    padding: 64px 0 88px;
+  }
+
   /* Direct Support Contact Card */
   .support-contact-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     padding: 36px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    margin-bottom: 32px;
+    border: 1px solid rgba(203, 213, 225, 0.6);
+    margin-bottom: 36px;
   }
 
   .contact-card-top {
@@ -310,9 +336,9 @@ const supportEmail = studioContactConfig.emails.support || app.data.supportEmail
   .contact-icon-well {
     width: 44px;
     height: 44px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-raised);
-    box-shadow: var(--shadow-inset-box);
+    border-radius: 12px;
+    background: rgba(79, 107, 255, 0.1);
+    color: var(--c-cobalt, #4F6BFF);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -322,29 +348,29 @@ const supportEmail = studioContactConfig.emails.support || app.data.supportEmail
   .contact-icon-well svg {
     width: 22px;
     height: 22px;
-    stroke: var(--accent-blue);
   }
 
   .contact-label {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-blue);
+    letter-spacing: 0.08em;
+    color: var(--c-cobalt, #4F6BFF);
     display: block;
     margin-bottom: 2px;
   }
 
-  .contact-title {
+  .contact-card-title {
+    font-family: var(--font-display, inherit);
     font-size: 1.25rem;
     font-weight: 800;
-    color: var(--text-heading);
+    color: var(--c-text-dark, #0F172A);
     margin: 0;
   }
 
   .contact-desc {
-    font-size: 0.95rem;
-    color: var(--text-body);
+    font-size: 0.98rem;
+    color: var(--c-text-dark-muted, #475569);
     line-height: 1.6;
     margin: 0 0 20px 0;
   }
@@ -357,35 +383,33 @@ const supportEmail = studioContactConfig.emails.support || app.data.supportEmail
   }
 
   .support-email-btn {
-    background: var(--bg-raised);
-    color: var(--accent-blue);
+    background: var(--c-cobalt, #4F6BFF);
+    color: #FFFFFF;
     font-size: 0.9rem;
     font-weight: 600;
     padding: 10px 20px;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-btn-secondary);
+    border-radius: var(--radius-pill, 9999px);
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
     text-decoration: none;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(79, 107, 255, 0.3);
+    transition: background 0.15s ease, transform 0.15s ease;
   }
 
   .support-email-btn:hover {
+    background: var(--c-cobalt-hover, #3D58E6);
     transform: translateY(-1px);
-    box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(169, 180, 196, 0.32);
   }
 
   .support-email-btn svg {
     width: 18px;
     height: 18px;
-    stroke: var(--accent-blue);
   }
 
   .response-note {
     font-size: 0.825rem;
-    color: var(--text-muted);
+    color: var(--c-text-dark-muted, #64748B);
   }
 
   /* Section Header */
@@ -394,25 +418,26 @@ const supportEmail = studioContactConfig.emails.support || app.data.supportEmail
   }
 
   .section-label {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-blue);
+    letter-spacing: 0.08em;
+    color: var(--c-cobalt, #4F6BFF);
     display: block;
     margin-bottom: 4px;
   }
 
   .section-title {
-    font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+    font-family: var(--font-display, inherit);
+    font-size: clamp(1.4rem, 2.5vw, 1.75rem);
     font-weight: 800;
-    color: var(--text-heading);
+    color: var(--c-text-dark, #0F172A);
     margin: 0;
   }
 
   /* FAQ List */
   .support-faq-section {
-    margin-bottom: 32px;
+    margin-bottom: 36px;
   }
 
   .faq-list {
@@ -422,50 +447,51 @@ const supportEmail = studioContactConfig.emails.support || app.data.supportEmail
   }
 
   .faq-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-card);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     padding: 24px 28px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(203, 213, 225, 0.6);
   }
 
   .faq-question {
-    font-size: 1.05rem;
+    font-family: var(--font-display, inherit);
+    font-size: 1.1rem;
     font-weight: 700;
-    color: var(--text-heading);
+    color: var(--c-text-dark, #0F172A);
     margin: 0 0 8px 0;
     line-height: 1.35;
   }
 
   .faq-answer {
     font-size: 0.95rem;
-    color: var(--text-body);
+    color: var(--c-text-dark-muted, #475569);
     line-height: 1.6;
     margin: 0;
   }
 
   .no-faq-well {
-    background: var(--bg-inset);
-    border-radius: var(--radius-md);
-    padding: 20px;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    box-shadow: var(--shadow-inset-box);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    padding: 24px;
+    border: 1px dashed rgba(203, 213, 225, 0.8);
+    color: var(--c-text-dark-muted, #64748B);
+    text-align: center;
   }
 
-  /* Troubleshooting Guidance */
+  /* Troubleshooting Card */
   .troubleshooting-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     padding: 36px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(203, 213, 225, 0.6);
     margin-bottom: 36px;
   }
 
   .troubleshoot-content p {
-    font-size: 0.95rem;
-    color: var(--text-body);
+    font-size: 0.98rem;
+    color: var(--c-text-dark-muted, #475569);
     line-height: 1.6;
     margin: 0 0 20px 0;
   }
@@ -473,52 +499,47 @@ const supportEmail = studioContactConfig.emails.support || app.data.supportEmail
   .guidance-steps {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
   }
 
   .step-item {
     display: flex;
     align-items: flex-start;
     gap: 16px;
-    background: var(--bg-inset);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-inset-box);
-    padding: 16px 20px;
   }
 
   .step-num {
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: var(--bg-surface);
-    box-shadow: var(--shadow-card);
+    background: rgba(79, 107, 255, 0.1);
+    color: var(--c-cobalt, #4F6BFF);
+    font-family: var(--font-mono, monospace);
+    font-weight: 700;
+    font-size: 0.82rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
-    font-weight: 800;
-    color: var(--accent-blue);
     flex-shrink: 0;
   }
 
   .step-text {
-    font-size: 0.9rem;
-    color: var(--text-body);
-    line-height: 1.5;
+    font-size: 0.95rem;
+    color: var(--c-text-dark-muted, #475569);
+    line-height: 1.55;
   }
 
   .step-text strong {
-    color: var(--text-heading);
-    margin-right: 4px;
+    color: var(--c-text-dark, #0F172A);
   }
 
-  /* Footer Well */
+  /* Cross-Navigation Footer Well */
   .support-footer-well {
-    background: var(--bg-inset);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-inset-well);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     padding: 28px 32px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(203, 213, 225, 0.6);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -531,15 +552,16 @@ const supportEmail = studioContactConfig.emails.support || app.data.supportEmail
   }
 
   .footer-well-title {
+    font-family: var(--font-display, inherit);
     font-size: 1.15rem;
     font-weight: 700;
-    color: var(--text-heading);
+    color: var(--c-text-dark, #0F172A);
     margin: 0 0 6px 0;
   }
 
   .footer-well-text {
-    font-size: 0.9rem;
-    color: var(--text-body);
+    font-size: 0.92rem;
+    color: var(--c-text-dark-muted, #475569);
     line-height: 1.5;
     margin: 0;
   }
@@ -552,67 +574,66 @@ const supportEmail = studioContactConfig.emails.support || app.data.supportEmail
   }
 
   .nav-chip-btn {
-    background: var(--bg-raised);
-    color: var(--accent-blue);
+    background: var(--c-cobalt, #4F6BFF);
+    color: #FFFFFF;
     font-size: 0.85rem;
     font-weight: 600;
     padding: 8px 16px;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-btn-secondary);
+    border-radius: var(--radius-pill, 9999px);
     display: inline-flex;
     align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.85);
     text-decoration: none;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 4px 10px rgba(79, 107, 255, 0.25);
+    transition: background 0.15s ease, transform 0.15s ease;
   }
 
   .nav-chip-btn:hover {
+    background: var(--c-cobalt-hover, #3D58E6);
     transform: translateY(-1px);
-    box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(169, 180, 196, 0.32);
   }
 
   .general-contact-link {
     font-size: 0.85rem;
     font-weight: 500;
-    color: var(--text-muted);
+    color: var(--c-text-dark-muted, #64748B);
     text-decoration: none;
-    transition: color var(--transition-fast);
   }
 
   .general-contact-link:hover {
-    color: var(--accent-blue);
+    color: var(--c-cobalt, #4F6BFF);
     text-decoration: underline;
   }
 
-  /* Responsive Adjustments */
+  /* Responsive Rules */
   @media (max-width: 768px) {
-    .support-header {
-      padding: 24px 20px;
-      border-radius: var(--radius-md);
+    .container {
+      padding: 0 20px;
     }
 
-    .header-left {
+    .app-support-hero {
+      padding-top: 36px;
+      padding-bottom: 44px;
+    }
+
+    .header-main-row {
       flex-direction: column;
       align-items: flex-start;
       gap: 16px;
     }
 
-    .support-contact-card {
-      padding: 24px 20px;
-      border-radius: var(--radius-md);
+    .editorial-canvas {
+      padding: 44px 0 60px;
     }
 
+    .support-contact-card,
     .troubleshooting-card {
       padding: 24px 20px;
-      border-radius: var(--radius-md);
     }
 
     .support-footer-well {
       flex-direction: column;
       align-items: flex-start;
       padding: 20px 18px;
-      gap: 20px;
-      border-radius: var(--radius-md);
     }
 
     .footer-nav-links {

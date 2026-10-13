@@ -7,117 +7,138 @@ import { websitePrivacyData } from '../../data/websitePrivacy';
   title={websitePrivacyData.title}
   description="Privacy policy and data governance practices for the ModelPath Studio website."
 >
-  <div class="policy-container">
-    <!-- Header -->
-    <header class="policy-header">
-      <div class="header-badge">
-        <span class="badge-dot" aria-hidden="true"></span>
-        <span>Studio Data Governance</span>
-      </div>
-      <h1 class="policy-title">{websitePrivacyData.title}</h1>
-      <div class="policy-dates-pill">
-        <span>Effective: {websitePrivacyData.effectiveDate}</span>
-        <span class="divider" aria-hidden="true">&bull;</span>
-        <span>Last Updated: {websitePrivacyData.lastUpdated}</span>
+  <div class="privacy-page">
+    <!-- Dark Atmospheric Hero -->
+    <header class="policy-hero">
+      <div class="container">
+        <div class="hero-badge">
+          <span class="badge-dot" aria-hidden="true"></span>
+          <span>Studio Data Governance</span>
+        </div>
+        <h1 class="policy-title">{websitePrivacyData.title}</h1>
+        <div class="policy-dates-pill">
+          <span>Effective: {websitePrivacyData.effectiveDate}</span>
+          <span class="divider" aria-hidden="true">&bull;</span>
+          <span>Last Updated: {websitePrivacyData.lastUpdated}</span>
+        </div>
       </div>
     </header>
 
-    <!-- Scope Clarification Notice Well -->
-    <aside class="scope-notice-well" aria-label="Policy Scope Notice">
-      <div class="scope-icon-well" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="16" x2="12" y2="12" />
-          <line x1="12" y1="8" x2="12.01" y2="8" />
-        </svg>
-      </div>
-      <div class="scope-text">
-        <strong class="scope-title">Website Policy Scope Notice</strong>
-        <p>
-          This policy applies strictly to the studio website at <strong>{websitePrivacyData.websiteUrl}</strong>.
-          Our mobile applications operate under individual application privacy policies.
-          To view disclosures for an individual app, explore our <a href="/apps/">Applications Directory</a>.
-        </p>
-      </div>
-    </aside>
-
-    <!-- Document Card -->
-    <article class="policy-document-card">
-      {websitePrivacyData.sections.map((section) => (
-        <section id={section.id} class="policy-section">
-          <h2 class="section-title">{section.title}</h2>
-          <div class="section-content">
-            {section.content.map((paragraph) => (
-              <p>{paragraph}</p>
-            ))}
-          </div>
-        </section>
-      ))}
-
-      <!-- Dedicated Privacy Contact Card -->
-      <section class="privacy-contact-box" aria-labelledby="contact-heading">
-        <h3 id="contact-heading" class="contact-box-title">Have Privacy Inquiries?</h3>
-        <p class="contact-box-text">
-          Direct questions, deletion requests, or data governance inquiries concerning this website to our designated studio privacy contact:
-        </p>
-        <div class="contact-action-row">
-          <a href={`mailto:${websitePrivacyData.privacyEmail}`} class="contact-email-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-              <polyline points="22,6 12,13 2,6" />
+    <!-- Editorial Canvas Section -->
+    <main class="editorial-canvas">
+      <div class="container policy-container">
+        <!-- Scope Clarification Notice Well -->
+        <aside class="scope-notice-well" aria-label="Policy Scope Notice">
+          <div class="scope-icon-well" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
             </svg>
-            <span>{websitePrivacyData.privacyEmail}</span>
-          </a>
-          <a href="/contact/" class="general-contact-link">
-            <span>General Studio Contact &rarr;</span>
-          </a>
-        </div>
-      </section>
-    </article>
+          </div>
+          <div class="scope-text">
+            <strong class="scope-title">Website Policy Scope Notice</strong>
+            <p>
+              This policy applies strictly to the studio website at <strong>{websitePrivacyData.websiteUrl}</strong>.
+              Our mobile applications operate under individual application privacy policies.
+              To view disclosures for an individual app, explore our <a href="/apps/">Applications Directory</a>.
+            </p>
+          </div>
+        </aside>
+
+        <!-- Document Card -->
+        <article class="policy-document-card">
+          {websitePrivacyData.sections.map((section) => (
+            <section id={section.id} class="policy-section">
+              <h2 class="section-title">{section.title}</h2>
+              <div class="section-content">
+                {section.content.map((paragraph) => (
+                  <p>{paragraph}</p>
+                ))}
+              </div>
+            </section>
+          ))}
+
+          <!-- Dedicated Privacy Contact Card -->
+          <section class="privacy-contact-box" aria-labelledby="contact-heading">
+            <h3 id="contact-heading" class="contact-box-title">Have Privacy Inquiries?</h3>
+            <p class="contact-box-text">
+              Direct questions, deletion requests, or data governance inquiries concerning this website to our designated studio privacy contact:
+            </p>
+            <div class="contact-action-row">
+              <a href={`mailto:${websitePrivacyData.privacyEmail}`} class="contact-email-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                <span>{websitePrivacyData.privacyEmail}</span>
+              </a>
+              <a href="/contact/" class="general-contact-link">
+                <span>General Studio Contact &rarr;</span>
+              </a>
+            </div>
+          </section>
+        </article>
+      </div>
+    </main>
   </div>
 </BaseLayout>
 
 <style>
-  .policy-container {
+  .privacy-page {
     width: 100%;
-    max-width: 860px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1120px;
     margin: 0 auto;
+    padding: 0 32px;
   }
 
-  /* Header */
-  .policy-header {
-    margin-bottom: 32px;
+  .policy-container {
+    max-width: 860px;
   }
 
-  .header-badge {
+  /* Policy Hero (Dark Atmospheric) */
+  .policy-hero {
+    padding-top: 64px;
+    padding-bottom: 72px;
+    background: radial-gradient(circle at 50% 20%, rgba(79, 107, 255, 0.18) 0%, rgba(139, 92, 246, 0.08) 50%, transparent 75%), var(--c-midnight, #0B1225);
+    border-bottom: 1px solid rgba(79, 107, 255, 0.18);
+    text-align: center;
+  }
+
+  .hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 6px 16px;
-    background: var(--bg-surface);
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-inset-box);
+    background: rgba(23, 36, 65, 0.85);
+    border: 1px solid rgba(79, 107, 255, 0.25);
+    border-radius: var(--radius-pill, 9999px);
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--text-muted);
-    margin-bottom: 16px;
+    color: var(--c-cyan, #73DDE6);
+    margin-bottom: 20px;
   }
 
   .badge-dot {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: var(--accent-blue);
-    flex-shrink: 0;
+    background: var(--c-cyan, #73DDE6);
   }
 
   .policy-title {
-    font-size: clamp(2.2rem, 4.5vw, 3rem);
+    font-family: var(--font-display, inherit);
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
     font-weight: 800;
-    letter-spacing: -0.025em;
-    color: var(--text-heading);
-    margin: 0 0 12px 0;
     line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: #FFFFFF;
+    margin: 0 auto 16px;
+    max-width: 800px;
   }
 
   .policy-dates-pill {
@@ -125,33 +146,40 @@ import { websitePrivacyData } from '../../data/websitePrivacy';
     align-items: center;
     gap: 10px;
     font-size: 0.875rem;
-    color: var(--text-muted);
-    font-weight: 500;
+    color: var(--c-text-light-muted, #94A3B8);
+    font-family: var(--font-mono, monospace);
   }
 
   .divider {
-    color: var(--border-subtle);
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Editorial Canvas */
+  .editorial-canvas {
+    background: var(--c-offwhite, #F8FAFC);
+    color: var(--c-text-dark, #0F172A);
+    padding: 72px 0 88px;
   }
 
   /* Scope Notice Well */
   .scope-notice-well {
-    background: var(--bg-inset);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-inset-well);
-    padding: 20px 24px;
-    border: 1px solid rgba(14, 116, 144, 0.25);
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    padding: 24px 28px;
+    border: 1px solid rgba(79, 107, 255, 0.3);
     display: flex;
     align-items: flex-start;
-    gap: 16px;
+    gap: 18px;
     margin-bottom: 36px;
   }
 
   .scope-icon-well {
-    width: 38px;
-    height: 38px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-raised);
-    box-shadow: var(--shadow-inset-box);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(79, 107, 255, 0.1);
+    color: var(--c-cobalt, #4F6BFF);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -159,74 +187,71 @@ import { websitePrivacyData } from '../../data/websitePrivacy';
   }
 
   .scope-icon-well svg {
-    width: 20px;
-    height: 20px;
-    stroke: var(--accent-blue);
+    width: 22px;
+    height: 22px;
   }
 
   .scope-text {
-    font-size: 0.925rem;
-    color: var(--text-body);
-    line-height: 1.55;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--c-text-dark-muted, #475569);
+  }
+
+  .scope-text strong {
+    color: var(--c-text-dark, #0F172A);
   }
 
   .scope-title {
     display: block;
-    color: var(--text-heading);
-    font-size: 0.95rem;
-    margin-bottom: 2px;
-  }
-
-  .scope-text p {
-    margin: 0;
+    font-size: 1.05rem;
+    color: var(--c-text-dark, #0F172A);
+    margin-bottom: 4px;
+    font-family: var(--font-display, inherit);
   }
 
   .scope-text a {
-    color: var(--accent-blue);
+    color: var(--c-cobalt, #4F6BFF);
     font-weight: 600;
     text-decoration: underline;
   }
 
   /* Document Card */
   .policy-document-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    padding: 44px 44px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    display: flex;
-    flex-direction: column;
-    gap: 36px;
+    background: #FFFFFF;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    padding: 44px 40px;
+    border: 1px solid rgba(203, 213, 225, 0.6);
   }
 
   .policy-section {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    margin-bottom: 36px;
     padding-bottom: 28px;
-    border-bottom: 1px solid var(--border-subtle);
+    border-bottom: 1px solid rgba(203, 213, 225, 0.5);
   }
 
   .policy-section:last-of-type {
     border-bottom: none;
+    margin-bottom: 24px;
     padding-bottom: 0;
   }
 
   .section-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-heading);
+    font-family: var(--font-display, inherit);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--c-text-dark, #0F172A);
+    margin: 0 0 14px 0;
     letter-spacing: -0.015em;
-    margin: 0;
   }
 
   .section-content {
+    font-size: 1.025rem;
+    color: var(--c-text-dark-muted, #475569);
+    line-height: 1.7;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    font-size: 1rem;
-    color: var(--text-body);
-    line-height: 1.65;
+    gap: 12px;
   }
 
   .section-content p {
@@ -235,101 +260,98 @@ import { websitePrivacyData } from '../../data/websitePrivacy';
 
   /* Privacy Contact Box */
   .privacy-contact-box {
-    background: var(--bg-inset);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-inset-box);
+    margin-top: 36px;
     padding: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(79, 107, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(79, 107, 255, 0.2);
   }
 
   .contact-box-title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--text-heading);
+    font-family: var(--font-display, inherit);
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--c-text-dark, #0F172A);
     margin: 0 0 8px 0;
   }
 
   .contact-box-text {
     font-size: 0.95rem;
-    color: var(--text-body);
-    line-height: 1.55;
+    color: var(--c-text-dark-muted, #475569);
+    line-height: 1.6;
     margin: 0 0 18px 0;
   }
 
   .contact-action-row {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 16px;
     flex-wrap: wrap;
   }
 
   .contact-email-btn {
-    background: var(--bg-raised);
-    color: var(--accent-blue);
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: 10px 20px;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-btn-secondary);
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    background: var(--c-cobalt, #4F6BFF);
+    color: #FFFFFF;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: var(--radius-pill, 9999px);
     text-decoration: none;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  }
-
-  .contact-email-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: -4px -4px 10px #FFFFFF, 4px 5px 14px rgba(169, 180, 196, 0.32);
+    box-shadow: 0 4px 12px rgba(79, 107, 255, 0.3);
+    transition: background 0.15s ease, transform 0.15s ease;
   }
 
   .contact-email-btn svg {
     width: 18px;
     height: 18px;
-    stroke: var(--accent-blue);
+  }
+
+  .contact-email-btn:hover {
+    background: var(--c-cobalt-hover, #3D58E6);
+    transform: translateY(-1px);
   }
 
   .general-contact-link {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 600;
-    color: var(--text-muted);
+    color: var(--c-cobalt, #4F6BFF);
     text-decoration: none;
-    transition: color var(--transition-fast);
   }
 
   .general-contact-link:hover {
-    color: var(--accent-blue);
     text-decoration: underline;
   }
 
-  @media (max-width: 768px) {
+  /* Responsive Rules */
+  @media (max-width: 860px) {
+    .container {
+      padding: 0 20px;
+    }
+
+    .policy-hero {
+      padding-top: 40px;
+      padding-bottom: 48px;
+    }
+
+    .editorial-canvas {
+      padding: 44px 0 60px;
+    }
+
     .policy-document-card {
       padding: 24px 20px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-card-mobile);
-      gap: 24px;
     }
 
     .scope-notice-well {
-      padding: 16px 14px;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .privacy-contact-box {
-      padding: 20px 16px;
+      flex-direction: column;
+      padding: 20px;
     }
 
     .contact-action-row {
       flex-direction: column;
       align-items: flex-start;
-      gap: 12px;
-    }
-
-    .contact-email-btn {
-      width: 100%;
-      justify-content: center;
     }
   }
 </style>
