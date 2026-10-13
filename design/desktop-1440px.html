@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ModelPath Studio — Desktop Homepage (1440px Reference)</title>
+  <style>
+    :root {
+      --bg-canvas: #F4F6F8;
+      --bg-surface: #F7F9FB;
+      --bg-raised: #F4F6F8;
+      --bg-inset: #EBEEF2;
+
+      --text-heading: #172233;
+      --text-body: #475569;
+      --text-muted: #64748B;
+      --border-subtle: rgba(169, 180, 196, 0.32);
+
+      --accent-blue: #4567E8;
+      --accent-blue-hover: #3354D4;
+
+      /* Neumorphic Dual-Direction Shadows */
+      --shadow-nav: -6px -6px 14px #FFFFFF, 6px 6px 16px rgba(169, 180, 196, 0.25);
+      --shadow-card: -8px -8px 20px #FFFFFF, 8px 8px 20px rgba(169, 180, 196, 0.26);
+      --shadow-btn-primary: -4px -4px 10px #FFFFFF, 4px 4px 12px rgba(69, 103, 232, 0.32);
+      --shadow-btn-secondary: -4px -4px 10px #FFFFFF, 4px 4px 12px rgba(169, 180, 196, 0.24);
+      --shadow-inset-box: inset 3px 3px 7px rgba(169, 180, 196, 0.22), inset -3px -3px 7px #FFFFFF;
+      --shadow-inset-well: inset 5px 5px 12px rgba(169, 180, 196, 0.20), inset -5px -5px 12px #FFFFFF;
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-pill: 9999px;
+
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-heading);
+      font-family: var(--font-stack);
+      line-height: 1.5;
+      width: 1440px;
+      margin: 0 auto;
+      padding: 32px 64px 48px;
+    }
+
+    /* --------------------------------------------------------------------------
+       Floating Navigation Pill
+       -------------------------------------------------------------------------- */
+    .nav-header {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto 56px;
+      height: 68px;
+      background: var(--bg-raised);
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-nav);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .brand-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      background: var(--accent-blue);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: -2px -2px 6px #FFFFFF, 2px 2px 8px rgba(69, 103, 232, 0.35);
+    }
+
+    .brand-mark svg {
+      width: 20px;
+      height: 20px;
+      stroke: #FFFFFF;
+    }
+
+    .brand-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: var(--text-body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      transition: all 0.2s ease;
+    }
+
+    .nav-link.active {
+      color: var(--accent-blue);
+      box-shadow: var(--shadow-inset-box);
+      font-weight: 600;
+    }
+
+    .nav-cta {
+      background: var(--accent-blue);
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 10px 22px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      box-shadow: var(--shadow-btn-primary);
+      transition: all 0.2s ease;
+    }
+
+    /* --------------------------------------------------------------------------
+       Hero Section
+       -------------------------------------------------------------------------- */
+    .hero-container {
+      max-width: 1120px;
+      margin: 0 auto 72px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: var(--bg-surface);
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-inset-box);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .hero-badge-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+    }
+
+    .hero-headline {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--text-heading);
+      margin-bottom: 20px;
+    }
+
+    .hero-subheading {
+      font-size: 1.25rem;
+      color: var(--text-body);
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .btn-primary {
+      background: var(--accent-blue);
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      box-shadow: var(--shadow-btn-primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-secondary {
+      background: var(--bg-raised);
+      color: var(--text-heading);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      box-shadow: var(--shadow-btn-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    /* Hero Abstract Tactile Composition */
+    .hero-visual-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      position: relative;
+    }
+
+    .composition-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .composition-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-heading);
+    }
+
+    .composition-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+      background: rgba(69, 103, 232, 0.1);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    .composition-tiles {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .comp-tile {
+      background: var(--bg-raised);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-inset-box);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .comp-tile-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--bg-surface);
+      box-shadow: -2px -2px 6px #FFF, 2px 2px 6px rgba(169, 180, 196, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .comp-tile-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-heading);
+    }
+
+    .comp-tile-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* --------------------------------------------------------------------------
+       Our Applications Section
+       -------------------------------------------------------------------------- */
+    .apps-section {
+      max-width: 1120px;
+      margin: 0 auto 72px;
+    }
+
+    .section-header {
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-heading);
+      margin-bottom: 8px;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--text-body);
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+
+    .app-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      position: relative;
+    }
+
+    .app-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .app-icon-capsule {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-inset-box);
+      background: var(--bg-raised);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .app-icon-capsule svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--accent-blue);
+    }
+
+    .availability-chip {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      background: var(--bg-inset);
+      color: var(--text-muted);
+      box-shadow: var(--shadow-inset-box);
+    }
+
+    .app-category {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .app-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 10px;
+    }
+
+    .app-description {
+      font-size: 1rem;
+      color: var(--text-body);
+      line-height: 1.6;
+      margin-bottom: 24px;
+      flex: 1;
+    }
+
+    .app-card-bottom {
+      padding-top: 20px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-explore-app {
+      background: var(--bg-raised);
+      color: var(--accent-blue);
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      box-shadow: var(--shadow-btn-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* --------------------------------------------------------------------------
+       Studio Philosophy Section
+       -------------------------------------------------------------------------- */
+    .philosophy-section {
+      max-width: 1120px;
+      margin: 0 auto 72px;
+    }
+
+    .philosophy-well {
+      background: var(--bg-inset);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-inset-well);
+      padding: 44px 36px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .philosophy-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .philosophy-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 8px;
+    }
+
+    .philosophy-card p {
+      font-size: 0.9rem;
+      color: var(--text-body);
+      line-height: 1.5;
+    }
+
+    /* --------------------------------------------------------------------------
+       Global Footer
+       -------------------------------------------------------------------------- */
+    .footer-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding-top: 40px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .footer-nav a {
+      color: var(--text-body);
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.8125rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Navigation -->
+  <header class="nav-header">
+    <a href="/" class="brand-container">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 18V6l8 8 8-8v12"/>
+        </svg>
+      </div>
+      <span class="brand-name">ModelPath Studio</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link active">Home</a></li>
+      <li><a href="/apps/" class="nav-link">Apps</a></li>
+      <li><a href="/about/" class="nav-link">About</a></li>
+      <li><a href="/contact/" class="nav-link">Contact</a></li>
+    </ul>
+
+    <a href="/apps/" class="nav-cta">Explore Apps</a>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-container">
+    <div>
+      <div class="hero-badge">
+        <span class="hero-badge-indicator"></span>
+        Independent Software Studio
+      </div>
+      <h1 class="hero-headline">Thoughtful Software.<br>Beautifully Built.</h1>
+      <p class="hero-subheading">
+        An independent software studio creating elegant mobile applications and intelligent digital experiences.
+      </p>
+      <div class="hero-cta-group">
+        <a href="/apps/" class="btn-primary">Explore Our Apps &rarr;</a>
+        <a href="/about/" class="btn-secondary">About ModelPath</a>
+      </div>
+    </div>
+
+    <!-- Hero Abstract Studio Showcase Visual -->
+    <div class="hero-visual-card">
+      <div class="composition-header">
+        <span class="composition-title">Studio Showcase</span>
+        <span class="composition-badge">4 In-House Products</span>
+      </div>
+      <div class="composition-tiles">
+        <div class="comp-tile">
+          <div class="comp-tile-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4567E8" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <span class="comp-tile-name">SignMint</span>
+          <span class="comp-tile-meta">Productivity</span>
+        </div>
+        <div class="comp-tile">
+          <div class="comp-tile-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4567E8" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <span class="comp-tile-name">Ehub</span>
+          <span class="comp-tile-meta">Reading</span>
+        </div>
+        <div class="comp-tile">
+          <div class="comp-tile-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4567E8" stroke-width="2" stroke-linecap="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          </div>
+          <span class="comp-tile-name">PyLab</span>
+          <span class="comp-tile-meta">Education</span>
+        </div>
+        <div class="comp-tile">
+          <div class="comp-tile-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4567E8" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><circle cx="5" cy="18" r="2"/><line x1="7" y1="7" x2="10" y2="10"/><line x1="17" y1="7" x2="14" y2="10"/><line x1="7" y1="17" x2="10" y2="14"/><line x1="17" y1="17" x2="14" y2="14"/></svg>
+          </div>
+          <span class="comp-tile-name">ModelPath ML</span>
+          <span class="comp-tile-meta">Machine Learning</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Applications Section -->
+  <section class="apps-section">
+    <div class="section-header">
+      <h2 class="section-title">Our Applications</h2>
+      <p class="section-desc">Focused software designed for utility, performance, and everyday privacy.</p>
+    </div>
+
+    <div class="apps-grid">
+      <!-- 1. SignMint -->
+      <article class="app-card">
+        <div class="app-card-top">
+          <div class="app-icon-capsule">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </div>
+          <span class="availability-chip">Coming Soon</span>
+        </div>
+        <div class="app-category">Productivity</div>
+        <h3 class="app-title">SignMint</h3>
+        <p class="app-description">PDF signing and document utilities</p>
+        <div class="app-card-bottom">
+          <span style="font-size: 0.8125rem; color: var(--text-muted);">Android initially</span>
+          <a href="/apps/signmint/" class="btn-explore-app">Explore App &rarr;</a>
+        </div>
+      </article>
+
+      <!-- 2. Ehub -->
+      <article class="app-card">
+        <div class="app-card-top">
+          <div class="app-icon-capsule">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+          </div>
+          <span class="availability-chip">In Development</span>
+        </div>
+        <div class="app-category">Reading</div>
+        <h3 class="app-title">Ehub</h3>
+        <p class="app-description">EPUB and PDF reader</p>
+        <div class="app-card-bottom">
+          <span style="font-size: 0.8125rem; color: var(--text-muted);">Android &amp; iOS planned</span>
+          <a href="/apps/ehub/" class="btn-explore-app">Explore App &rarr;</a>
+        </div>
+      </article>
+
+      <!-- 3. PyLab -->
+      <article class="app-card">
+        <div class="app-card-top">
+          <div class="app-icon-capsule">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 17 10 11 4 5"/>
+              <line x1="12" y1="19" x2="20" y2="19"/>
+            </svg>
+          </div>
+          <span class="availability-chip">In Development</span>
+        </div>
+        <div class="app-category">Education</div>
+        <h3 class="app-title">PyLab</h3>
+        <p class="app-description">Learn Python through interactive lessons</p>
+        <div class="app-card-bottom">
+          <span style="font-size: 0.8125rem; color: var(--text-muted);">Android</span>
+          <a href="/apps/pylab/" class="btn-explore-app">Explore App &rarr;</a>
+        </div>
+      </article>
+
+      <!-- 4. ModelPath ML -->
+      <article class="app-card" style="border-left: 3px solid var(--accent-blue);">
+        <div class="app-card-top">
+          <div class="app-icon-capsule">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <circle cx="19" cy="6" r="2"/>
+              <circle cx="5" cy="6" r="2"/>
+              <circle cx="19" cy="18" r="2"/>
+              <circle cx="5" cy="18" r="2"/>
+              <line x1="7" y1="7" x2="10" y2="10"/>
+              <line x1="17" y1="7" x2="14" y2="10"/>
+              <line x1="7" y1="17" x2="10" y2="14"/>
+              <line x1="17" y1="17" x2="14" y2="14"/>
+            </svg>
+          </div>
+          <span class="availability-chip">In Development</span>
+        </div>
+        <div class="app-category">Machine Learning</div>
+        <h3 class="app-title">ModelPath ML</h3>
+        <p class="app-description">Machine learning application by ModelPath Studio</p>
+        <div class="app-card-bottom">
+          <span style="font-size: 0.8125rem; color: var(--text-muted);">Studio ML Product</span>
+          <a href="/apps/modelpath-ml/" class="btn-explore-app">Explore App &rarr;</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Studio Philosophy Section -->
+  <section class="philosophy-section">
+    <div class="section-header">
+      <h2 class="section-title">Studio Philosophy</h2>
+      <p class="section-desc">Our foundational approach to digital craftsmanship.</p>
+    </div>
+    <div class="philosophy-well">
+      <div class="philosophy-card">
+        <h3>Thoughtful Engineering</h3>
+        <p>Lightweight static architectures, clean codebases, and instantaneous loading.</p>
+      </div>
+      <div class="philosophy-card">
+        <h3>Useful Experiences</h3>
+        <p>Purpose-built digital utilities created to simplify concrete user workflows.</p>
+      </div>
+      <div class="philosophy-card">
+        <h3>Tactile Interfaces</h3>
+        <p>Subtle 3D depth, comfortable touch targets, and high-contrast readability.</p>
+      </div>
+      <div class="philosophy-card">
+        <h3>Continuous Polish</h3>
+        <p>Relentless iteration, user ergonomics, and responsible local privacy.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Global Footer -->
+  <footer class="footer-container">
+    <ul class="footer-nav">
+      <li><a href="/">Home</a></li>
+      <li><a href="/apps/">Apps</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/contact/">Contact</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+      <li><a href="/app-ads.txt">app-ads.txt</a></li>
+    </ul>
+    <p class="footer-copy">&copy; 2026 ModelPath Studio. All rights reserved. Independent Software Studio.</p>
+  </footer>
+
+</body>
+</html>
