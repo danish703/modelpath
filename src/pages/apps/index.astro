@@ -35,36 +35,62 @@ const apps = rawApps
       <nav class="filter-nav" aria-label="Category Filters">
         <ul class="filter-tabs">
           <li>
-            <button type="button" class="filter-pill active" aria-current="page">
+            <button
+              type="button"
+              class="filter-pill active"
+              data-category-filter="all"
+              aria-pressed="true"
+            >
               <span>All</span>
               <span class="filter-count">4</span>
             </button>
           </li>
           <li>
-            <button type="button" class="filter-pill">
+            <button
+              type="button"
+              class="filter-pill"
+              data-category-filter="productivity"
+              aria-pressed="false"
+            >
               <span>Productivity</span>
               <span class="filter-count">1</span>
             </button>
           </li>
           <li>
-            <button type="button" class="filter-pill">
+            <button
+              type="button"
+              class="filter-pill"
+              data-category-filter="reading"
+              aria-pressed="false"
+            >
               <span>Reading</span>
               <span class="filter-count">1</span>
             </button>
           </li>
           <li>
-            <button type="button" class="filter-pill">
+            <button
+              type="button"
+              class="filter-pill"
+              data-category-filter="education"
+              aria-pressed="false"
+            >
               <span>Education</span>
               <span class="filter-count">1</span>
             </button>
           </li>
           <li>
-            <button type="button" class="filter-pill">
+            <button
+              type="button"
+              class="filter-pill"
+              data-category-filter="machine learning"
+              aria-pressed="false"
+            >
               <span>Machine Learning</span>
               <span class="filter-count">1</span>
             </button>
           </li>
         </ul>
+        <div id="filter-status" class="sr-only" aria-live="polite">Showing all 4 applications.</div>
       </nav>
     </header>
 
@@ -74,6 +100,46 @@ const apps = rawApps
     </section>
   </div>
 </BaseLayout>
+
+<script>
+  function setupCategoryFilters() {
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>('[data-category-filter]');
+    const appCards = document.querySelectorAll<HTMLElement>('[data-app-card]');
+    const statusRegion = document.getElementById('filter-status');
+
+    if (!filterButtons.length || !appCards.length) return;
+
+    filterButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const selectedCategory = btn.getAttribute('data-category-filter') || 'all';
+
+        // Update button states
+        filterButtons.forEach((b) => {
+          const isActive = b === btn;
+          b.classList.toggle('active', isActive);
+          b.setAttribute('aria-pressed', String(isActive));
+        });
+
+        // Filter cards
+        let visibleCount = 0;
+        appCards.forEach((card) => {
+          const cardCategory = (card.getAttribute('data-category') || '').toLowerCase();
+          const shouldShow = selectedCategory === 'all' || cardCategory === selectedCategory;
+
+          card.hidden = !shouldShow;
+          if (shouldShow) visibleCount++;
+        });
+
+        if (statusRegion) {
+          statusRegion.textContent = `Showing ${visibleCount} application${visibleCount === 1 ? '' : 's'} for ${btn.querySelector('span')?.textContent || selectedCategory}.`;
+        }
+      });
+    });
+  }
+
+  setupCategoryFilters();
+  document.addEventListener('astro:after-swap', setupCategoryFilters);
+</script>
 
 <style>
   .directory-container {

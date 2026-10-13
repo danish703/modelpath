@@ -30,27 +30,27 @@ export async function getStaticPaths() {
 const { app, allApps } = Astro.props;
 const { Content } = await render(app);
 
-// SignMint specific rich features matching approved Gate 2 design, or fallbacks from collection
+// SignMint specific rich features matching actual confirmed project scope
 const isSignMint = app.data.slug === 'signmint';
 const signMintFeatures = [
   {
-    title: 'Intuitive PDF Signing',
-    desc: 'Capture smooth pen strokes, save encrypted signature presets, and insert precise signatures onto multiple PDF pages with drag-and-drop precision.',
+    title: 'PDF Signature Placement',
+    desc: 'Intuitive touch and pen input designed for positioning digital signatures onto PDF pages.',
     icon: 'pen',
   },
   {
-    title: 'Document Management & Utilities',
-    desc: 'Reorder pages, merge multiple PDF files, rotate scans, and compress files into clean digital documents ready for sharing and archiving.',
+    title: 'Document Annotation Tools',
+    desc: 'Review and add clear visual annotations, text notes, and markups to documents.',
     icon: 'document',
   },
   {
-    title: 'On-Device Privacy Architecture',
-    desc: 'All document manipulation and signature processing runs locally on your device. Your sensitive files and personal documents are never transmitted to unauthorized external servers.',
+    title: 'Privacy-Conscious Design',
+    desc: 'Engineered to respect document privacy by keeping standard signing workflows transparent and user-directed.',
     icon: 'privacy',
   },
   {
-    title: 'Lightweight & Fast Performance',
-    desc: 'Engineered for swift startup and responsive gesture interactions without unnecessary background telemetry or resource bloat.',
+    title: 'Focused Document Workflow',
+    desc: 'A straightforward utility experience engineered for practical signing tasks without unnecessary interface clutter.',
     icon: 'performance',
   },
 ];
@@ -129,7 +129,7 @@ const signMintFeatures = [
     <section id="features" class="section-wrap">
       <div class="section-header">
         <span class="section-label">Core Capabilities</span>
-        <h2 class="section-title">Engineered for Document Efficiency</h2>
+        <h2 class="section-title">Planned Document Capabilities</h2>
       </div>
 
       <div class="features-grid">
@@ -178,7 +178,7 @@ const signMintFeatures = [
         />
         <ScreenshotPlaceholderCard
           title="Multi-Page Document Organizer"
-          placeholderNote="[Screenshot Placeholder: Page reordering, rotation, and merge view]"
+          placeholderNote="[Screenshot Placeholder: Multi-page document viewer and page layout]"
           footerLabel="Page Management View"
           iconType="organizer"
         />

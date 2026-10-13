@@ -3,7 +3,7 @@ name: "Ehub"
 slug: "ehub"
 tagline: "Distraction-free EPUB and PDF reading"
 description: "A focused, lightweight e-reader engineered for seamless EPUB and PDF navigation with custom typography."
-category: "Books & Reference"
+category: "Reading"
 availablePlatforms: []
 plannedPlatforms:
   - "android"

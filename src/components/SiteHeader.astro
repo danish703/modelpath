@@ -122,11 +122,11 @@ const isLinkActive = (path: string) => {
 
     toggle.addEventListener('click', () => {
       const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!isExpanded));
-      if (isExpanded) {
-        menu.hidden = true;
-      } else {
-        menu.hidden = false;
+      const nextExpanded = !isExpanded;
+      toggle.setAttribute('aria-expanded', String(nextExpanded));
+      menu.hidden = !nextExpanded;
+      if (!nextExpanded) {
+        toggle.focus();
       }
     });
 

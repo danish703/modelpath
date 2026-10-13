@@ -19,7 +19,7 @@ const { app, highlightMl = false } = Astro.props;
 const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'unconfirmed';
 ---
 
-<article class={`app-card ${isMl ? 'highlight-ml' : ''}`}>
+<article class={`app-card ${isMl ? 'highlight-ml' : ''}`} data-app-card data-category={app.category.toLowerCase()}>
   <div class="card-top">
     <div class="icon-capsule">
       {app.slug === 'signmint' && (
