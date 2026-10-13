@@ -6,14 +6,80 @@ import SiteFooter from '../components/SiteFooter.astro';
 interface Props {
   title: string;
   description?: string;
+  canonicalUrl?: string;
+  ogType?: 'website' | 'article';
+  ogImage?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 const {
   title,
-  description = 'ModelPath Studio — An independent software studio creating elegant mobile applications and intelligent digital experiences.',
+  description = 'ModelPath Studio is an independent software studio creating elegant mobile applications and intelligent digital experiences.',
+  canonicalUrl: customCanonical,
+  ogType = 'website',
+  ogImage = '/favicon.svg',
+  noindex = false,
+  jsonLd,
 } = Astro.props;
 
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://modelpath.app');
+const siteOrigin = (Astro.site ? Astro.site.toString() : 'https://modelpath.app').replace(/\/$/, '');
+let pathname = Astro.url.pathname;
+if (!pathname.endsWith('/')) {
+  pathname += '/';
+}
+const canonical = customCanonical || `${siteOrigin}${pathname}`;
+
+const fullTitle = title.includes('ModelPath Studio') ? title : `${title} | ModelPath Studio`;
+const fullOgImage = ogImage.startsWith('http')
+  ? ogImage
+  : `${siteOrigin}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`;
+
+const baseSchemas: Array<Record<string, unknown>> = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${siteOrigin}/#organization`,
+    name: 'ModelPath Studio',
+    url: siteOrigin,
+    logo: `${siteOrigin}/favicon.svg`,
+    description: 'Independent software studio creating thoughtful mobile applications and intelligent digital tools.',
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        contactType: 'General Inquiry',
+        email: 'hello@modelpath.app',
+        url: `${siteOrigin}/contact/`,
+      },
+      {
+        '@type': 'ContactPoint',
+        contactType: 'Technical Support',
+        email: 'support@modelpath.app',
+        url: `${siteOrigin}/contact/`,
+      },
+      {
+        '@type': 'ContactPoint',
+        contactType: 'Privacy Inquiries',
+        email: 'privacy@modelpath.app',
+        url: `${siteOrigin}/privacy/`,
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${siteOrigin}/#website`,
+    url: siteOrigin,
+    name: 'ModelPath Studio',
+    description: 'Thoughtful Software. Beautifully Built.',
+    publisher: {
+      '@id': `${siteOrigin}/#organization`,
+    },
+  },
+];
+
+const pageSchemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const allSchemas = [...baseSchemas, ...pageSchemas];
 ---
 
 <!doctype html>
@@ -21,10 +87,37 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://modelpat
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} | ModelPath Studio</title>
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalUrl.href} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    {noindex ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      <meta name="robots" content="index, follow" />
+    )}
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={fullOgImage} />
+    <meta property="og:site_name" content="ModelPath Studio" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:url" content={canonical} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={fullOgImage} />
+
+    <!-- Structured Data (JSON-LD) -->
+    {allSchemas.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
   </head>
   <body>
     <div class="site-container">

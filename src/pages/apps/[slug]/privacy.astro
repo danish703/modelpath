@@ -41,8 +41,9 @@ const disclosures = app.data.privacyDisclosures || {
 ---
 
 <BaseLayout
-  title={`${app.data.name} Privacy Policy`}
-  description={`Privacy policy, data handling disclosures, and compliance status for ${app.data.name}.`}
+  title={`${app.data.name} Privacy Disclosures`}
+  description={`Privacy practices, data handling disclosures, and compliance review status for ${app.data.name} by ModelPath Studio.`}
+  noindex={!isVerified}
 >
   <div class="policy-page-container">
     <!-- Breadcrumb -->

@@ -1,13 +1,21 @@
 # ==============================================================================
-# ModelPath Authorized Digital Sellers (app-ads.txt)
+# ModelPath Studio — Authorized Digital Sellers (app-ads.txt)
 # Specification: IAB Tech Lab (https://iabtechlab.com/ads-txt/)
 #
-# STATUS: NO ACTIVE AUTHORIZED SELLERS CONFIGURED.
+# STATUS: VERIFICATION PENDING
+# PUBLISHER ACCOUNT: Awaiting verified AdMob publisher ID from studio owner.
 #
-# NOTE FOR STUDIO OWNER:
-# Authorized seller records will be populated here only upon owner verification
-# of approved advertising accounts (e.g. Google AdMob).
+# POLICY NOTE:
+# This file serves as the root app-ads.txt registry for ModelPath applications
+# distributed across mobile app stores. Active seller entries will be appended
+# upon explicit provision and cryptographic verification of publisher account IDs.
 #
-# Standard record specification format:
-# <Exchange Domain>, <Publisher Account ID>, <Relationship (DIRECT/RESELLER)>, <Certification Authority ID>
+# Format:
+# <Ad System Domain>, <Seller Account ID>, <Account Type (DIRECT/RESELLER)>, <Certification Authority ID>
+#
+# Example (AdMob):
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+#
+# Active Authorized Sellers:
+# (No verified entries currently configured)
 # ==============================================================================

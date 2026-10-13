@@ -180,11 +180,30 @@ const defaultPlaceholders = [
 const fallbackPlaceholders = placeholderSets[app.data.slug] || defaultPlaceholders;
 
 const hasStoreLinks = Boolean(app.data.playStoreUrl || app.data.appStoreUrl);
+
+const softwareAppSchema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: app.data.name,
+  description: app.data.description,
+  applicationCategory: app.data.category,
+  operatingSystem:
+    app.data.availablePlatforms.length > 0
+      ? app.data.availablePlatforms.join(', ')
+      : app.data.plannedPlatforms.length > 0
+        ? `Planned: ${app.data.plannedPlatforms.join(', ')}`
+        : 'Mobile',
+  url: `https://modelpath.app/apps/${app.data.slug}/`,
+  author: {
+    '@id': 'https://modelpath.app/#organization',
+  },
+};
 ---
 
 <BaseLayout
-  title={app.data.name}
-  description={`${app.data.name} — ${app.data.tagline}. Developed by ModelPath Studio.`}
+  title={`${app.data.name} — ${app.data.tagline}`}
+  description={`${app.data.name} by ModelPath Studio: ${app.data.description}`}
+  jsonLd={softwareAppSchema}
 >
   <article class="detail-container">
     <!-- Product Hero -->

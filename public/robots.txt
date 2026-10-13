@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# Google AdMob app-ads.txt crawler
+User-agent: Google-adstxt
+Allow: /app-ads.txt
+
 Sitemap: https://modelpath.app/sitemap-index.xml
