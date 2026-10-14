@@ -102,14 +102,14 @@ const pageSchema: Record<string, unknown> = isEligiblePublished
 const androidStaging = data.availablePlatforms?.includes('android')
   ? 'Android • Live'
   : data.plannedPlatforms?.includes('android')
-  ? 'Android • Coming Soon'
+  ? 'Target: Android'
   : 'Android • Not Planned';
 
 const iosStaging = data.availablePlatforms?.includes('ios')
   ? 'iOS • Live'
   : data.plannedPlatforms?.includes('ios')
-  ? 'iOS • In Development'
-  : 'iOS • Not Currently Planned';
+  ? 'Target: iOS'
+  : 'iOS • Not Planned';
 ---
 
 <BaseLayout
