@@ -20,6 +20,11 @@ Copyright (c) 2020 The Plus Jakarta Sans Project Authors (https://github.com/tok
 Copyright (c) 2020 JetBrains s.r.o. (https://github.com/JetBrains/JetBrainsMono)
 
 --------------------------------------------------------------------------------
+4. Manrope
+--------------------------------------------------------------------------------
+Copyright (c) 2018-2021 The Manrope Project Authors (https://github.com/sharanda/manrope)
+
+--------------------------------------------------------------------------------
 SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
 --------------------------------------------------------------------------------
 

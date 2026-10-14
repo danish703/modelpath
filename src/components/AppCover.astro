@@ -1,16 +1,12 @@
 ---
 /**
  * AppCover — genuine cover/thumbnail artwork, or a differentiated, conceptual
- * vector cover motif (Gate 12B Midnight Aurora).
+ * vector cover motif (Gate 12B / Gate 13).
  *
  * Rules:
- * - Differentiated conceptual treatments per app motif:
- *   • SignMint: PDF signing & document annotation motif (Electric Cobalt & Soft Cyan)
- *   • Ehub: Digital reading & book spread motif (Aurora Violet)
- *   • PyLab: Python interactive coding & syntax motif (Soft Cyan)
- *   • ModelPath ML: Abstract machine-learning / neural lattice motif (Cobalt & Violet)
- * - Clearly labeled as decorative conceptual preview artwork, never disguised as product screenshots.
- * - Content-driven: When genuine artwork is provided in `media.cover`, it seamlessly renders the real image.
+ * - Published apps (SignMint, ModelPath ML): Render official Google Play icon and genuine product screenshot in a sleek card mockup.
+ * - Conceptual apps (PyLab, Ehub): Render differentiated vector motif with clear "Conceptual Preview" label.
+ * - Real cover asset: When genuine artwork is provided in `cover`, it seamlessly renders the real image.
  */
 import type { ImageAsset } from '../lib/appMedia';
 
@@ -25,19 +21,19 @@ interface Props {
 
 const { slug, name, cover, variant = 'card', eager = false, class: className = '' } = Astro.props;
 
+const isPublishedApp = slug === 'signmint' || slug === 'modelpath-ml';
+
 const conceptualLabels: Record<string, string> = {
-  signmint: 'SignMint • Conceptual Preview',
   ehub: 'Ehub • Conceptual Preview',
   pylab: 'PyLab • Conceptual Preview',
-  'modelpath-ml': 'ModelPath ML • Conceptual Preview',
 };
 
 const conceptualLabel = conceptualLabels[slug] || `${name} • Conceptual Preview`;
 ---
 
 <figure
-  class={`app-cover variant-${variant} slug-${slug} ${cover ? 'is-genuine' : 'is-conceptual'} ${className}`}
-  data-media-kind={cover ? 'genuine' : 'conceptual'}
+  class={`app-cover variant-${variant} slug-${slug} ${cover || isPublishedApp ? 'is-genuine' : 'is-conceptual'} ${className}`}
+  data-media-kind={cover || isPublishedApp ? 'genuine' : 'conceptual'}
 >
   {cover ? (
     <img
@@ -48,22 +44,43 @@ const conceptualLabel = conceptualLabels[slug] || `${name} • Conceptual Previe
       loading={eager ? 'eager' : 'lazy'}
       decoding="async"
     />
+  ) : isPublishedApp ? (
+    <div class={`genuine-card-stage genuine-${slug}`} aria-label={`${name} official preview`}>
+      <div class="genuine-ambient-glow" aria-hidden="true"></div>
+
+      <!-- Official App Icon Floating Badge -->
+      <div class="genuine-app-badge">
+        <img
+          src={`/images/apps/${slug}/icon.png`}
+          alt={`${name} official icon`}
+          width="40"
+          height="40"
+          loading="eager"
+          decoding="sync"
+        />
+        <div class="badge-text">
+          <span class="badge-app-title">{name}</span>
+          <span class="badge-store-pill">Google Play</span>
+        </div>
+      </div>
+
+      <!-- Real Phone Mockup Displaying Genuine Screenshot -->
+      <div class="genuine-phone-mockup" aria-hidden="true">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <img
+            src={`/images/apps/${slug}/screenshot-1.png`}
+            alt={`${name} official interface screenshot`}
+            width="800"
+            height="1422"
+            loading="eager"
+            decoding="sync"
+          />
+        </div>
+      </div>
+    </div>
   ) : (
     <div class="conceptual-canvas" aria-hidden="true">
-      {slug === 'signmint' && (
-        <div class="motif-wrapper motif-signmint">
-          <svg viewBox="0 0 540 200" width="100%" height="100%" fill="none" preserveAspectRatio="xMidYMid meet">
-            <rect x="180" y="30" width="180" height="140" rx="10" fill="#17203B" stroke="rgba(79, 107, 255, 0.4)" stroke-width="1.5"/>
-            <line x1="205" y1="52" x2="300" y2="52" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
-            <line x1="205" y1="72" x2="335" y2="72" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2" stroke-linecap="round"/>
-            <line x1="205" y1="92" x2="310" y2="92" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2" stroke-linecap="round"/>
-            <rect x="205" y="115" width="130" height="38" rx="6" fill="#10172D" stroke="rgba(79, 107, 255, 0.3)" stroke-dasharray="3 3"/>
-            <path d="M 215 140 Q 240 120 255 135 T 290 130 T 325 137" stroke="#4F6BFF" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-            <circle cx="325" cy="140" r="13" fill="rgba(79, 107, 255, 0.2)" stroke="#73DDE6" stroke-width="2"/>
-          </svg>
-        </div>
-      )}
-
       {slug === 'ehub' && (
         <div class="motif-wrapper motif-ehub">
           <svg viewBox="0 0 540 200" width="100%" height="100%" fill="none" preserveAspectRatio="xMidYMid meet">
@@ -96,36 +113,6 @@ const conceptualLabel = conceptualLabels[slug] || `${name} • Conceptual Previe
         </div>
       )}
 
-      {slug === 'modelpath-ml' && (
-        <div class="motif-wrapper motif-ml">
-          <svg viewBox="0 0 540 200" width="100%" height="100%" fill="none" preserveAspectRatio="xMidYMid meet">
-            <!-- Interconnecting lines -->
-            <line x1="190" y1="60" x2="270" y2="40" stroke="rgba(79, 107, 255, 0.35)" stroke-width="1.5"/>
-            <line x1="190" y1="60" x2="270" y2="80" stroke="rgba(79, 107, 255, 0.35)" stroke-width="1.5"/>
-            <line x1="190" y1="100" x2="270" y2="80" stroke="rgba(139, 92, 246, 0.4)" stroke-width="1.5"/>
-            <line x1="190" y1="100" x2="270" y2="120" stroke="rgba(139, 92, 246, 0.4)" stroke-width="1.5"/>
-            <line x1="190" y1="140" x2="270" y2="120" stroke="rgba(79, 107, 255, 0.35)" stroke-width="1.5"/>
-            <line x1="190" y1="140" x2="270" y2="160" stroke="rgba(79, 107, 255, 0.35)" stroke-width="1.5"/>
-            <line x1="270" y1="40" x2="350" y2="70" stroke="rgba(115, 221, 230, 0.4)" stroke-width="1.5"/>
-            <line x1="270" y1="80" x2="350" y2="70" stroke="rgba(115, 221, 230, 0.4)" stroke-width="1.5"/>
-            <line x1="270" y1="120" x2="350" y2="130" stroke="rgba(115, 221, 230, 0.4)" stroke-width="1.5"/>
-            <line x1="270" y1="160" x2="350" y2="130" stroke="rgba(115, 221, 230, 0.4)" stroke-width="1.5"/>
-            <!-- Layer 1 -->
-            <circle cx="190" cy="60" r="10" fill="#141E38" stroke="#4F6BFF" stroke-width="2"/>
-            <circle cx="190" cy="100" r="10" fill="#141E38" stroke="#4F6BFF" stroke-width="2"/>
-            <circle cx="190" cy="140" r="10" fill="#141E38" stroke="#4F6BFF" stroke-width="2"/>
-            <!-- Layer 2 -->
-            <circle cx="270" cy="40" r="10" fill="#172441" stroke="#8B5CF6" stroke-width="2"/>
-            <circle cx="270" cy="80" r="10" fill="#172441" stroke="#8B5CF6" stroke-width="2"/>
-            <circle cx="270" cy="120" r="10" fill="#172441" stroke="#8B5CF6" stroke-width="2"/>
-            <circle cx="270" cy="160" r="10" fill="#172441" stroke="#8B5CF6" stroke-width="2"/>
-            <!-- Layer 3 -->
-            <circle cx="350" cy="70" r="11" fill="#101A33" stroke="#73DDE6" stroke-width="2"/>
-            <circle cx="350" cy="130" r="11" fill="#101A33" stroke="#73DDE6" stroke-width="2"/>
-          </svg>
-        </div>
-      )}
-
       <span class="cover-tag">{conceptualLabel}</span>
     </div>
   )}
@@ -150,7 +137,7 @@ const conceptualLabel = conceptualLabels[slug] || `${name} • Conceptual Previe
 
   .variant-hero {
     height: 260px;
-    border-radius: var(--radius-inner);
+    border-radius: var(--radius-inner, 12px);
     border: 1px solid rgba(79, 107, 255, 0.25);
   }
 
@@ -161,6 +148,119 @@ const conceptualLabel = conceptualLabels[slug] || `${name} • Conceptual Previe
     display: block;
   }
 
+  /* Genuine Card Stage (Published Apps) */
+  .genuine-card-stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    background: #090F1F;
+  }
+
+  .genuine-signmint {
+    background: radial-gradient(circle at 75% 45%, rgba(79, 107, 255, 0.35), transparent 70%),
+                radial-gradient(circle at 20% 30%, rgba(115, 221, 230, 0.18), transparent 60%),
+                #090F1F;
+  }
+
+  .genuine-modelpath-ml {
+    background: radial-gradient(circle at 75% 45%, rgba(139, 92, 246, 0.35), transparent 70%),
+                radial-gradient(circle at 20% 30%, rgba(79, 107, 255, 0.22), transparent 60%),
+                #090F1F;
+  }
+
+  .genuine-app-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 2;
+    background: rgba(14, 22, 43, 0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 6px 14px 6px 8px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  }
+
+  .genuine-app-badge img {
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+  }
+
+  .badge-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .badge-app-title {
+    font-family: var(--font-display, inherit);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .badge-store-pill {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--c-cyan, #73DDE6);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .genuine-phone-mockup {
+    position: relative;
+    width: 124px;
+    height: 200px;
+    background: #000000;
+    border: 2.5px solid rgba(255, 255, 255, 0.18);
+    border-bottom: none;
+    border-radius: 18px 18px 0 0;
+    transform: translateY(22px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 16px rgba(79, 107, 255, 0.2);
+    overflow: hidden;
+    flex-shrink: 0;
+    z-index: 1;
+    margin-right: 4px;
+  }
+
+  .phone-notch {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 3px;
+    z-index: 3;
+  }
+
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .phone-screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+
+  /* Conceptual Canvas (Unreleased Apps) */
   .conceptual-canvas {
     width: 100%;
     height: 100%;
@@ -178,20 +278,12 @@ const conceptualLabel = conceptualLabels[slug] || `${name} • Conceptual Previe
     justify-content: center;
   }
 
-  .motif-signmint {
-    background: radial-gradient(circle at 50% 50%, rgba(79, 107, 255, 0.25), transparent 70%), #0E162B;
-  }
-
   .motif-ehub {
     background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.25), transparent 70%), #0E162B;
   }
 
   .motif-pylab {
     background: radial-gradient(circle at 50% 50%, rgba(115, 221, 230, 0.2), transparent 70%), #0E162B;
-  }
-
-  .motif-ml {
-    background: radial-gradient(circle at 50% 50%, rgba(79, 107, 255, 0.2), rgba(139, 92, 246, 0.2), transparent 70%), #0E162B;
   }
 
   .cover-tag {
@@ -204,7 +296,7 @@ const conceptualLabel = conceptualLabels[slug] || `${name} • Conceptual Previe
     font-size: 0.72rem;
     font-weight: 600;
     padding: 3px 10px;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-pill, 9999px);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     pointer-events: none;
@@ -222,6 +314,29 @@ const conceptualLabel = conceptualLabels[slug] || `${name} • Conceptual Previe
       bottom: 8px;
       right: 10px;
       padding: 2px 8px;
+    }
+    .genuine-card-stage {
+      padding: 0 14px;
+    }
+    .genuine-app-badge {
+      padding: 4px 10px 4px 6px;
+      gap: 8px;
+    }
+    .genuine-app-badge img {
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+    }
+    .badge-app-title {
+      font-size: 0.76rem;
+    }
+    .badge-store-pill {
+      font-size: 0.58rem;
+    }
+    .genuine-phone-mockup {
+      width: 96px;
+      height: 165px;
+      transform: translateY(18px);
     }
   }
 </style>

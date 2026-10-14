@@ -45,8 +45,8 @@ const CYAN = '115, 221, 230';
 function getConfig(width: number): Config {
   const mobile = width < 640;
   return mobile
-    ? { maxDpr: 1.5, areaPerParticle: 14000, minParticles: 16, maxParticles: 30, linkDistance: 105, speed: 7, frameInterval: 1000 / 30, lineAlpha: 0.20 }
-    : { maxDpr: 2, areaPerParticle: 12000, minParticles: 34, maxParticles: 75, linkDistance: 145, speed: 10, frameInterval: 0, lineAlpha: 0.26 };
+    ? { maxDpr: 1.5, areaPerParticle: 12000, minParticles: 22, maxParticles: 38, linkDistance: 115, speed: 7, frameInterval: 1000 / 30, lineAlpha: 0.32 }
+    : { maxDpr: 2, areaPerParticle: 10000, minParticles: 42, maxParticles: 85, linkDistance: 155, speed: 10, frameInterval: 0, lineAlpha: 0.40 };
 }
 
 /** Small deterministic PRNG so the static/no-motion frame is stable across loads. */
@@ -95,9 +95,9 @@ export function initConstellation(root: HTMLElement): () => void {
       y: rand() * height,
       vx: Math.cos(angle) * speed,
       vy: Math.sin(angle) * speed,
-      r: tone === 1 ? 1.35 + rand() * 1.05 : 1.0 + rand() * 0.9,
+      r: tone === 1 ? 1.7 + rand() * 1.3 : 1.3 + rand() * 1.1,
       tone,
-      alpha: tone === 1 ? 0.62 + rand() * 0.24 : 0.48 + rand() * 0.22,
+      alpha: tone === 1 ? 0.76 + rand() * 0.22 : 0.60 + rand() * 0.24,
     };
   }
 
@@ -182,7 +182,7 @@ export function initConstellation(root: HTMLElement): () => void {
     const maxD2 = maxD * maxD;
 
     // Links
-    ctx!.lineWidth = 0.75;
+    ctx!.lineWidth = 0.85;
     for (let i = 0; i < particles.length; i++) {
       const pi = particles[i];
       for (let j = i + 1; j < particles.length; j++) {
@@ -194,11 +194,11 @@ export function initConstellation(root: HTMLElement): () => void {
         const falloff = 1 - Math.sqrt(d2) / maxD;
         const glow = reducedMotion ? 0 : pulseIntensity(i, j, now);
         if (glow > 0.01) {
-          ctx!.strokeStyle = `rgba(${COBALT}, ${(falloff * cfg.lineAlpha + glow * 0.35).toFixed(3)})`;
-          ctx!.lineWidth = 0.8 + glow * 0.6;
+          ctx!.strokeStyle = `rgba(${COBALT}, ${(falloff * cfg.lineAlpha + glow * 0.45).toFixed(3)})`;
+          ctx!.lineWidth = 1.0 + glow * 0.8;
         } else {
-          ctx!.strokeStyle = `rgba(${COBALT}, ${(falloff * cfg.lineAlpha * 0.75).toFixed(3)})`;
-          ctx!.lineWidth = 0.75;
+          ctx!.strokeStyle = `rgba(${COBALT}, ${(falloff * cfg.lineAlpha * 0.85).toFixed(3)})`;
+          ctx!.lineWidth = 0.85;
         }
         ctx!.beginPath();
         ctx!.moveTo(pi.x, pi.y);
@@ -207,13 +207,17 @@ export function initConstellation(root: HTMLElement): () => void {
       }
     }
 
-    // Nodes
+    // Nodes with restrained blue-violet glow
     for (const p of particles) {
       const col = p.tone === 1 ? CYAN : VIOLET;
+      ctx!.save();
+      ctx!.shadowBlur = p.tone === 1 ? 8 : 6;
+      ctx!.shadowColor = p.tone === 1 ? `rgba(${CYAN}, 0.55)` : `rgba(${VIOLET}, 0.50)`;
       ctx!.fillStyle = `rgba(${col}, ${p.alpha.toFixed(3)})`;
       ctx!.beginPath();
       ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx!.fill();
+      ctx!.restore();
     }
   }
 

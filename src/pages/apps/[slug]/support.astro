@@ -68,7 +68,7 @@ const supportEmail = studioContactConfig.emails.support || app.data.supportEmail
           <div class="header-titles">
             <div class="header-meta-row">
               <span class="app-category">{app.data.category}</span>
-              <StatusBadge status={app.data.status} size="sm" />
+              {app.data.status !== 'published' && <StatusBadge status={app.data.status} size="sm" />}
             </div>
             <h1 class="support-title">Support &amp; FAQ — {app.data.name}</h1>
             <p class="support-subtitle">
@@ -114,7 +114,7 @@ const supportEmail = studioContactConfig.emails.support || app.data.supportEmail
               </svg>
               <span>{supportEmail}</span>
             </a>
-            <span class="response-note">Incoming messages routed via Cloudflare Email Routing directly to our engineering team</span>
+            <span class="response-note">Direct developer inbox</span>
           </div>
         </section>
 

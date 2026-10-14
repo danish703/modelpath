@@ -41,7 +41,7 @@ supportFaqs:
   - question: "Is PyLab for beginners or experienced developers?"
     answer: "PyLab is structured with progressive modules starting from Python fundamentals up to intermediate concepts."
 version: "0.2.0-dev"
-order: 3
+order: 2
 ---
 
 PyLab makes learning Python accessible and practical through structured interactive lessons and guided challenges on mobile.

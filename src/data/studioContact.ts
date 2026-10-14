@@ -32,7 +32,7 @@ export const studioContactConfig: StudioContactConfig = {
     privacy: "privacy@modelpath.app",
   },
   routingProvider: "Cloudflare Email Routing",
-  routingNotice: "Verified incoming communication aliases are active and routed through Cloudflare Email Routing directly to our engineering team.",
+  routingNotice: "Official incoming communication channels are active and routed directly to our engineering team.",
   channels: [
     {
       label: "General Inquiries & Partnerships",
