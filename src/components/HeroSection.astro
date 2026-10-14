@@ -9,7 +9,6 @@ interface Props {
 
 const {
   subheading = 'An independent software studio creating elegant mobile applications and intelligent digital experiences with a focus on craft and privacy.',
-  projectCount = 4,
 } = Astro.props;
 
 /* Static constellation fallback (no-JS / pre-hydration). Deterministic so the
@@ -87,7 +86,6 @@ for (let i = 0; i < staticNodes.length; i++) {
     <aside class="hero-showcase" aria-label="Application Ecosystem Overview">
       <div class="showcase-header">
         <span class="showcase-title">Studio Ecosystem</span>
-        <span class="showcase-tag">{projectCount} Projects Active</span>
       </div>
 
       <div class="showcase-grid">

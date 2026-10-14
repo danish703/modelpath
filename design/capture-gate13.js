@@ -92,6 +92,7 @@ try {
     });
   }
 
+  // Focused Verification tasks for Gate 13 Visual Corrections
   const tasks = [
     {
       name: 'gate13-homepage-desktop-1440px',
@@ -118,12 +119,6 @@ try {
       mobile: true
     },
     {
-      name: 'gate13-modelpath-ml-detail-desktop-1440px',
-      url: `http://localhost:${httpPort}/apps/modelpath-ml/`,
-      width: 1440,
-      mobile: false
-    },
-    {
       name: 'gate13-signmint-detail-desktop-1440px',
       url: `http://localhost:${httpPort}/apps/signmint/`,
       width: 1440,
@@ -136,21 +131,37 @@ try {
       mobile: true
     },
     {
-      name: 'gate13-signmint-privacy-desktop-1440px',
-      url: `http://localhost:${httpPort}/apps/signmint/privacy/`,
+      name: 'gate13-signmint-detail-mobile-320px',
+      url: `http://localhost:${httpPort}/apps/signmint/`,
+      width: 320,
+      mobile: true
+    },
+    {
+      name: 'gate13-modelpath-ml-detail-desktop-1440px',
+      url: `http://localhost:${httpPort}/apps/modelpath-ml/`,
       width: 1440,
       mobile: false
     },
     {
-      name: 'gate13-contact-desktop-1440px',
-      url: `http://localhost:${httpPort}/contact/`,
-      width: 1440,
-      mobile: false
+      name: 'gate13-modelpath-ml-detail-mobile-390px',
+      url: `http://localhost:${httpPort}/apps/modelpath-ml/`,
+      width: 390,
+      mobile: true
+    },
+    {
+      name: 'gate13-modelpath-ml-detail-mobile-320px',
+      url: `http://localhost:${httpPort}/apps/modelpath-ml/`,
+      width: 320,
+      mobile: true
     }
   ];
 
+  const overallResults = [];
+
   for (const task of tasks) {
-    console.log(`\n=== Capturing: ${task.name} ===`);
+    console.log(`\n======================================================`);
+    console.log(`Capturing: ${task.name} (${task.width}px, mobile=${task.mobile})`);
+    console.log(`======================================================`);
     const newTarget = await send('Target.createTarget', { url: task.url });
     const targetId = newTarget.result.targetId;
 
@@ -168,9 +179,9 @@ try {
     await sendSession('Page.enable');
     await sendSession('DOM.enable');
 
-    await new Promise(r => setTimeout(r, 800));
+    await new Promise(r => setTimeout(r, 600));
 
-    // Set viewport
+    // Set initial viewport
     await sendSession('Emulation.setDeviceMetricsOverride', {
       width: task.width,
       height: 900,
@@ -179,6 +190,35 @@ try {
     });
     await new Promise(r => setTimeout(r, 400));
 
+    // Await all image decode operations so actual rendered bitmaps exist
+    await sendSession('Runtime.evaluate', {
+      expression: `(async () => {
+        const images = Array.from(document.querySelectorAll('img'));
+        await Promise.all(images.map(img => {
+          img.loading = 'eager';
+          if (img.complete && img.naturalWidth > 0) {
+            return img.decode ? img.decode().catch(() => {}) : Promise.resolve();
+          }
+          return new Promise(res => {
+            const timeout = setTimeout(res, 2500);
+            img.onload = () => {
+              clearTimeout(timeout);
+              if (img.decode) {
+                img.decode().catch(() => {}).then(res);
+              } else {
+                res();
+              }
+            };
+            img.onerror = () => {
+              clearTimeout(timeout);
+              res();
+            };
+          });
+        }));
+      })()`,
+      awaitPromise: true
+    });
+
     // Run programmatic QA checks
     const qaRes = await sendSession('Runtime.evaluate', {
       expression: `(() => {
@@ -186,54 +226,88 @@ try {
         const winWidth = window.innerWidth;
         const pageOverflow = docWidth > winWidth;
         
-        // Font families check
-        const h1 = document.querySelector('h1');
-        const h1Font = h1 ? window.getComputedStyle(h1).fontFamily : null;
-        const bodyFont = window.getComputedStyle(document.body).fontFamily;
+        // Check all images
+        const images = Array.from(document.querySelectorAll('img')).map(img => ({
+          src: img.src,
+          alt: img.alt,
+          complete: img.complete,
+          naturalWidth: img.naturalWidth,
+          naturalHeight: img.naturalHeight
+        }));
 
-        // App order check (if app cards exist)
-        const appCards = Array.from(document.querySelectorAll('.app-card .app-name a'));
-        const appOrder = appCards.map(a => a.innerText.trim());
+        const brokenImages = images.filter(img => !img.complete || img.naturalWidth === 0);
 
-        // Store buttons check
-        const activeStoreLinks = Array.from(document.querySelectorAll('.store-badge-btn.active, .store-btn-active'))
-          .map(a => ({ text: a.innerText.replace(/\\s+/g, ' ').trim(), href: a.getAttribute('href') }));
+        // Check screenshot carousel images specifically
+        const carouselImages = Array.from(document.querySelectorAll('.shot-frame img')).map(img => ({
+          src: img.src,
+          naturalWidth: img.naturalWidth,
+          naturalHeight: img.naturalHeight,
+          complete: img.complete
+        }));
 
-        // Check for removed labels
+        // Check for removed / prohibited clutter
         const bodyText = document.body.innerText;
-        const hasAppAdsNav = Array.from(document.querySelectorAll('nav a')).some(a => a.href.includes('app-ads.txt'));
-        const hasStaticWorkers = bodyText.includes('Static Delivery') && bodyText.includes('Cloudflare Workers');
-        const hasActiveVerifiedBadge = Array.from(document.querySelectorAll('.channel-tag, .badge, .status-badge')).some(el => el.innerText.includes('Active Verified'));
+        const hasBlueprint = bodyText.includes('signmint-blueprint.v1') || bodyText.includes('blueprint.v1');
+        const hasOfflineSpec = bodyText.includes('OFFLINE SPEC');
+        const has4ProjectsActive = bodyText.includes('4 Projects Active');
+        const hasProductionReleaseStatus = bodyText.includes('Status: Production Release');
+        
+        // Check conceptual tags on published apps
+        const genuineCovers = Array.from(document.querySelectorAll('.app-cover.slug-signmint, .app-cover.slug-modelpath-ml, .hero-product-showcase'));
+        const conceptualTextInGenuine = genuineCovers.some(el => el.innerText.includes('Conceptual Preview'));
+
+        // Check headings
+        const h2s = Array.from(document.querySelectorAll('h2')).map(h => h.innerText.trim());
+
+        // Check store links
+        const playStoreLinks = Array.from(document.querySelectorAll('a[href*="play.google.com"]')).map(a => a.href);
 
         return {
           winWidth,
           docWidth,
           pageOverflow,
-          h1Font,
-          bodyFont,
-          appOrder,
-          activeStoreLinksCount: activeStoreLinks.length,
-          activeStoreLinks,
-          hasAppAdsNav,
-          hasStaticWorkers,
-          hasActiveVerifiedBadge
+          totalImagesCount: images.length,
+          brokenImagesCount: brokenImages.length,
+          brokenImages,
+          carouselImagesCount: carouselImages.length,
+          carouselImages,
+          hasBlueprint,
+          hasOfflineSpec,
+          has4ProjectsActive,
+          hasProductionReleaseStatus,
+          conceptualTextInGenuine,
+          h2s,
+          playStoreLinks
         };
       })()`,
       returnByValue: true
     });
 
-    console.log(`QA Checks for ${task.name}:`, JSON.stringify(qaRes.result.result.value, null, 2));
+    const qa = qaRes.result.result.value;
+    console.log(`QA Result for ${task.name}:`);
+    console.log(`- Page width: ${qa.winWidth}px, docWidth: ${qa.docWidth}px, overflow: ${qa.pageOverflow}`);
+    console.log(`- Total images: ${qa.totalImagesCount}, Broken images: ${qa.brokenImagesCount}`);
+    if (qa.carouselImagesCount > 0) {
+      console.log(`- Carousel screenshots: ${qa.carouselImagesCount} (all naturalWidth > 0: ${qa.carouselImages.every(img => img.naturalWidth > 0)})`);
+    }
+    console.log(`- Clutter checks: blueprint=${qa.hasBlueprint}, offlineSpec=${qa.hasOfflineSpec}, 4ProjectsActive=${qa.has4ProjectsActive}, productionRelease=${qa.hasProductionReleaseStatus}`);
+    console.log(`- Conceptual labels on genuine covers: ${qa.conceptualTextInGenuine}`);
+    console.log(`- Play Store Links (${qa.playStoreLinks.length}):`, qa.playStoreLinks);
+    console.log(`- H2s:`, qa.h2s);
 
+    overallResults.push({ task: task.name, qa });
+
+    // Calculate full scroll height for screenshot
     const heightRes = await sendSession('Runtime.evaluate', {
       expression: 'Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)',
       returnByValue: true
     });
     const fullHeight = heightRes.result.result.value || 900;
-    console.log(`${task.name} full height: ${fullHeight}px`);
+    const captureHeight = Math.min(fullHeight, 3600);
 
     await sendSession('Emulation.setDeviceMetricsOverride', {
       width: task.width,
-      height: Math.min(fullHeight, 3500),
+      height: captureHeight,
       deviceScaleFactor: 1,
       mobile: task.mobile
     });
@@ -245,7 +319,7 @@ try {
         x: 0,
         y: 0,
         width: task.width,
-        height: Math.min(fullHeight, 3500),
+        height: captureHeight,
         scale: 1
       }
     });
@@ -256,13 +330,40 @@ try {
 
     fs.writeFileSync(localPath, buffer);
     fs.writeFileSync(artifactPath, buffer);
-    console.log(`Saved screenshot: ${task.name}.png (${buffer.length} bytes) to gate-13 and artifactDir`);
+    console.log(`Saved screenshot: ${task.name}.png (${buffer.length} bytes)`);
 
     // Clean up target
     await send('Target.closeTarget', { targetId });
   }
 
-  console.log('\n=== ALL GATE 13 SCREENSHOTS CAPTURED AND VERIFIED SUCCESSFULLY ===');
+  console.log('\n======================================================');
+  console.log('SUMMARY OF ALL VERIFICATIONS');
+  console.log('======================================================');
+  let allClean = true;
+  for (const res of overallResults) {
+    const q = res.qa;
+    const issues = [];
+    if (q.pageOverflow) issues.push('Horizontal overflow detected');
+    if (q.brokenImagesCount > 0) issues.push(`${q.brokenImagesCount} broken images`);
+    if (q.hasBlueprint) issues.push('Found blueprint markup');
+    if (q.hasOfflineSpec) issues.push('Found OFFLINE SPEC');
+    if (q.has4ProjectsActive) issues.push('Found 4 Projects Active');
+    if (q.conceptualTextInGenuine) issues.push('Conceptual Preview text on genuine assets');
+    
+    if (issues.length > 0) {
+      allClean = false;
+      console.log(`❌ ${res.task}: ${issues.join(', ')}`);
+    } else {
+      console.log(`✅ ${res.task}: PASS (0 overflow, 0 broken images, 0 clutter)`);
+    }
+  }
+
+  if (allClean) {
+    console.log('\n>>> ALL REVISED PAGES PASSED ALL VERIFICATION CHECKS! <<<');
+  } else {
+    console.warn('\n>>> SOME ISSUES WERE FLAGGED DURING VERIFICATION <<<');
+  }
+
 } catch (err) {
   console.error("Capture failure:", err);
 } finally {

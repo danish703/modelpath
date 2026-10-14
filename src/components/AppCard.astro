@@ -44,7 +44,7 @@ const isIosPlanned = app.plannedPlatforms?.includes('ios') ?? false;
   <div class="card-body">
     <div class="card-meta-row">
       <span class="app-category">{app.category}</span>
-      <StatusBadge status={app.status} size="sm" theme="light" />
+      {app.status !== 'published' && <StatusBadge status={app.status} size="sm" theme="light" />}
     </div>
 
     <h3 class="app-name">
