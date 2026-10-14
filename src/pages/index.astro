@@ -10,131 +10,183 @@ const rawApps = await getCollection('apps');
 const apps = rawApps
   .map((entry) => toCardModel(entry.data))
   .sort((a, b) => a.order - b.order);
+
+const projectCount = apps.length;
 ---
 
 <BaseLayout
   title="ModelPath Studio — Thoughtful Software. Beautifully Built."
   description="ModelPath Studio is an independent software studio creating elegant mobile applications and intelligent digital experiences with a focus on craft and on-device privacy."
 >
-  <!-- Hero Section -->
-  <HeroSection />
+  <!-- Hero Section (Dark Midnight Aurora) -->
+  <HeroSection projectCount={projectCount} />
 
-  <!-- Our Applications Section -->
-  <section class="section-container" aria-labelledby="apps-heading" data-reveal>
-    <SectionHeading
-      label="Software Portfolio"
-      title="Our Applications"
-      description="Focused software designed for utility, performance, and everyday privacy."
-    />
+  <!-- Our Applications Section (Editorial Off-White Canvas) -->
+  <section class="editorial-showcase-section" aria-labelledby="apps-heading">
+    <div class="container" data-reveal>
+      <SectionHeading
+        label="Software Portfolio"
+        title="Our Applications"
+        description="Focused software designed for utility, performance, and everyday privacy."
+        theme="light"
+      />
 
-    <AppGrid apps={apps} />
+      <AppGrid apps={apps} />
+    </div>
   </section>
 
-  <!-- Studio Philosophy Section -->
-  <section class="section-container" aria-labelledby="philosophy-heading" data-reveal>
-    <SectionHeading
-      label="Principles & Craft"
-      title="Studio Philosophy"
-      description="Our foundational approach to digital craftsmanship and software engineering."
-    />
+  <!-- Studio Philosophy Section (Structured Light Well) -->
+  <section class="philosophy-section" id="philosophy" aria-labelledby="philosophy-heading">
+    <div class="container" data-reveal>
+      <SectionHeading
+        label="Principles &amp; Craft"
+        title="Studio Philosophy"
+        description="Our foundational approach to digital craftsmanship, independent software engineering, and user ergonomics."
+        theme="light"
+      />
 
-    <div class="philosophy-well">
-      <div class="philosophy-card">
-        <h3 class="philosophy-title">Thoughtful Engineering</h3>
-        <p class="philosophy-desc">
-          Lightweight static architectures, clean codebases, and instantaneous loading.
-        </p>
-      </div>
+      <div class="philosophy-grid">
+        <div class="philo-card">
+          <div class="philo-number">01 / ENG</div>
+          <h3 class="philo-title">Thoughtful Engineering</h3>
+          <p class="philo-text">
+            Lightweight static architectures, clean codebases, zero unnecessary background dependencies, and instantaneous loading.
+          </p>
+        </div>
 
-      <div class="philosophy-card">
-        <h3 class="philosophy-title">Useful Experiences</h3>
-        <p class="philosophy-desc">
-          Purpose-built digital utilities created to simplify concrete user workflows.
-        </p>
-      </div>
+        <div class="philo-card">
+          <div class="philo-number">02 / EXP</div>
+          <h3 class="philo-title">Useful Experiences</h3>
+          <p class="philo-text">
+            Purpose-built digital utilities created to simplify concrete user workflows without artificial engagement metrics.
+          </p>
+        </div>
 
-      <div class="philosophy-card">
-        <h3 class="philosophy-title">Tactile Interfaces</h3>
-        <p class="philosophy-desc">
-          Subtle 3D depth, comfortable touch targets, and high-contrast readability.
-        </p>
-      </div>
+        <div class="philo-card">
+          <div class="philo-number">03 / UI</div>
+          <h3 class="philo-title">Tactile Interfaces</h3>
+          <p class="philo-text">
+            Carefully calibrated contrast, comfortable touch targets, tactile elevation, and intentional typography.
+          </p>
+        </div>
 
-      <div class="philosophy-card">
-        <h3 class="philosophy-title">Continuous Polish</h3>
-        <p class="philosophy-desc">
-          Relentless iteration, user ergonomics, and responsible local privacy.
-        </p>
+        <div class="philo-card">
+          <div class="philo-number">04 / ETH</div>
+          <h3 class="philo-title">Continuous Polish</h3>
+          <p class="philo-text">
+            Relentless refinement, rigorous accessibility compliance, and persistent craft standards.
+          </p>
+        </div>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .section-container {
+  .editorial-showcase-section {
     width: 100%;
-    max-width: 1120px;
-    margin: 0 auto 72px;
+    background-color: var(--c-offwhite);
+    color: var(--c-text-dark);
+    padding: 80px 0;
   }
 
-  .philosophy-well {
-    background: var(--bg-inset);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-inset-well);
-    padding: 36px 32px;
+  .philosophy-section {
+    width: 100%;
+    background-color: #F1F5F9;
+    color: var(--c-text-dark);
+    padding: 80px 0;
+    border-top: 1px solid var(--c-border-light);
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .philosophy-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
   }
 
-  .philosophy-card {
+  .philo-card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid rgba(203, 213, 225, 0.7);
+    padding: 28px 24px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   }
 
-  .philosophy-title {
-    font-size: 1.1rem;
+  .philo-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  }
+
+  .philo-number {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
     font-weight: 700;
-    color: var(--text-heading);
-    letter-spacing: -0.01em;
+    color: var(--c-cobalt);
+    letter-spacing: 0.08em;
+  }
+
+  .philo-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--c-text-dark);
     margin: 0;
   }
 
-  .philosophy-desc {
+  .philo-text {
     font-size: 0.9rem;
-    color: var(--text-body);
+    color: var(--c-text-dark-muted);
     line-height: 1.55;
     margin: 0;
   }
 
   @media (max-width: 960px) {
-    .philosophy-well {
+    .editorial-showcase-section,
+    .philosophy-section {
+      padding: 60px 0;
+    }
+    .philosophy-grid {
       grid-template-columns: repeat(2, 1fr);
-      padding: 28px 24px;
       gap: 20px;
     }
   }
 
   @media (max-width: 600px) {
-    .section-container {
-      margin-bottom: 44px;
+    .editorial-showcase-section,
+    .philosophy-section {
+      padding: 48px 0;
     }
-
-    .philosophy-well {
+    .container {
+      padding: 0 20px;
+    }
+    .philosophy-grid {
       grid-template-columns: 1fr;
-      padding: 20px 16px;
       gap: 16px;
-      border-radius: var(--radius-md);
     }
-
-    .philosophy-title {
+    .philo-card {
+      padding: 24px 20px;
+      gap: 10px;
+    }
+    .philo-number {
+      font-size: 0.78rem;
+    }
+    .philo-title {
+      font-size: 1.2rem;
+    }
+    .philo-text {
       font-size: 1rem;
-    }
-
-    .philosophy-desc {
-      font-size: 0.85rem;
+      line-height: 1.6;
     }
   }
 </style>

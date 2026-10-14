@@ -38,8 +38,9 @@ interface Config {
   lineAlpha: number;
 }
 
-const BLUE = '69, 103, 232';
-const SLATE = '100, 116, 139';
+const COBALT = '79, 107, 255';
+const VIOLET = '139, 92, 246';
+const CYAN = '115, 221, 230';
 
 function getConfig(width: number): Config {
   const mobile = width < 640;
@@ -193,10 +194,10 @@ export function initConstellation(root: HTMLElement): () => void {
         const falloff = 1 - Math.sqrt(d2) / maxD;
         const glow = reducedMotion ? 0 : pulseIntensity(i, j, now);
         if (glow > 0.01) {
-          ctx!.strokeStyle = `rgba(${BLUE}, ${(falloff * cfg.lineAlpha + glow * 0.28).toFixed(3)})`;
-          ctx!.lineWidth = 0.75 + glow * 0.55;
+          ctx!.strokeStyle = `rgba(${COBALT}, ${(falloff * cfg.lineAlpha + glow * 0.35).toFixed(3)})`;
+          ctx!.lineWidth = 0.8 + glow * 0.6;
         } else {
-          ctx!.strokeStyle = `rgba(${SLATE}, ${(falloff * cfg.lineAlpha).toFixed(3)})`;
+          ctx!.strokeStyle = `rgba(${COBALT}, ${(falloff * cfg.lineAlpha * 0.75).toFixed(3)})`;
           ctx!.lineWidth = 0.75;
         }
         ctx!.beginPath();
@@ -208,7 +209,8 @@ export function initConstellation(root: HTMLElement): () => void {
 
     // Nodes
     for (const p of particles) {
-      ctx!.fillStyle = `rgba(${p.tone === 1 ? BLUE : SLATE}, ${p.alpha.toFixed(3)})`;
+      const col = p.tone === 1 ? CYAN : VIOLET;
+      ctx!.fillStyle = `rgba(${col}, ${p.alpha.toFixed(3)})`;
       ctx!.beginPath();
       ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx!.fill();

@@ -8,87 +8,102 @@ const rawApps = await getCollection('apps');
 const apps = rawApps
   .map((entry) => toCardModel(entry.data))
   .sort((a, b) => a.order - b.order);
+
+// Category counts
+const countAll = apps.length;
+const countProd = apps.filter((a) => a.category.toLowerCase() === 'productivity').length;
+const countReading = apps.filter((a) => a.category.toLowerCase() === 'reading').length;
+const countEdu = apps.filter((a) => a.category.toLowerCase() === 'education').length;
+const countMl = apps.filter((a) => a.category.toLowerCase() === 'machine learning').length;
 ---
 
 <BaseLayout
   title="Applications Directory"
   description="Explore software developed by ModelPath Studio. Each product is engineered with a strict focus on utility, performance, and respectful on-device privacy."
 >
-  <div class="directory-container">
-    <!-- Directory Header -->
-    <header class="directory-header" data-reveal>
-      <div class="breadcrumb">ModelPath Studio / Directory</div>
-      <h1 class="directory-title">Our Applications</h1>
-      <p class="directory-desc">
-        Explore software developed by ModelPath Studio. Each product is engineered with a strict focus on utility, performance, and respectful on-device privacy.
-      </p>
+  <div class="directory-page">
+    <!-- Atmospheric Dark Hero Banner -->
+    <header class="directory-hero">
+      <div class="container" data-reveal>
+        <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+          <a href="/">Home</a> &gt;
+          <span class="current">Applications</span>
+        </nav>
 
-      <!-- Category Filter Pills -->
-      <nav class="filter-nav" aria-label="Category Filters">
-        <ul class="filter-tabs">
-          <li>
-            <button
-              type="button"
-              class="filter-pill active"
-              data-category-filter="all"
-              aria-pressed="true"
-            >
-              <span>All</span>
-              <span class="filter-count">4</span>
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              class="filter-pill"
-              data-category-filter="productivity"
-              aria-pressed="false"
-            >
-              <span>Productivity</span>
-              <span class="filter-count">1</span>
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              class="filter-pill"
-              data-category-filter="reading"
-              aria-pressed="false"
-            >
-              <span>Reading</span>
-              <span class="filter-count">1</span>
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              class="filter-pill"
-              data-category-filter="education"
-              aria-pressed="false"
-            >
-              <span>Education</span>
-              <span class="filter-count">1</span>
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              class="filter-pill"
-              data-category-filter="machine learning"
-              aria-pressed="false"
-            >
-              <span>Machine Learning</span>
-              <span class="filter-count">1</span>
-            </button>
-          </li>
-        </ul>
-        <div id="filter-status" class="sr-only" aria-live="polite">Showing all 4 applications.</div>
-      </nav>
+        <h1 class="directory-title">Our Applications</h1>
+        <p class="directory-desc">
+          Explore software developed by ModelPath Studio. Each product is engineered with a strict focus on utility, performance, and respectful on-device privacy.
+        </p>
+
+        <!-- Category Filter Pills -->
+        <nav class="filter-nav" aria-label="Category Filters">
+          <ul class="filter-tabs">
+            <li>
+              <button
+                type="button"
+                class="filter-pill active"
+                data-category-filter="all"
+                aria-pressed="true"
+              >
+                <span>All Applications</span>
+                <span class="filter-count">{countAll}</span>
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                class="filter-pill"
+                data-category-filter="productivity"
+                aria-pressed="false"
+              >
+                <span>Productivity</span>
+                <span class="filter-count">{countProd}</span>
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                class="filter-pill"
+                data-category-filter="reading"
+                aria-pressed="false"
+              >
+                <span>Reading</span>
+                <span class="filter-count">{countReading}</span>
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                class="filter-pill"
+                data-category-filter="education"
+                aria-pressed="false"
+              >
+                <span>Education</span>
+                <span class="filter-count">{countEdu}</span>
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                class="filter-pill"
+                data-category-filter="machine learning"
+                aria-pressed="false"
+              >
+                <span>Machine Learning</span>
+                <span class="filter-count">{countMl}</span>
+              </button>
+            </li>
+          </ul>
+          <div id="filter-status" class="sr-only" aria-live="polite">Showing all {countAll} applications.</div>
+        </nav>
+      </div>
     </header>
 
-    <!-- Applications Grid -->
-    <section class="apps-section" aria-label="Applications List">
-      <AppGrid apps={apps} />
+    <!-- Light Editorial Applications Grid -->
+    <section class="directory-grid-section" aria-label="Applications List">
+      <div class="container">
+        <AppGrid apps={apps} />
+      </div>
     </section>
   </div>
 </BaseLayout>
@@ -103,27 +118,29 @@ const apps = rawApps
 
     filterButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const selectedCategory = btn.getAttribute('data-category-filter') || 'all';
+        const selected = btn.dataset.categoryFilter?.toLowerCase() || 'all';
 
-        // Update button states
+        // Update active states
         filterButtons.forEach((b) => {
-          const isActive = b === btn;
-          b.classList.toggle('active', isActive);
-          b.setAttribute('aria-pressed', String(isActive));
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
         });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
 
-        // Filter cards
         let visibleCount = 0;
         appCards.forEach((card) => {
-          const cardCategory = (card.getAttribute('data-category') || '').toLowerCase();
-          const shouldShow = selectedCategory === 'all' || cardCategory === selectedCategory;
-
-          card.hidden = !shouldShow;
-          if (shouldShow) visibleCount++;
+          const cardCat = card.dataset.category?.toLowerCase() || '';
+          if (selected === 'all' || cardCat === selected) {
+            card.removeAttribute('hidden');
+            visibleCount++;
+          } else {
+            card.setAttribute('hidden', '');
+          }
         });
 
         if (statusRegion) {
-          statusRegion.textContent = `Showing ${visibleCount} application${visibleCount === 1 ? '' : 's'} for ${btn.querySelector('span')?.textContent || selectedCategory}.`;
+          statusRegion.textContent = `Showing ${visibleCount} application${visibleCount === 1 ? '' : 's'}.`;
         }
       });
     });
@@ -134,123 +151,156 @@ const apps = rawApps
 </script>
 
 <style>
-  .directory-container {
+  .directory-page {
     width: 100%;
-    max-width: 1120px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 0 32px;
   }
 
-  .directory-header {
-    margin-bottom: 40px;
+  /* Atmospheric Dark Hero Banner */
+  .directory-hero {
+    width: 100%;
+    background: radial-gradient(circle at 50% 25%, rgba(79, 107, 255, 0.16) 0%, rgba(139, 92, 246, 0.08) 50%, transparent 75%), var(--c-midnight);
+    border-bottom: 1px solid rgba(79, 107, 255, 0.18);
+    padding-top: 140px;
+    padding-bottom: 56px;
   }
 
-  .breadcrumb {
-    font-size: 0.8125rem;
+  .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.84rem;
+    color: var(--c-text-light-muted);
+    margin-bottom: 20px;
+  }
+
+  .breadcrumb-nav a {
+    color: var(--c-text-light-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .breadcrumb-nav a:hover {
+    color: #FFFFFF;
+  }
+
+  .breadcrumb-nav .current {
+    color: var(--c-cyan);
     font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 12px;
   }
 
   .directory-title {
-    font-size: clamp(2.25rem, 5vw, 3rem);
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
     font-weight: 800;
-    letter-spacing: -0.025em;
-    color: var(--text-heading);
+    color: #FFFFFF;
+    letter-spacing: -0.03em;
     line-height: 1.15;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
 
   .directory-desc {
-    font-size: clamp(1rem, 2vw, 1.15rem);
-    color: var(--text-body);
-    max-width: 720px;
+    font-size: 1.1rem;
+    color: var(--c-text-light-muted);
     line-height: 1.6;
-    margin-bottom: 28px;
+    max-width: 680px;
+    margin-bottom: 32px;
+  }
+
+  /* Filter Navigation */
+  .filter-nav {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 4px;
   }
 
   .filter-tabs {
     display: flex;
+    align-items: center;
     gap: 10px;
     flex-wrap: wrap;
     margin: 0;
     padding: 0;
+    list-style: none;
   }
 
   .filter-pill {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-body);
-    background: var(--bg-surface);
-    padding: 8px 16px;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-btn-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.85);
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    padding: 8px 18px;
+    border-radius: var(--radius-pill);
+    background: rgba(23, 36, 65, 0.85);
+    color: var(--c-text-light-muted);
+    border: 1px solid rgba(79, 107, 255, 0.25);
+    font-size: 0.88rem;
+    font-weight: 600;
     cursor: pointer;
     transition: all var(--transition-fast);
+    white-space: nowrap;
   }
 
   .filter-pill:hover {
-    color: var(--text-heading);
-    transform: translateY(-1px);
+    color: #FFFFFF;
+    border-color: var(--c-cobalt);
+    background: rgba(30, 48, 86, 0.95);
   }
 
   .filter-pill.active {
-    color: var(--accent-blue);
-    box-shadow: var(--shadow-inset-box);
-    background: var(--bg-inset);
+    background: var(--c-cobalt);
+    color: #FFFFFF;
+    border-color: var(--c-cobalt);
+    box-shadow: 0 4px 14px rgba(79, 107, 255, 0.35);
   }
 
   .filter-count {
-    font-size: 0.725rem;
-    padding: 2px 7px;
-    border-radius: 10px;
-    background: var(--bg-inset);
-    color: var(--text-muted);
-    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: var(--radius-pill);
+    background: rgba(11, 18, 37, 0.4);
+    font-size: 0.74rem;
+    font-weight: 700;
   }
 
   .filter-pill.active .filter-count {
-    background: var(--accent-blue);
+    background: rgba(255, 255, 255, 0.25);
     color: #FFFFFF;
   }
 
-  .apps-section {
-    margin-bottom: 64px;
+  /* Editorial Grid Section */
+  .directory-grid-section {
+    width: 100%;
+    background-color: var(--c-offwhite);
+    padding: 80px 0;
+    min-height: 480px;
+  }
+
+  @media (max-width: 860px) {
+    .directory-hero {
+      padding-top: 110px;
+      padding-bottom: 44px;
+    }
+    .directory-grid-section {
+      padding: 50px 0;
+    }
   }
 
   @media (max-width: 600px) {
-    .directory-header {
-      margin-bottom: 28px;
+    .container {
+      padding: 0 20px;
     }
-
-    .breadcrumb {
-      font-size: 0.75rem;
-      margin-bottom: 8px;
-    }
-
-    .directory-desc {
-      font-size: 0.925rem;
-      margin-bottom: 20px;
-    }
-
-    .filter-pill {
-      font-size: 0.775rem;
-      padding: 6px 12px;
-      gap: 6px;
-    }
-
-    .filter-count {
-      font-size: 0.6875rem;
-      padding: 1px 6px;
-    }
-
-    .apps-section {
-      margin-bottom: 40px;
+    .filter-tabs {
+      flex-wrap: nowrap;
     }
   }
 </style>

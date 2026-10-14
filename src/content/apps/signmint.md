@@ -18,11 +18,11 @@ features:
   - title: "PDF Signing"
     description: "Create and position digital signatures directly onto PDF documents with intuitive touch and pen controls."
     icon: "pen"
-    status: "verification-pending"
+    status: "planned"
   - title: "Signature Placement"
     description: "Accurately position, resize, and manage signatures across document pages."
     icon: "document"
-    status: "verification-pending"
+    status: "planned"
   - title: "Document Annotation"
     description: "Review and mark up documents with straightforward visual annotations and text notes."
     icon: "document"
@@ -30,7 +30,7 @@ features:
   - title: "Privacy-Conscious Utility"
     description: "Designed to respect document privacy by keeping standard signing workflows transparent and user-directed."
     icon: "privacy"
-    status: "verification-pending"
+    category: "Design Principle"
 playStoreUrl: null
 appStoreUrl: null
 privacyPolicyStatus: "pending-review"

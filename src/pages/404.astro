@@ -3,15 +3,136 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Page Not Found" description="The requested page could not be found." noindex={true}>
-  <section style="text-align: center; padding: 4rem 1rem;">
-    <span style="font-size: 3.5rem; font-weight: 800; color: var(--color-accent); display: block; margin-bottom: 0.5rem;">404</span>
-    <h1 style="font-size: 2rem; margin-bottom: 1rem;">Page Not Found</h1>
-    <p style="color: var(--color-text-secondary); max-width: 480px; margin: 0 auto 2rem;">
-      The page you requested does not exist or may have been moved. Return to the homepage or explore our application directory.
-    </p>
-    <div style="display: flex; gap: 1rem; justify-content: center;">
-      <a href="/" style="padding: 0.75rem 1.5rem; background: var(--color-accent); color: #fff; border-radius: var(--radius-sm); font-weight: 600;">Back to Home</a>
-      <a href="/apps/" style="padding: 0.75rem 1.5rem; background: var(--color-bg-inset); border-radius: var(--radius-sm); font-weight: 600;">Browse Apps</a>
+  <div class="not-found-page">
+    <div class="container">
+      <div class="not-found-badge">
+        <span class="badge-dot" aria-hidden="true"></span>
+        <span>Error 404</span>
+      </div>
+      <div class="error-number">404</div>
+      <h1 class="error-title">Page Not Found</h1>
+      <p class="error-description">
+        The page you requested does not exist or may have been relocated within the ModelPath Studio architecture. Return to the homepage or explore our application directory.
+      </p>
+      <div class="error-actions">
+        <a href="/" class="btn-primary">Return to Homepage</a>
+        <a href="/apps/" class="btn-secondary">Browse Applications</a>
+      </div>
     </div>
-  </section>
+  </div>
 </BaseLayout>
+
+<style>
+  .not-found-page {
+    width: 100%;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    background: radial-gradient(circle at 50% 30%, rgba(79, 107, 255, 0.18) 0%, rgba(139, 92, 246, 0.08) 50%, transparent 75%), var(--c-midnight, #0B1225);
+    text-align: center;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .not-found-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: rgba(23, 36, 65, 0.85);
+    border: 1px solid rgba(79, 107, 255, 0.25);
+    border-radius: var(--radius-pill, 9999px);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--c-cyan, #73DDE6);
+    margin-bottom: 24px;
+  }
+
+  .badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--c-cyan, #73DDE6);
+  }
+
+  .error-number {
+    font-family: var(--font-display, inherit);
+    font-size: clamp(5rem, 12vw, 8rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, var(--c-cobalt, #4F6BFF), var(--c-cyan, #73DDE6));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+
+  .error-title {
+    font-family: var(--font-display, inherit);
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: -0.025em;
+    margin: 0 0 16px 0;
+  }
+
+  .error-description {
+    font-size: 1.05rem;
+    color: var(--c-text-light-muted, #94A3B8);
+    line-height: 1.6;
+    margin: 0 0 32px 0;
+  }
+
+  .error-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: var(--radius-pill, 9999px);
+    background: var(--c-cobalt, #4F6BFF);
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(79, 107, 255, 0.4);
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+
+  .btn-primary:hover {
+    background: var(--c-cobalt-hover, #3D58E6);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: var(--radius-pill, 9999px);
+    background: rgba(23, 36, 65, 0.85);
+    color: #FFFFFF;
+    border: 1px solid rgba(79, 107, 255, 0.28);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(79, 107, 255, 0.18);
+    transform: translateY(-1px);
+  }
+</style>

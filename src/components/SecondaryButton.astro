@@ -26,35 +26,35 @@ const { href, type = 'button', class: className = '', ariaLabel, disabled = fals
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background: var(--bg-raised);
-    color: var(--text-heading);
+    background: rgba(23, 36, 65, 0.85);
+    color: var(--c-text-light);
     font-weight: 600;
     font-size: 0.95rem;
     padding: 12px 24px;
     border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-btn-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(79, 107, 255, 0.3);
     text-decoration: none;
-    transition: transform var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+    transition: all var(--transition-fast);
     cursor: pointer;
     text-align: center;
     white-space: nowrap;
   }
 
   .btn-secondary:hover:not(:disabled) {
-    color: var(--accent-blue);
-    transform: translateY(-1px);
-    box-shadow: -5px -5px 14px #FFFFFF, 5px 6px 16px rgba(169, 180, 196, 0.32);
+    background: rgba(30, 48, 86, 0.95);
+    border-color: var(--c-cobalt);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -4px rgba(79, 107, 255, 0.25);
   }
 
   .btn-secondary:active:not(:disabled) {
     transform: translateY(0);
-    box-shadow: var(--shadow-inset-box);
   }
 
   .btn-secondary:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
-    box-shadow: none;
+    border-color: rgba(255, 255, 255, 0.1);
   }
 </style>

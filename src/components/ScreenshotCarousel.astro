@@ -169,6 +169,11 @@ const isPlaceholder = slides.every((s) => s.kind === 'placeholder');
   .carousel {
     position: relative;
     --gap: 24px;
+    background: #0E162B;
+    border: 1px solid rgba(79, 107, 255, 0.25);
+    border-radius: var(--radius-card, 20px);
+    padding: 28px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
   }
 
   .carousel-track {
@@ -184,9 +189,9 @@ const isPlaceholder = slides.every((s) => s.kind === 'placeholder');
     margin: -6px -4px 0;
     list-style: none;
     scrollbar-width: thin;
-    scrollbar-color: rgba(169, 180, 196, 0.6) transparent;
+    scrollbar-color: rgba(79, 107, 255, 0.4) transparent;
     -webkit-overflow-scrolling: touch;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-inner, 12px);
   }
 
   .carousel.is-enhanced .carousel-track {
@@ -203,7 +208,7 @@ const isPlaceholder = slides.every((s) => s.kind === 'placeholder');
   }
 
   .carousel.is-enhanced .carousel-slide:not(.is-active) {
-    opacity: 0.86;
+    opacity: 0.82;
   }
 
   .carousel.is-enhanced .carousel-slide.is-active {
@@ -218,11 +223,11 @@ const isPlaceholder = slides.every((s) => s.kind === 'placeholder');
   .shot-card {
     margin: 0;
     height: 100%;
-    background: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
+    background: #141E38;
+    border-radius: var(--radius-card, 16px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
     padding: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(79, 107, 255, 0.25);
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -230,9 +235,9 @@ const isPlaceholder = slides.every((s) => s.kind === 'placeholder');
 
   .shot-frame {
     aspect-ratio: 9 / 16;
-    border-radius: var(--radius-md);
-    background: var(--bg-inset);
-    box-shadow: var(--shadow-inset-well);
+    border-radius: var(--radius-inner, 12px);
+    background: #0B1225;
+    border: 1px solid rgba(79, 107, 255, 0.2);
     overflow: hidden;
   }
 
@@ -246,7 +251,7 @@ const isPlaceholder = slides.every((s) => s.kind === 'placeholder');
   .shot-caption {
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--text-heading);
+    color: #FFFFFF;
     text-align: center;
   }
 
@@ -254,9 +259,13 @@ const isPlaceholder = slides.every((s) => s.kind === 'placeholder');
   .carousel-controls {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 18px;
-    margin-top: 4px;
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: rgba(23, 36, 65, 0.85);
+    border: 1px solid rgba(79, 107, 255, 0.22);
+    border-radius: var(--radius-inner, 10px);
   }
 
   .carousel-controls[hidden] {
@@ -264,59 +273,64 @@ const isPlaceholder = slides.every((s) => s.kind === 'placeholder');
   }
 
   .carousel-btn {
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
-    background: var(--bg-raised);
-    color: var(--text-heading);
-    box-shadow: var(--shadow-btn-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    background: #172441;
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(79, 107, 255, 0.3);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
+    cursor: pointer;
+    transition: transform var(--transition-fast, 0.15s ease), border-color var(--transition-fast, 0.15s ease), background-color var(--transition-fast, 0.15s ease);
   }
 
   .carousel-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
 
   .carousel-btn:hover:not(:disabled) {
-    color: var(--accent-blue);
+    background: var(--c-cobalt, #4F6BFF);
+    border-color: var(--c-cobalt, #4F6BFF);
+    color: #FFFFFF;
     transform: translateY(-1px);
   }
 
   .carousel-btn:active:not(:disabled) {
     transform: scale(0.95);
-    box-shadow: var(--shadow-inset-box);
   }
 
   .carousel-btn:disabled {
-    opacity: 0.45;
+    opacity: 0.35;
     cursor: not-allowed;
-    box-shadow: var(--shadow-inset-box);
   }
 
   .carousel-dots {
     display: flex;
     gap: 8px;
+    align-items: center;
   }
 
   .carousel-dot {
     width: 8px;
     height: 8px;
-    border-radius: var(--radius-pill);
-    background: rgba(100, 116, 139, 0.3);
-    transition: width var(--transition-normal), background-color var(--transition-normal);
+    border-radius: var(--radius-pill, 9999px);
+    background: rgba(255, 255, 255, 0.25);
+    transition: width var(--transition-normal, 0.25s ease), background-color var(--transition-normal, 0.25s ease);
   }
 
   .carousel-dot.is-active {
     width: 22px;
-    background: var(--accent-blue);
+    background: var(--c-cyan, #73DDE6);
   }
 
   @media (max-width: 960px) {
+    .carousel {
+      padding: 20px;
+    }
     .carousel-track {
       grid-auto-columns: calc((100% - var(--gap)) / 1.7);
     }
@@ -325,16 +339,21 @@ const isPlaceholder = slides.every((s) => s.kind === 'placeholder');
   @media (max-width: 600px) {
     .carousel {
       --gap: 14px;
+      padding: 16px;
+      border-radius: 16px;
     }
 
     .carousel-track {
-      grid-auto-columns: 84%;
+      grid-auto-columns: 88%;
     }
 
     .shot-card {
       padding: 12px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-card-mobile);
+      border-radius: 12px;
+    }
+
+    .carousel-controls {
+      padding: 8px 12px;
     }
   }
 
