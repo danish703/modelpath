@@ -81,10 +81,10 @@ for (let i = 0; i < staticNodes.length; i++) {
 
       <!-- Factual Portfolio Metrics Bar -->
       <div class="hero-metrics-bar">
-        <span class="metric-pill">4 Applications &bull; Active Portfolio</span>
-        <span class="metric-pill">Independent Studio &bull; Self-Directed</span>
-        <span class="metric-pill">Static Delivery &bull; Cloudflare Assets</span>
-        <span class="metric-pill">Multi-Platform &bull; Android &amp; iOS Focus</span>
+        <span class="metric-pill">4 Active Applications</span>
+        <span class="metric-pill">Independent Studio</span>
+        <span class="metric-pill">Static Fast Delivery</span>
+        <span class="metric-pill">Android &amp; iOS Focus</span>
       </div>
     </div>
 
@@ -413,15 +413,66 @@ for (let i = 0; i < staticNodes.length; i++) {
   }
 
   @media (max-width: 600px) {
+    .hero-wrapper {
+      padding-top: 100px;
+      padding-bottom: 52px;
+    }
     .hero-inner {
       padding: 0 20px;
     }
-    .showcase-grid {
-      grid-template-columns: 1fr;
+    .hero-badge {
+      font-size: 0.78rem;
+      padding: 6px 14px;
+      margin-bottom: 18px;
+    }
+    .hero-headline {
+      font-size: clamp(2rem, 7.5vw, 2.5rem);
+      margin-bottom: 16px;
+    }
+    .hero-subheading {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .hero-cta-group {
+      flex-direction: column;
+      width: 100%;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+    .hero-cta-group :global(a) {
+      width: 100%;
+      justify-content: center;
+      min-height: 48px;
     }
     .hero-metrics-bar {
-      flex-direction: column;
-      align-items: stretch;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      width: 100%;
+    }
+    .metric-pill {
+      text-align: center;
+      font-size: 0.78rem;
+      padding: 8px 10px;
+      white-space: normal;
+    }
+    .hero-showcase {
+      padding: 22px 18px;
+    }
+    .showcase-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .mini-tile {
+      padding: 12px 14px;
+      min-height: 56px;
+    }
+    .mini-tile-name {
+      font-size: 1rem;
+    }
+    .mini-tile-meta {
+      font-size: 0.8rem;
     }
   }
 </style>

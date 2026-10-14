@@ -753,12 +753,65 @@ const iosStaging = data.availablePlatforms?.includes('ios')
     }
 
     .product-hero {
-      padding-top: 36px;
-      padding-bottom: 44px;
+      padding-top: 40px;
+      padding-bottom: 48px;
+    }
+
+    .breadcrumbs {
+      font-size: 0.875rem;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .app-icon-capsule {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+    }
+
+    .category-chip {
+      font-size: 0.8rem;
     }
 
     .app-main-title {
-      font-size: 2.2rem;
+      font-size: 2.1rem;
+      margin-bottom: 12px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .hero-platform-staging {
+      gap: 8px 10px;
+      margin-bottom: 22px;
+    }
+
+    .platform-pill-staging {
+      font-size: 0.82rem;
+      padding: 6px 14px;
+      min-height: 36px;
+    }
+
+    .hero-anchor-pills {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+
+    .hero-anchor-pills .anchor-pill:last-child:nth-child(odd) {
+      grid-column: span 2;
+    }
+
+    .anchor-pill {
+      font-size: 0.875rem;
+      min-height: 44px;
+      padding: 10px 14px;
+      justify-content: center;
+      text-align: center;
     }
 
     .hero-illustration-frame {
@@ -766,20 +819,59 @@ const iosStaging = data.availablePlatforms?.includes('ios')
     }
 
     .editorial-canvas {
-      padding: 44px 0 60px;
+      padding: 48px 0 64px;
     }
 
     .detail-section {
-      margin-bottom: 44px;
+      margin-bottom: 52px;
+    }
+
+    .section-eyebrow {
+      font-size: 0.82rem;
     }
 
     .section-title {
-      font-size: 1.7rem;
+      font-size: 1.75rem;
     }
 
-    .narrative-card,
+    .section-subtitle {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .narrative-card {
+      padding: 24px 20px;
+    }
+
+    .prose-content {
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
     .resource-card {
-      padding: 24px 18px;
+      padding: 26px 20px;
+      gap: 20px;
+    }
+
+    .resource-tag {
+      font-size: 0.78rem;
+    }
+
+    .resource-title {
+      font-size: 1.25rem;
+    }
+
+    .resource-desc {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .resource-action-btn {
+      font-size: 0.95rem;
+      min-height: 44px;
+      padding: 12px 20px;
+      width: 100%;
+      justify-content: center;
     }
   }
 
