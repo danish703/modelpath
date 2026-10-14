@@ -318,8 +318,13 @@ const countMl = apps.filter((a) => a.category.toLowerCase() === 'machine learnin
     .directory-hero {
       overflow-x: hidden;
     }
+    .filter-nav {
+      -webkit-mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 32px), transparent 100%);
+      mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 32px), transparent 100%);
+    }
     .filter-tabs {
       gap: 8px;
+      padding-right: 28px;
     }
     .filter-pill {
       padding: 8px 14px;

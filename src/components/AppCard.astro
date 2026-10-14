@@ -261,4 +261,27 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
       flex-shrink: 0;
     }
   }
+
+  @media (max-width: 360px) {
+    .card-body {
+      padding: 18px 14px;
+    }
+    .card-footer {
+      gap: 12px;
+      padding-top: 14px;
+    }
+    .card-actions {
+      gap: 8px;
+    }
+    .card-sublinks {
+      gap: 8px;
+    }
+    .card-sublink {
+      font-size: 0.82rem;
+    }
+    .btn-explore {
+      padding: 8px 14px;
+      font-size: 0.84rem;
+    }
+  }
 </style>
