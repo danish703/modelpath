@@ -42,7 +42,7 @@ supportFaqs:
   - question: "Which document formats are supported?"
     answer: "Ehub is designed for EPUB and PDF document formats."
 version: "1.0.0-dev"
-order: 2
+order: 4
 ---
 
 Ehub is an independent reading application built to provide a clean, distraction-free environment for reading books and documents.

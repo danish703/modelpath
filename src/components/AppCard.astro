@@ -1,6 +1,5 @@
 ---
 import StatusBadge from './StatusBadge.astro';
-import PlatformBadge from './PlatformBadge.astro';
 import AppCover from './AppCover.astro';
 import type { ImageAsset } from '../lib/appMedia';
 
@@ -13,6 +12,8 @@ interface Props {
     status: 'published' | 'coming-soon' | 'in-development' | 'unconfirmed' | string;
     availablePlatforms?: string[];
     plannedPlatforms?: string[];
+    playStoreUrl?: string | null;
+    appStoreUrl?: string | null;
     icon?: ImageAsset | null;
     cover?: ImageAsset | null;
   };
@@ -21,6 +22,12 @@ interface Props {
 
 const { app, highlightMl = false } = Astro.props;
 const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'unconfirmed';
+
+const isPlayPublished = Boolean(app.playStoreUrl) && (app.availablePlatforms?.includes('android') ?? false);
+const isPlayPlanned = app.plannedPlatforms?.includes('android') ?? false;
+
+const isIosPublished = Boolean(app.appStoreUrl) && (app.availablePlatforms?.includes('ios') ?? false);
+const isIosPlanned = app.plannedPlatforms?.includes('ios') ?? false;
 ---
 
 <article
@@ -47,11 +54,55 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
     <p class="app-description">{app.description}</p>
 
     <div class="card-footer">
-      <PlatformBadge
-        availablePlatforms={app.availablePlatforms}
-        plannedPlatforms={app.plannedPlatforms}
-        theme="light"
-      />
+      <div class="card-store-controls" aria-label={`Store availability for ${app.name}`}>
+        {isPlayPublished && app.playStoreUrl ? (
+          <a
+            href={app.playStoreUrl}
+            class="store-badge-btn active"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Get ${app.name} on Google Play (opens in new tab)`}
+          >
+            <svg class="store-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M3.609 1.814L13.793 12 3.61 22.186a2.408 2.408 0 0 1-.61-.715 2.378 2.378 0 0 1-.22-.991V3.52c0-.361.076-.704.22-.991.133-.266.342-.513.61-.715zM15.207 13.414l2.586 2.586-11.83 6.83 9.244-9.416zm0-2.828L5.963 1.17l11.83 6.83-2.586 2.586zm1.414 1.414l3.172-1.83a1.5 1.5 0 0 1 0 2.6l-3.172 1.83-1.414-1.414 1.414-1.186z"/>
+            </svg>
+            <span class="store-name">Google Play</span>
+            <span class="store-ext" aria-hidden="true">&nearr;</span>
+          </a>
+        ) : (
+          <span class="store-badge-btn inactive" aria-label={`Google Play: ${isPlayPlanned ? 'Coming Soon' : 'Not Planned'}`}>
+            <svg class="store-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M3.609 1.814L13.793 12 3.61 22.186a2.408 2.408 0 0 1-.61-.715 2.378 2.378 0 0 1-.22-.991V3.52c0-.361.076-.704.22-.991.133-.266.342-.513.61-.715zM15.207 13.414l2.586 2.586-11.83 6.83 9.244-9.416zm0-2.828L5.963 1.17l11.83 6.83-2.586 2.586zm1.414 1.414l3.172-1.83a1.5 1.5 0 0 1 0 2.6l-3.172 1.83-1.414-1.414 1.414-1.186z"/>
+            </svg>
+            <span class="store-name">Google Play</span>
+            <span class="store-pill-state">{isPlayPlanned ? 'Soon' : 'Unplanned'}</span>
+          </span>
+        )}
+
+        {isIosPublished && app.appStoreUrl ? (
+          <a
+            href={app.appStoreUrl}
+            class="store-badge-btn active"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Download ${app.name} on Apple App Store (opens in new tab)`}
+          >
+            <svg class="store-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 0.91-2.87-.93.04-2.02.63-2.68 1.4-.59.68-1.11 1.76-.97 2.8 1.03.08 2.08-.54 2.74-1.33z"/>
+            </svg>
+            <span class="store-name">App Store</span>
+            <span class="store-ext" aria-hidden="true">&nearr;</span>
+          </a>
+        ) : (
+          <span class="store-badge-btn inactive" aria-label={`Apple App Store: ${isIosPlanned ? 'Planned' : 'Not Planned'}`}>
+            <svg class="store-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 0.91-2.87-.93.04-2.02.63-2.68 1.4-.59.68-1.11 1.76-.97 2.8 1.03.08 2.08-.54 2.74-1.33z"/>
+            </svg>
+            <span class="store-name">App Store</span>
+            <span class="store-pill-state">{isIosPlanned ? 'Planned' : 'Not Planned'}</span>
+          </span>
+        )}
+      </div>
 
       <div class="card-actions">
         <div class="card-sublinks">
@@ -146,18 +197,87 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
 
   .card-footer {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
     padding-top: 16px;
     border-top: 1px solid var(--c-border-light-subtle);
     gap: 12px;
+  }
+
+  .card-store-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     flex-wrap: wrap;
+  }
+
+  .store-badge-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 0.76rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    min-height: 32px;
+  }
+
+  .store-badge-btn.active {
+    background: rgba(79, 107, 255, 0.08);
+    color: var(--c-cobalt);
+    border: 1px solid rgba(79, 107, 255, 0.35);
+  }
+
+  .store-badge-btn.active:hover {
+    background: var(--c-cobalt);
+    color: #FFFFFF;
+    border-color: var(--c-cobalt);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(79, 107, 255, 0.25);
+  }
+
+  .store-badge-btn.inactive {
+    background: #F1F5F9;
+    color: #64748B;
+    border: 1px solid #CBD5E1;
+    cursor: default;
+    user-select: none;
+  }
+
+  .store-icon {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+  }
+
+  .store-name {
+    font-weight: 600;
+  }
+
+  .store-pill-state {
+    font-size: 0.68rem;
+    font-weight: 500;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(100, 116, 139, 0.12);
+    color: #64748B;
+  }
+
+  .store-ext {
+    font-size: 0.72rem;
+    font-weight: bold;
+    opacity: 0.75;
   }
 
   .card-actions {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
+    width: 100%;
   }
 
   .card-sublinks {

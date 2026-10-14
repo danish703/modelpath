@@ -249,6 +249,8 @@ export interface AppCardModel {
   status: AppData['status'];
   availablePlatforms: string[];
   plannedPlatforms: string[];
+  playStoreUrl: string | null;
+  appStoreUrl: string | null;
   icon: ImageAsset | null;
   cover: ImageAsset | null;
   order: number;
@@ -264,6 +266,8 @@ export function toCardModel(data: AppData): AppCardModel {
     status: data.status,
     availablePlatforms: data.availablePlatforms,
     plannedPlatforms: data.plannedPlatforms,
+    playStoreUrl: data.playStoreUrl ?? null,
+    appStoreUrl: data.appStoreUrl ?? null,
     icon: resolveIcon(data),
     cover: resolveCover(data),
     order: data.order,
