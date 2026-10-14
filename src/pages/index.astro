@@ -10,6 +10,8 @@ const rawApps = await getCollection('apps');
 const apps = rawApps
   .map((entry) => toCardModel(entry.data))
   .sort((a, b) => a.order - b.order);
+
+const projectCount = apps.length;
 ---
 
 <BaseLayout
@@ -17,7 +19,7 @@ const apps = rawApps
   description="ModelPath Studio is an independent software studio creating elegant mobile applications and intelligent digital experiences with a focus on craft and on-device privacy."
 >
   <!-- Hero Section (Dark Midnight Aurora) -->
-  <HeroSection />
+  <HeroSection projectCount={projectCount} />
 
   <!-- Our Applications Section (Editorial Off-White Canvas) -->
   <section class="editorial-showcase-section" aria-labelledby="apps-heading">

@@ -39,6 +39,7 @@ interface FeatureItem {
   description: string;
   icon?: string;
   status?: 'available' | 'planned' | 'verification-pending';
+  category?: string;
 }
 
 const featuresList: FeatureItem[] = (data.features || []).map((f) => {
@@ -54,7 +55,8 @@ const featuresList: FeatureItem[] = (data.features || []).map((f) => {
     title: f.title,
     description: f.description,
     icon: f.icon || 'document',
-    status: f.status || 'available',
+    status: f.status,
+    category: f.category,
   };
 });
 
@@ -250,6 +252,7 @@ const iosStaging = data.availablePlatforms?.includes('ios')
                 description={feat.description}
                 iconType={feat.icon}
                 status={feat.status}
+                category={feat.category}
               />
             ))}
           </div>

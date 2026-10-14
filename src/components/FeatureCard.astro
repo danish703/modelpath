@@ -4,9 +4,10 @@ interface Props {
   description: string;
   iconType?: 'pen' | 'document' | 'privacy' | 'performance' | string;
   status?: 'available' | 'planned' | 'verification-pending';
+  category?: string;
 }
 
-const { title, description, iconType = 'document', status } = Astro.props;
+const { title, description, iconType = 'document', status, category } = Astro.props;
 ---
 
 <div class="cap-card" data-reveal>
@@ -45,9 +46,15 @@ const { title, description, iconType = 'document', status } = Astro.props;
       )}
     </div>
 
-    {status === 'planned' && <span class="cap-status-pill core">Planned Feature</span>}
-    {status === 'verification-pending' && <span class="cap-status-pill verification">Under Verification</span>}
-    {status === 'available' && <span class="cap-status-pill core">Core Feature</span>}
+    {category ? (
+      <span class="cap-status-pill principle">{category}</span>
+    ) : status === 'available' ? (
+      <span class="cap-status-pill available">Available</span>
+    ) : status === 'planned' ? (
+      <span class="cap-status-pill planned">Planned</span>
+    ) : status === 'verification-pending' ? (
+      <span class="cap-status-pill verification">Verification Pending</span>
+    ) : null}
   </div>
 
   <div>
@@ -106,7 +113,13 @@ const { title, description, iconType = 'document', status } = Astro.props;
     border-radius: var(--radius-pill);
   }
 
-  .cap-status-pill.core {
+  .cap-status-pill.available {
+    background: #ECFDF5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
+  }
+
+  .cap-status-pill.planned {
     background: #EFF6FF;
     color: #1E40AF;
     border: 1px solid #BFDBFE;
@@ -116,6 +129,12 @@ const { title, description, iconType = 'document', status } = Astro.props;
     background: #FEF3C7;
     color: #92400E;
     border: 1px solid #FDE68A;
+  }
+
+  .cap-status-pill.principle {
+    background: #F5F3FF;
+    color: #5B21B6;
+    border: 1px solid #DDD6FE;
   }
 
   .cap-title {

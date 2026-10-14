@@ -4,10 +4,12 @@ import SecondaryButton from './SecondaryButton.astro';
 
 interface Props {
   subheading?: string;
+  projectCount?: number;
 }
 
 const {
   subheading = 'An independent software studio creating elegant mobile applications and intelligent digital experiences with a focus on craft and privacy.',
+  projectCount = 4,
 } = Astro.props;
 
 /* Static constellation fallback (no-JS / pre-hydration). Deterministic so the
@@ -81,7 +83,7 @@ for (let i = 0; i < staticNodes.length; i++) {
 
       <!-- Factual Portfolio Metrics Bar -->
       <div class="hero-metrics-bar">
-        <span class="metric-pill">4 Active Applications</span>
+        <span class="metric-pill">{projectCount} Studio Projects</span>
         <span class="metric-pill">Independent Studio</span>
         <span class="metric-pill">Static Fast Delivery</span>
         <span class="metric-pill">Android &amp; iOS Focus</span>
@@ -92,7 +94,7 @@ for (let i = 0; i < staticNodes.length; i++) {
     <aside class="hero-showcase" aria-label="Application Ecosystem Overview">
       <div class="showcase-header">
         <span class="showcase-title">Studio Ecosystem</span>
-        <span class="showcase-tag">4 Projects Active</span>
+        <span class="showcase-tag">{projectCount} Projects Active</span>
       </div>
 
       <div class="showcase-grid">

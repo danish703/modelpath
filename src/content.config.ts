@@ -100,6 +100,7 @@ const apps = defineCollection({
           description: z.string(),
           icon: z.string().optional(),
           status: z.enum(['available', 'planned', 'verification-pending']).optional(),
+          category: z.string().optional(),
         }),
       ])
     ).default([]),
