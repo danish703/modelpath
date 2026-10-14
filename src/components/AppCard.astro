@@ -54,8 +54,10 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
       />
 
       <div class="card-actions">
-        <a href={`/apps/${app.slug}/privacy/`} class="card-sublink">Privacy</a>
-        <a href={`/apps/${app.slug}/support/`} class="card-sublink">Support</a>
+        <div class="card-sublinks">
+          <a href={`/apps/${app.slug}/privacy/`} class="card-sublink">Privacy</a>
+          <a href={`/apps/${app.slug}/support/`} class="card-sublink">Support</a>
+        </div>
         <a href={`/apps/${app.slug}/`} class="btn-explore" aria-label={`View details for ${app.name}`}>
           <span>View Details</span>
           <span class="btn-arrow" aria-hidden="true">&rarr;</span>
@@ -158,12 +160,19 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
     gap: 12px;
   }
 
+  .card-sublinks {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
   .card-sublink {
     font-size: 0.82rem;
     font-weight: 500;
     color: #64748B;
     text-decoration: none;
     transition: color var(--transition-fast);
+    white-space: nowrap;
   }
 
   .card-sublink:hover {
@@ -175,13 +184,21 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
     color: #FFFFFF;
     font-size: 0.86rem;
     font-weight: 600;
-    padding: 7px 16px;
+    padding: 8px 18px;
     border-radius: var(--radius-pill);
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     transition: all var(--transition-fast);
+    white-space: nowrap;
+    flex-shrink: 0;
+    width: auto;
+  }
+
+  .btn-explore span {
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .btn-explore:hover {
@@ -192,6 +209,7 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
 
   .btn-arrow {
     transition: transform var(--transition-fast);
+    flex-shrink: 0;
   }
 
   .btn-explore:hover .btn-arrow {
@@ -220,18 +238,50 @@ const isMl = highlightMl || app.slug === 'modelpath-ml' || app.status === 'uncon
       width: 100%;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
+      flex-wrap: nowrap;
+    }
+    .card-sublinks {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .card-sublink {
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       min-height: 44px;
       display: inline-flex;
       align-items: center;
-      padding: 6px 4px;
+      padding: 6px 2px;
     }
     .btn-explore {
       min-height: 44px;
       padding: 10px 18px;
-      font-size: 0.92rem;
+      font-size: 0.90rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .card-body {
+      padding: 18px 14px;
+    }
+    .card-footer {
+      gap: 12px;
+      padding-top: 14px;
+    }
+    .card-actions {
+      gap: 8px;
+    }
+    .card-sublinks {
+      gap: 8px;
+    }
+    .card-sublink {
+      font-size: 0.82rem;
+    }
+    .btn-explore {
+      padding: 8px 14px;
+      font-size: 0.84rem;
     }
   }
 </style>

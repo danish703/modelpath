@@ -10,7 +10,7 @@ interface Props {
 const { title, description, iconType = 'document', status, category } = Astro.props;
 ---
 
-<div class="cap-card" data-reveal>
+<div class="cap-card" data-reveal data-feature-status={status}>
   <div class="cap-card-header">
     <div class="cap-icon-box">
       {iconType === 'pen' && (
@@ -46,15 +46,9 @@ const { title, description, iconType = 'document', status, category } = Astro.pr
       )}
     </div>
 
-    {category ? (
+    {category && (
       <span class="cap-status-pill principle">{category}</span>
-    ) : status === 'available' ? (
-      <span class="cap-status-pill available">Available</span>
-    ) : status === 'planned' ? (
-      <span class="cap-status-pill planned">Planned</span>
-    ) : status === 'verification-pending' ? (
-      <span class="cap-status-pill verification">Verification Pending</span>
-    ) : null}
+    )}
   </div>
 
   <div>

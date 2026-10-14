@@ -7,20 +7,17 @@ interface Props {
 
 const { status, size = 'sm', theme = 'light' } = Astro.props;
 
-const labelMap: Record<string, string> = {
-  'coming-soon': 'Coming Soon',
-  'in-development': 'In Development',
-  'unconfirmed': 'Unconfirmed',
-  'published': 'Published',
-};
-
-const displayLabel = labelMap[status] || status;
+// Task 3: Remove prominent visible development badges (In Development, Coming Soon, Unconfirmed).
+// Only publicly published/released status is displayed.
+const isVisible = status === 'published';
 ---
 
-<span class={`status-badge size-${size} status-${status} theme-${theme}`}>
-  <span class="status-dot" aria-hidden="true"></span>
-  <span>{displayLabel}</span>
-</span>
+{isVisible && (
+  <span class={`status-badge size-${size} status-${status} theme-${theme}`}>
+    <span class="status-dot" aria-hidden="true"></span>
+    <span>Published</span>
+  </span>
+)}
 
 <style>
   .status-badge {

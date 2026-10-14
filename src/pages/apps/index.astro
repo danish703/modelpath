@@ -217,17 +217,30 @@ const countMl = apps.filter((a) => a.category.toLowerCase() === 'machine learnin
   .filter-nav {
     width: 100%;
     overflow-x: auto;
-    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 6px 0 12px;
+  }
+
+  .filter-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .filter-tabs {
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin: 0;
     padding: 0;
     list-style: none;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .filter-tabs li {
+    flex-shrink: 0;
   }
 
   .filter-pill {
@@ -244,6 +257,9 @@ const countMl = apps.filter((a) => a.category.toLowerCase() === 'machine learnin
     cursor: pointer;
     transition: all var(--transition-fast);
     white-space: nowrap;
+    flex-shrink: 0;
+    min-height: 44px;
+    user-select: none;
   }
 
   .filter-pill:hover {
@@ -297,10 +313,22 @@ const countMl = apps.filter((a) => a.category.toLowerCase() === 'machine learnin
 
   @media (max-width: 600px) {
     .container {
-      padding: 0 20px;
+      padding: 0 16px;
+    }
+    .directory-hero {
+      overflow-x: hidden;
+    }
+    .filter-nav {
+      -webkit-mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 32px), transparent 100%);
+      mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 32px), transparent 100%);
     }
     .filter-tabs {
-      flex-wrap: nowrap;
+      gap: 8px;
+      padding-right: 28px;
+    }
+    .filter-pill {
+      padding: 8px 14px;
+      font-size: 0.84rem;
     }
   }
 </style>

@@ -198,9 +198,9 @@ const principles = [
                     <div class="portfolio-details">
                       <div class="portfolio-meta">
                         <span class="portfolio-category">{app.category}</span>
-                        <span class={`portfolio-status-chip ${app.status === 'unconfirmed' ? 'status-unconfirmed' : ''}`}>
-                          {app.status === 'unconfirmed' ? 'Unconfirmed' : 'In Development'}
-                        </span>
+                        {app.status === 'published' && (
+                          <span class="portfolio-status-chip">Published</span>
+                        )}
                       </div>
                       <h3 class="portfolio-name">
                         <a href={`/apps/${app.slug}/`}>{app.name}</a>
@@ -571,6 +571,13 @@ const principles = [
     background: rgba(79, 107, 255, 0.08);
     border: 1px solid rgba(79, 107, 255, 0.2);
     transition: background 0.15s ease, transform 0.15s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .portfolio-link-btn span {
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .portfolio-link-btn:hover {
